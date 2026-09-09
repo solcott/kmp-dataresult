@@ -7,7 +7,7 @@
 Initial release. Extracted from the `Countries` project, where `dataresult` and `uistate` began as
 local modules, and generalized so `Recipes` could share them.
 
-- `dataresult`: `Outcome`, `DataError`, `Origin`.
+- `dataresult`: `Outcome`, `DataError`, `Origin`, `Outcome.mapData`.
 - `uistate`: `ContentState`, `LoadStatus`, `applyEmission` and friends.
 - `dataresult-apollo`: `Flow<ApolloResponse<D>>.mapToOutcome`, `ApolloException.toDataError`.
 - `dataresult-store5`: `Flow<StoreReadResponse<T>>.asOutcomes`, `StoreReadResponse.toOutcomeOrNull`.

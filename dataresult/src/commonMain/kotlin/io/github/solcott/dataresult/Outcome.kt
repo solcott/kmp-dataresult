@@ -28,3 +28,21 @@ sealed class Outcome<out T> {
 
   data class Error(val cause: DataError, val origin: Origin) : Outcome<Nothing>()
 }
+
+/**
+ * Applies [transform] to the value of an [Outcome.Data], passing [Outcome.Loading] and
+ * [Outcome.Error] through untouched.
+ *
+ * This is what lets a data source change the shape of what it emits without unpacking the outcome —
+ * a repository whose store holds a response envelope but whose callers want the list inside it maps
+ * once, and the loading and error cases keep their meaning for free.
+ *
+ * Named `mapData` rather than `map` because these outcomes almost always arrive in a `Flow`, and
+ * `flow.map { it.mapData(...) }` says which of the two is which.
+ */
+inline fun <T, R> Outcome<T>.mapData(transform: (T) -> R): Outcome<R> =
+  when (this) {
+    is Outcome.Loading -> this
+    is Outcome.Error -> this
+    is Outcome.Data -> Outcome.Data(transform(data), origin)
+  }
