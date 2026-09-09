@@ -29,6 +29,17 @@ sealed class Outcome<out T> {
   data class Error(val cause: DataError, val origin: Origin) : Outcome<Nothing>()
 }
 
+/** True while a request is in flight. */
+val Outcome<*>.isLoading: Boolean
+  get() = this is Outcome.Loading
+
+/** The value if this outcome carries one, or null for [Outcome.Loading] and [Outcome.Error]. */
+fun <T> Outcome<T>.dataOrNull(): T? = (this as? Outcome.Data)?.data
+
+/** The failure if this outcome is one, or null otherwise. */
+val Outcome<*>.errorOrNull: DataError?
+  get() = (this as? Outcome.Error)?.cause
+
 /**
  * Applies [transform] to the value of an [Outcome.Data], passing [Outcome.Loading] and
  * [Outcome.Error] through untouched.
