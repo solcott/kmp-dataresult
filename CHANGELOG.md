@@ -12,6 +12,10 @@ local modules, and generalized so `Recipes` could share them.
 - `uistate`: `ContentState`, `LoadStatus`, `applyEmission` and friends.
 - `dataresult-apollo`: `Flow<ApolloResponse<D>>.mapToOutcome`, `ApolloException.toDataError`.
 - `dataresult-store5`: `Flow<StoreReadResponse<T>>.asOutcomes`, `StoreReadResponse.toOutcomeOrNull`.
+- `uistate-circuit`: `produceContentState` and `produceContentStateFor`, which collect a stream of
+  `Outcome`s into retained `ContentState` inside a Circuit presenter. Extracted from both consuming
+  projects, which had written the same fold — including a `settled()` safety net that has to be
+  guarded on `cause == null`, or a cancelled collection reports an abandoned request as finished.
 
 Changed during extraction:
 

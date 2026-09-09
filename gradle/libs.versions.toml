@@ -20,6 +20,9 @@ apollo = "5.1.0"
 # `isFromCache` lives here, not in apollo-runtime — a separate coordinate on its own version line.
 apollo-normalized-cache = "1.0.7"
 store = "5.1.0-beta01"
+# Circuit, for `uistate-circuit`'s produceRetainedState. This is the version both consuming apps
+# are on; Gradle resolves upward, so an app ahead of it is fine.
+circuit = "0.38.0"
 
 # Build tooling
 detekt = "2.0.0-alpha.6"
@@ -35,18 +38,22 @@ apollo-api = { module = "com.apollographql.apollo:apollo-api", version.ref = "ap
 apollo-normalized-cache = { module = "com.apollographql.cache:normalized-cache", version.ref = "apollo-normalized-cache" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+circuit-retained = { module = "com.slack.circuit:circuit-retained", version.ref = "circuit" }
+circuit-test = { module = "com.slack.circuit:circuit-test", version.ref = "circuit" }
 store = { module = "org.mobilenativefoundation.store:store5", version.ref = "store" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 # Build-plugin classpath deps for build-logic.
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 detekt-compose-rules = { module = "io.nlopez.compose.rules:detekt", version = "0.6.6" }
 
 [plugins]
 android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 dependency-sorter = { id = "com.squareup.sort-dependencies", version.ref = "dependency-sorter" }
 detekt = { id = "dev.detekt", version.ref = "detekt" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 ktfmt = { id = "com.ncorti.ktfmt.gradle", version.ref = "ktfmt" }
 publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }

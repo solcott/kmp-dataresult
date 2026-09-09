@@ -1,3 +1,5 @@
+import com.android.build.api.withAndroid
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -22,7 +24,21 @@ val jvmBytecodeTarget = libs.findVersion("jvm-compat").get().requiredVersion
 kotlin {
   // Applied implicitly by KGP, but stated here because it is what creates the intermediate
   // source sets (`appleMain`, `webMain`, `nativeMain`) modules may want to use.
-  applyDefaultHierarchyTemplate()
+  //
+  // `nonWeb` is the one addition to the default set. A module whose tests need a Compose frame
+  // clock cannot test on js/wasmJs -- Molecule's clock lives in its `browserMain` source set, so
+  // under Node recomposition never advances and a test awaiting a second emission hangs to the
+  // timeout rather than failing. Such a module puts its tests in `nonWebTest`.
+  @OptIn(ExperimentalKotlinGradlePluginApi::class)
+  applyDefaultHierarchyTemplate {
+    common {
+      group("nonWeb") {
+        withJvm()
+        @Suppress("UnstableApiUsage") withAndroid()
+        withNative()
+      }
+    }
+  }
 
   jvmToolchain(libs.findVersion("jvm-toolchain").get().requiredVersion.toInt())
 
@@ -35,7 +51,9 @@ kotlin {
       freeCompilerArgs.add("-Xjdk-release=$jvmBytecodeTarget")
     }
     // The KMP Android plugin disables tests by default; opt back in so `androidHostTest` exists.
-    withHostTestBuilder {}.configure {}
+    // `isReturnDefaultValues` because Compose and Circuit touch android.util.Log, which is an
+    // unmocked stub on the host runner -- without it every such call throws.
+    withHostTestBuilder {}.configure { isReturnDefaultValues = true }
   }
 
   // The toolchain compiles on 25 but the published bytecode targets 17, so every JVM-flavored

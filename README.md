@@ -20,6 +20,7 @@ Two ideas, and adapters that connect them to real data sources:
 | `io.github.solcott:uistate` | `ContentState`, `LoadStatus`, `applyEmission` | `dataresult` |
 | `io.github.solcott:dataresult-apollo` | Apollo GraphQL → `Outcome` | `dataresult`, `apollo-api` |
 | `io.github.solcott:dataresult-store5` | Store5 → `Outcome` | `dataresult`, `store5` |
+| `io.github.solcott:uistate-circuit` | Collects `Outcome`s into retained `ContentState` | `uistate`, `circuit-retained` |
 
 Take only what you need: a repository module usually wants `dataresult` plus one adapter, and only
 the presentation layer needs `uistate`.
@@ -39,6 +40,32 @@ fun getAreas(): Flow<Outcome<List<Area>>> = store.stream(request).asOutcomes()
 var state by mutableStateOf(ContentState(emptyList<Area>()))
 repository.getAreas().collect { state = state.applyEmission(it) }
 ```
+
+In a Circuit presenter, `uistate-circuit` does that collection for you, into state that survives a
+configuration change:
+
+```kotlin
+val state = produceContentState(initial = emptyList(), retryTrigger) { repository.getAreas() }
+```
+
+For a source whose parameters change *while* it is on screen — a search term, a filter — use
+`produceContentStateFor`, which cancels the in-flight request on each new value and marks the state
+reloading first, so the current content stays put under a refresh indicator:
+
+```kotlin
+val state =
+  produceContentStateFor(initial = emptyList(), params = filters, retryTrigger) { filter ->
+    repository.countries(filter.name, filter.continents)
+  }
+```
+
+Two names rather than overloads: a lambda written `{ repository.foo() }` satisfies both shapes, by
+ignoring the implicit `it`, so as overloads every call passing a `Flow` would be ambiguous.
+
+> **Circuit stops collecting for a paused record.** In a multi-pane layout, Circuit pauses the
+> record that is not current and `pausableState` drops the producer from composition. The pane that
+> is not on top silently stops re-querying, with no error anywhere. Wrap each composed pane in
+> `ProvideRecordLifecycle(isActive = true)` if it should keep running.
 
 `state` now carries everything a screen needs:
 
