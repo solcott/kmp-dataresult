@@ -11,7 +11,7 @@
    ./gradlew publishToMavenLocal
    ```
 
-   then build `Countries` and `Recipes` against that version before going further.
+   then build the consuming projects against that version before going further.
 
 4. Commit and tag:
 

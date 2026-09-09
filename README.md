@@ -34,18 +34,18 @@ Both halves fit together in one line. A source produces `Outcome`s; the consumer
 
 ```kotlin
 // Data layer -- Store5 here, but the signature says nothing about Store5.
-fun getAreas(): Flow<Outcome<List<Area>>> = store.stream(request).asOutcomes()
+fun articles(): Flow<Outcome<List<Article>>> = store.stream(request).asOutcomes()
 
 // Presentation layer.
-var state by mutableStateOf(ContentState(emptyList<Area>()))
-repository.getAreas().collect { state = state.applyEmission(it) }
+var state by mutableStateOf(ContentState(emptyList<Article>()))
+repository.articles().collect { state = state.applyEmission(it) }
 ```
 
 In a Circuit presenter, `uistate-circuit` does that collection for you, into state that survives a
 configuration change:
 
 ```kotlin
-val state = produceContentState(initial = emptyList(), retryTrigger) { repository.getAreas() }
+val state = produceContentState(initial = emptyList(), retryTrigger) { repository.articles() }
 ```
 
 For a source whose parameters change *while* it is on screen — a search term, a filter — use
@@ -55,7 +55,7 @@ reloading first, so the current content stays put under a refresh indicator:
 ```kotlin
 val state =
   produceContentStateFor(initial = emptyList(), params = filters, retryTrigger) { filter ->
-    repository.countries(filter.name, filter.continents)
+    repository.search(filter.query, filter.tags)
   }
 ```
 
@@ -86,8 +86,8 @@ put up the indicator immediately; the next emission settles it.
 ### Apollo
 
 ```kotlin
-apolloClient.query(CountriesQuery()).toFlow()
-  .mapToOutcome(onException = { logger.e(it) { "Data request failed" } }) { countries.map { it.toModel() } }
+apolloClient.query(ArticlesQuery()).toFlow()
+  .mapToOutcome(onException = { logger.e(it) { "Data request failed" } }) { articles.map { it.toModel() } }
 ```
 
 Cache-miss responses are dropped rather than surfaced as errors — under a cache-then-network policy

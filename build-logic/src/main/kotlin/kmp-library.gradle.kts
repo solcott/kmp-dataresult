@@ -67,13 +67,12 @@ kotlin {
     }
   }
 
-  // No iosX64: Intel Macs cannot run the iOS simulator build, and neither consuming app declares
-  // it.
+  // No iosX64: Intel Macs cannot run the iOS simulator build, so nothing here targets it.
   //
-  // macosArm64 is deliberately NOT here. Countries' :apple module needs it, so the modules it
-  // consumes declare it themselves -- but Store5 publishes no macosArm64 artifact, so
-  // :dataresult-store5 cannot have one. Declaring it per module keeps that constraint visible at
-  // the module that has it rather than buried in an opt-out here.
+  // macosArm64 is deliberately NOT here. Every module but :dataresult-store5 declares it itself,
+  // because Store5 publishes no macosArm64 artifact and that module therefore cannot have one.
+  // Declaring it per module keeps the constraint visible at the module it constrains, rather than
+  // buried in an opt-out here.
   iosArm64()
   iosSimulatorArm64()
 

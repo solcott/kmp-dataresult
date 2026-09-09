@@ -4,8 +4,7 @@
 
 ## 0.1.0
 
-Initial release. Extracted from the `Countries` project, where `dataresult` and `uistate` began as
-local modules, and generalized so `Recipes` could share them.
+Initial release.
 
 - `dataresult`: `Outcome`, `DataError`, `Origin`, and the accessors `isLoading`,
   `dataOrNull()`, `errorOrNull` and `mapData`.
@@ -13,17 +12,6 @@ local modules, and generalized so `Recipes` could share them.
 - `dataresult-apollo`: `Flow<ApolloResponse<D>>.mapToOutcome`, `ApolloException.toDataError`.
 - `dataresult-store5`: `Flow<StoreReadResponse<T>>.asOutcomes`, `StoreReadResponse.toOutcomeOrNull`.
 - `uistate-circuit`: `produceContentState` and `produceContentStateFor`, which collect a stream of
-  `Outcome`s into retained `ContentState` inside a Circuit presenter. Extracted from both consuming
-  projects, which had written the same fold — including a `settled()` safety net that has to be
-  guarded on `cause == null`, or a cancelled collection reports an abandoned request as finished.
-
-Changed during extraction:
-
-- `Outcome` gained a `Loading` case. It was previously absent by design, on the grounds that loading
-  is the consumer's concern — but a source that reports its own request lifecycle (Store5 does) has
-  real information to pass on, and dropping it costs a background-refresh indicator.
-- `ContentState.hasLoaded` is new: it reads `origin`, which is null until the first value arrives,
-  so an empty result is distinguishable from nothing-yet.
-- `applyEmission` moved from Countries' `:presenter` into `uistate`, where it belongs now that both
-  types live in one repo.
-- The Apollo mapper takes an `onException` callback in place of a Kermit `Logger`.
+  `Outcome`s into retained `ContentState` inside a Circuit presenter. Includes a `settled()` safety
+  net guarded on `cause == null`, without which a cancelled collection would report an abandoned
+  request as finished.

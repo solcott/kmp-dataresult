@@ -7,8 +7,8 @@ plugins {
 }
 
 kotlin {
-  // Countries' :presenter builds for macosArm64 and :apple depends on it, so this needs the slice
-  // too. circuit-retained publishes it. See the note in `kmp-library`.
+  // Matches the other modules' target set -- circuit-retained publishes macosArm64 too. See the
+  // note in `kmp-library` for why it isn't in the shared set.
   macosArm64()
 
   sourceSets {

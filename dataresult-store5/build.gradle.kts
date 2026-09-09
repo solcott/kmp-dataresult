@@ -4,8 +4,7 @@ plugins {
 }
 
 // No macosArm64: Store5 publishes no macosArm64 artifact (checked against 5.1.0-beta01), so this
-// module cannot have the slice the other three do. Recipes, the only consumer, has no macos target
-// either. Revisit if Store5 starts publishing one.
+// module cannot have the slice the others do. Revisit if Store5 starts publishing one.
 kotlin {
   sourceSets {
     // All three appear in this module's public signatures, so all three are `api`.

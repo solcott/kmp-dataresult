@@ -3,8 +3,8 @@ agp = "9.4.0"
 kotlin = "2.4.20"
 
 androidCompileSdk = "37"
-# Deliberately below both consuming apps' 28: these modules touch no Android API, so a lower
-# floor costs nothing and keeps the library usable elsewhere.
+# Deliberately low: these modules touch no Android API, so a permissive floor costs nothing and
+# keeps the library usable from anything.
 androidMinSdk = "21"
 
 # The toolchain compiles and runs on 25; published bytecode stays at 17. Both are pinned per
@@ -15,13 +15,13 @@ jvm-compat = "17"
 kotlinx-coroutines = "1.11.0"
 
 # Adapter targets. These pin the *minimum* API the adapters compile against; consumers are free
-# to resolve forward. Both are the versions the consuming apps are on today.
+# to resolve forward.
 apollo = "5.1.0"
 # `isFromCache` lives here, not in apollo-runtime — a separate coordinate on its own version line.
 apollo-normalized-cache = "1.0.7"
 store = "5.1.0-beta01"
-# Circuit, for `uistate-circuit`'s produceRetainedState. This is the version both consuming apps
-# are on; Gradle resolves upward, so an app ahead of it is fine.
+# Circuit, for `uistate-circuit`'s produceRetainedState. A floor, not a pin -- Gradle resolves
+# upward, so a consumer ahead of this is fine.
 circuit = "0.38.0"
 
 # Build tooling
