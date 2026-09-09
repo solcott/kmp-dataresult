@@ -1,0 +1,52 @@
+[versions]
+agp = "9.4.0"
+kotlin = "2.4.20"
+
+androidCompileSdk = "37"
+# Deliberately below both consuming apps' 28: these modules touch no Android API, so a lower
+# floor costs nothing and keeps the library usable elsewhere.
+androidMinSdk = "21"
+
+# The toolchain compiles and runs on 25; published bytecode stays at 17. Both are pinned per
+# JVM target in `kmp-library`, because a toolchain silently raises jvmTarget to its own version.
+jvm-toolchain = "25" # After updating run ./gradlew updateDaemonJvm
+jvm-compat = "17"
+
+kotlinx-coroutines = "1.11.0"
+
+# Adapter targets. These pin the *minimum* API the adapters compile against; consumers are free
+# to resolve forward. Both are the versions the consuming apps are on today.
+apollo = "5.1.0"
+# `isFromCache` lives here, not in apollo-runtime — a separate coordinate on its own version line.
+apollo-normalized-cache = "1.0.7"
+store = "5.1.0-beta01"
+
+# Build tooling
+detekt = "2.0.0-alpha.6"
+dependency-sorter = "0.21.0"
+ktfmt = "0.27.0"
+publish = "0.37.0"
+
+# Test
+turbine = "1.2.1"
+
+[libraries]
+apollo-api = { module = "com.apollographql.apollo:apollo-api", version.ref = "apollo" }
+apollo-normalized-cache = { module = "com.apollographql.cache:normalized-cache", version.ref = "apollo-normalized-cache" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+store = { module = "org.mobilenativefoundation.store:store5", version.ref = "store" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+
+# Build-plugin classpath deps for build-logic.
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+detekt-compose-rules = { module = "io.nlopez.compose.rules:detekt", version = "0.6.6" }
+
+[plugins]
+android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
+dependency-sorter = { id = "com.squareup.sort-dependencies", version.ref = "dependency-sorter" }
+detekt = { id = "dev.detekt", version.ref = "detekt" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+ktfmt = { id = "com.ncorti.ktfmt.gradle", version.ref = "ktfmt" }
+publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }

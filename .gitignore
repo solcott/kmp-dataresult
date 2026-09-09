@@ -1,0 +1,15 @@
+.gradle/
+build/
+!**/src/**/build/
+.kotlin/
+local.properties
+.DS_Store
+captures/
+.externalNativeBuild
+.cxx
+*.hprof
+kotlin-js-store/
+
+.idea/*
+!.idea/codeStyles/
+!.idea/inspectionProfiles/
