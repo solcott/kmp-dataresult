@@ -134,8 +134,7 @@ class ProduceContentStateTest {
     }
   }
 
-  // --- Flow<P>.produceRetainedContentState
-  // ----------------------------------------------------------------------
+  // --- Flow<P>.produceRetainedContentState ---
 
   @Test
   fun aNewParameterFlagsLoadingWithoutDroppingTheCurrentContent() = runTest {

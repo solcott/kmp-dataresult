@@ -8,7 +8,10 @@ Initial release.
 
 - `dataresult`: `Outcome`, `DataError`, `Origin`, and the accessors `isLoading`,
   `dataOrNull()`, `errorOrNull` and `mapData`.
-- `uistate`: `ContentState`, `LoadStatus`, `applyEmission` and friends.
+- `uistate`: `ContentState`, `LoadStatus`, `applyEmission` and friends. For several sources:
+  `isLoading`, `errorOrNull`, `hasLoaded` and `combinedStatus` over a list, and `combine` into a
+  single `ContentState`, with a configurable `StatusPrecedence` for when one source has failed
+  and another is still loading.
 - `dataresult-apollo`: `Flow<ApolloResponse<D>>.mapToOutcome`, `ApolloException.toDataError`.
 - `dataresult-store5`: `Flow<StoreReadResponse<T>>.asOutcomes`, `StoreReadResponse.toOutcomeOrNull`.
 - `uistate-compose`: `produceContentState`, and its `Flow<P>` extension for sources whose parameters

@@ -98,6 +98,37 @@ treating it as "nothing yet" leaves a spinner over a legitimately empty screen.
 For an intentional re-fetch (a retry, a filter change, pull-to-refresh) call `state.reloading()` to
 put up the indicator immediately; the next emission settles it.
 
+### Combining states
+
+A screen fed by several sources holds several `ContentState`s, usually of different types. There are
+two ways to bring them together.
+
+**Keep them separate, check them together.** `isLoading`, `errorOrNull` and `hasLoaded` also work on
+a `List` of states, with the same names as on one:
+
+```kotlin
+data class State(val articles: ContentState<List<Article>>, val tags: ContentState<List<Tag>>) {
+  private val sources = listOf(articles, tags)
+  val isLoading get() = sources.isLoading   // any in flight
+  val error get() = sources.errorOrNull     // first failure, in list order
+}
+```
+
+Loading and failure stay independent here — both can be true at once.
+
+**Merge them into one.** For a screen that can't show anything until every source is ready,
+`combine` returns a single `ContentState`, so everything that works on one state works on it:
+
+```kotlin
+val profile: ContentState<Profile> = combine(user, settings) { u, s -> Profile(u, s) }
+```
+
+Its `hasLoaded` means *every* source has loaded, and its origin is `Cache` if any part came from
+cache. Its status has to be a single `LoadStatus`, so it takes a `StatusPrecedence` for when one
+source has failed while another is still loading: `FailedFirst`, the default, surfaces the error at
+once; `LoadingFirst` holds it until everything has settled. The same rule is available on its own as
+`sources.combinedStatus(precedence)`, and `combine` is exactly that plus a transform.
+
 ### Apollo
 
 ```kotlin

@@ -102,11 +102,10 @@ fun <P, T> Flow<P>.produceContentState(
 ): ContentState<T> {
   val params = this
   // The effect outlives any single composition, so each new parameter must reach the lambda from
-  // the
-  // latest one -- not the lambda the effect was launched with.
+  // the latest one -- not the lambda the effect was launched with.
   val currentStream by rememberUpdatedState(stream)
-  // Unkeyed for the same reason as the receiverless overload: `retain`'s keys would discard the
-  // hold.
+  // Unkeyed for the same reason as the receiverless overload: `retain`'s keys would discard what
+  // it holds.
   val holder = retain { mutableStateOf(ContentState(initial)) }
   LaunchedEffect(*keys) { holder.collectLatestFrom(params) { currentStream(it) } }
   return holder.value

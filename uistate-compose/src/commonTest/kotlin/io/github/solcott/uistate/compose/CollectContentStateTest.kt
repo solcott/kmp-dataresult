@@ -31,8 +31,7 @@ class CollectContentStateTest {
 
   private fun newState() = mutableStateOf(ContentState(emptyList<String>()))
 
-  // --- collectFrom
-  // --------------------------------------------------------------------------------
+  // --- collectFrom ---
 
   @Test
   fun dataSettlesTheStateAndRecordsTheOrigin() = runTest {
@@ -96,8 +95,7 @@ class CollectContentStateTest {
     assertTrue(state.value.isLoading, "cancellation must not settle")
   }
 
-  // --- collectLatestFrom
-  // --------------------------------------------------------------------------
+  // --- collectLatestFrom ---
 
   @Test
   fun aNewParameterFlagsLoadingWithoutDroppingTheHeldData() = runTest {
