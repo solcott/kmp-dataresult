@@ -169,6 +169,17 @@ dependencyResolutionManagement {
 }
 ```
 
+### Snapshots
+
+Every green push to `main` publishes the current `-SNAPSHOT` version (the `version` in
+[`gradle.properties`](gradle.properties)) to the same repository, so the setup above covers it:
+depend on `X.Y.Z-SNAPSHOT`. Gradle caches a snapshot for 24 hours. To pick up the newest one on every
+build, add this to the consuming module's `build.gradle.kts`, or pass `--refresh-dependencies` once:
+
+```kotlin
+configurations.all { resolutionStrategy.cacheChangingModulesFor(0, "seconds") }
+```
+
 ## Developing
 
 ```bash
@@ -177,8 +188,9 @@ dependencyResolutionManagement {
 ./gradlew publishToMavenLocal
 ```
 
-`publishToMavenLocal` is how to try a change against a consuming project before releasing. Point the
-consumer at a `-SNAPSHOT` version and make sure `mavenLocal()` is in its repositories.
+`publishToMavenLocal` is how to try a change against a consuming project before it is pushed. Point
+the consumer at a `-SNAPSHOT` version and make sure `mavenLocal()` is in its repositories. Once the
+change is on `main`, a [snapshot](#snapshots) does the same from any machine or CI.
 
 Releasing is described in [RELEASING.md](RELEASING.md).
 

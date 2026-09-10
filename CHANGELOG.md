@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Snapshot builds of `main` are published to GitHub Packages. See "Snapshots" in the README.
+
 ## 0.1.0
 
 Initial release.

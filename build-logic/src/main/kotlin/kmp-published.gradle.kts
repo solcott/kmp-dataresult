@@ -34,6 +34,11 @@ configure<MavenPublishBaseExtension> {
 
   // Enabled by `-PpublishToCentral`. Left off, the Central endpoints are never contacted and the
   // signing plugin never demands a key, so a plain GitHub Packages publish needs no secrets.
+  //
+  // The same property covers snapshots: on a -SNAPSHOT version, publishToMavenCentral() routes to
+  // the Central Portal snapshot repository and signing becomes optional. So nothing here tells a
+  // snapshot from a release -- the -SNAPSHOT guard in build.yml's publish-snapshot job is what
+  // keeps a push to main from publishing a release version.
   if (providers.gradleProperty("publishToCentral").isPresent) {
     publishToMavenCentral()
     signAllPublications()

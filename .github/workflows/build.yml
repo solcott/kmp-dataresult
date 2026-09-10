@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [ main ]
 
+# On main this also cancels an in-flight publish-snapshot. That is fine: the newer push is the
+# snapshot worth having, and its run overwrites whatever the cancelled one half-uploaded.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -43,3 +45,64 @@ jobs:
 
       - name: Build
         run: ./gradlew build
+
+  # Publishes the current -SNAPSHOT after every green push to main. A job of its own, so a PR build
+  # never holds a token that can write packages.
+  publish-snapshot:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # macOS for the same reason as `build`: without a Mac the Apple klibs are missing from the
+    # publication, and consumers' iOS builds fail to resolve.
+    runs-on: macos-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # RELEASING.md's "Prepare version X.Y.Z" commit lands on main with -SNAPSHOT dropped.
+      # Publishing that from here would burn X.Y.Z, since GitHub Packages release versions are
+      # immutable, and release.yml would then fail with 409 on the real release.
+      - name: Check for a snapshot version
+        id: version
+        run: |
+          version=$(sed -n 's/^version=//p' gradle.properties | tr -d '[:space:]')
+          if [[ "$version" == *-SNAPSHOT ]]; then
+            echo "snapshot=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "snapshot=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::$version is not a -SNAPSHOT version, so nothing is published."
+          fi
+
+      - name: Set up JDK 25
+        if: steps.version.outputs.snapshot == 'true'
+        uses: actions/setup-java@v6
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+
+      - name: Setup Gradle
+        if: steps.version.outputs.snapshot == 'true'
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Publish snapshot to GitHub Packages
+        if: steps.version.outputs.snapshot == 'true'
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
+
+      # Off until the repository variable PUBLISH_TO_CENTRAL is `true`; RELEASING.md lists what has
+      # to be in place first. On a -SNAPSHOT version the vanniktech plugin sends this to the Central
+      # Portal snapshot repository, and the signing secrets are optional (used if present). It runs
+      # after GitHub Packages so a Central problem can't hold up the primary channel.
+      - name: Publish snapshot to Maven Central
+        if: steps.version.outputs.snapshot == 'true' && vars.PUBLISH_TO_CENTRAL == 'true'
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD }}
+        run: ./gradlew publishAllPublicationsToMavenCentralRepository -PpublishToCentral

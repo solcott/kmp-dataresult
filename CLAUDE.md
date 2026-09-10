@@ -24,7 +24,10 @@ never reach this context.
 ```
 
 - CI (`.github/workflows/build.yml`) runs `ktfmtCheck`, `checkSortDependencies`, `buildHealth`, then
-  `build` on macOS. Apple targets only compile and link on a Mac.
+  `build` on macOS. Apple targets only compile and link on a Mac. On a push to `main`, its
+  `publish-snapshot` job then publishes to GitHub Packages, but only while `version` ends in
+  `-SNAPSHOT`. A release version published there is immutable and would break `release.yml`. The
+  job's Maven Central step is skipped unless the repository variable `PUBLISH_TO_CENTRAL` is `true`.
 - DAGP analyzes only the JVM and Android variants of a KMP module; Apple, JS and Wasm are skipped.
   Its `fixDependencies` is unreliable on KMP, so fix `buildHealth` findings by hand.
 - The toolchain compiles on JDK 25, and the published bytecode targets 17 (`jvm-toolchain`/`jvm-compat` in
