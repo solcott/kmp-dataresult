@@ -1,0 +1,43 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  // Dependency Dashboard issue, monorepo grouping, changelog links. It adds no schedule or
+  // release-age wait of its own.
+  extends: ["config:recommended"],
+
+  // Open a PR as soon as a version is published: no schedule (the default is "at any time"), no
+  // minimumReleaseAge, and no caps. Otherwise Renovate holds new PRs back once 10 are open. The
+  // hosted app scans about every 4 hours, so that scan is the only delay left.
+  prHourlyLimit: 0,
+  prConcurrentLimit: 0,
+
+  packageRules: [
+    {
+      // These still get PRs right away, but merging one raises the minimum every consumer
+      // resolves, which is a user-visible change. The note and label make that hard to miss.
+      description: "Consumer floors: published api/runtime deps of the library modules",
+      matchPackageNames: [
+        "com.apollographql.apollo:apollo-api",
+        "com.apollographql.cache:normalized-cache",
+        "org.mobilenativefoundation.store:store5",
+        "androidx.compose.runtime:runtime",
+        "androidx.compose.runtime:runtime-retain",
+        "com.slack.circuit:circuit-retained",
+        "com.slack.circuit:circuit-runtime",
+        "com.slack.circuit:circuit-test",
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core",
+        "org.jetbrains.kotlinx:kotlinx-coroutines-test",
+      ],
+      labels: ["consumer-floor"],
+      prBodyNotes: [
+        "⚠️ **Consumer floor.** This version is the minimum every consumer resolves (see the comments in `gradle/libs.versions.toml` and CLAUDE.md). Merging raises it for them: merge only with a reason, add an entry under `## Unreleased` in `CHANGELOG.md`, and update the catalog comment that explains the chosen version.",
+      ],
+    },
+    {
+      description: "okio is test-only and pinned to what apollo-api resolves",
+      matchPackageNames: ["com.squareup.okio:okio"],
+      prBodyNotes: [
+        "okio is declared only for `dataresult-apollo`'s tests, at the version apollo-api already resolves. Keep it in step with apollo-api rather than ahead of it.",
+      ],
+    },
+  ],
+}

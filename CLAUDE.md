@@ -84,8 +84,9 @@ under `src/commonMain`.
   older bundled one.
 - `kmp-published.gradle.kts` maps each project name to a POM description, and a missing entry fails the
   build.
-- Adapter, Compose and Circuit versions in the catalog are *floors* for consumers, not pins. Don't bump
-  them without a reason.
+- Adapter, Compose, Circuit and coroutines versions in the catalog are *floors* for consumers, not pins.
+  Renovate opens PRs for them anyway, labeled `consumer-floor`. Merge one only with a reason, and give
+  it a CHANGELOG entry, because it raises every consumer's minimum.
 
 ## Conventions
 
@@ -98,6 +99,9 @@ under `src/commonMain`.
 - User-visible changes go under `## Unreleased` in `CHANGELOG.md`. The release process is in `RELEASING.md`
   (GitHub Packages; Maven Central is wired but gated behind `-PpublishToCentral`).
 - Adding a module: use `/new-module`.
+- Dependency updates come from the hosted Renovate app, configured in `.github/renovate.json5`. It
+  opens a PR as soon as a version is published, with no rate limits and scans about every 4 hours.
+  `jvm-toolchain` and setup-java's `java-version` aren't tracked; bump those by hand.
 
 ## Keeping context small
 
