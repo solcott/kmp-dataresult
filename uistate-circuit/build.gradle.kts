@@ -13,11 +13,17 @@ kotlin {
 
   sourceSets {
     commonMain.dependencies {
+      // `api` throughout: ContentState (uistate) is the return type, Flow<Outcome<T>> (dataresult)
+      // the parameter, @Composable adds the Composer (composeRuntime), and produceRetainedState's
+      // ProduceStateScope leaks through the inline machinery. dataresult, uistate and
+      // composeRuntime also come through uistate-compose, but dependency analysis requires a
+      // direct use to be declared directly.
+      api(project(":dataresult"))
+      api(project(":uistate"))
+      // `uistate-compose` as well as `uistate`: it holds the fold both variants share.
       api(project(":uistate-compose"))
-      // `api` throughout: ContentState is the return type, Flow<Outcome<T>> the parameter, and
-      // produceRetainedState's ProduceStateScope leaks through the inline machinery.
-      // `uistate-compose` rather than `uistate`: it holds the fold both variants share.
       api(libs.circuit.retained)
+      api(libs.composeRuntime)
       api(libs.kotlinx.coroutines.core)
     }
 
@@ -27,6 +33,9 @@ kotlin {
     // host + the two Apple targets is honest coverage.
     named("nonWebTest").dependencies {
       implementation(kotlin("test"))
+      // The presenter under test returns a CircuitUiState, so the tests use circuit-runtime
+      // directly. circuit-test brings it in only transitively.
+      implementation(libs.circuit.runtime)
       implementation(libs.circuit.test)
       implementation(libs.kotlinx.coroutines.test)
       implementation(libs.turbine)

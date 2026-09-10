@@ -33,5 +33,10 @@ jobs:
       - name: Check dependency sorting
         run: ./gradlew checkSortDependencies
 
+      # Fails on any dependency-analysis finding (see `dependencyAnalysis` in the root build).
+      # No separate ABI step: `build` runs `check`, which includes checkKotlinAbi.
+      - name: Check dependency health
+        run: ./gradlew buildHealth
+
       - name: Build
         run: ./gradlew build

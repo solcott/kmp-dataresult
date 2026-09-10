@@ -16,14 +16,17 @@ never reach this context.
 ./gradlew ktfmtFormat sortDependencies   # fix formatting + dependency order; do this before committing
 ./gradlew build                          # every target, tests, and `check` = ktfmtCheck + checkSortDependencies + detekt + checkKotlinAbi
 ./gradlew updateKotlinAbi                # after an *intended* public API change; commit the <module>/api/ diff with it
+./gradlew buildHealth                    # dependency analysis: fails on any finding; report in build/reports/dependency-analysis/
 ./gradlew :uistate:jvmTest --tests 'io.github.solcott.uistate.ContentStateTest'   # one test class, fastest runner
 ./gradlew :uistate:allTests              # one module, every target
 ./gradlew :uistate:testAndroidHostTest   # Android host tests
 ./gradlew publishToMavenLocal            # try a change in a consumer (-SNAPSHOT version + mavenLocal())
 ```
 
-- CI (`.github/workflows/build.yml`) runs `ktfmtCheck`, `checkSortDependencies`, then `build` on
-  macOS. Apple targets only compile and link on a Mac.
+- CI (`.github/workflows/build.yml`) runs `ktfmtCheck`, `checkSortDependencies`, `buildHealth`, then
+  `build` on macOS. Apple targets only compile and link on a Mac.
+- DAGP analyzes only the JVM and Android variants of a KMP module; Apple, JS and Wasm are skipped.
+  Its `fixDependencies` is unreliable on KMP, so fix `buildHealth` findings by hand.
 - The toolchain compiles on JDK 25, and the published bytecode targets 17 (`jvm-toolchain`/`jvm-compat` in
   `gradle/libs.versions.toml`). After changing `jvm-toolchain`, run `./gradlew updateDaemonJvm`.
 - Browser test tasks (`jsBrowserTest`, `wasmJsBrowserTest`) need Chrome; the Node ones don't.

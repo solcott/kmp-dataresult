@@ -29,12 +29,16 @@ compose-runtime = "1.11.4"
 
 # Build tooling
 detekt = "2.0.0-alpha.6"
+dependency-analysis = "3.19.1"
 dependency-sorter = "0.21.0"
 ktfmt = "0.27.0"
 publish = "0.37.0"
 
 # Test
 molecule = "2.2.0"
+# Test-only, for dataresult-apollo, whose tests touch okio types through apollo-api. This is the
+# version apollo-api 5.1.0 already resolves, so declaring it changes nothing on the classpath.
+okio = "3.16.2"
 turbine = "1.2.1"
 
 [libraries]
@@ -43,12 +47,14 @@ apollo-normalized-cache = { module = "com.apollographql.cache:normalized-cache",
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 circuit-retained = { module = "com.slack.circuit:circuit-retained", version.ref = "circuit" }
+circuit-runtime = { module = "com.slack.circuit:circuit-runtime", version.ref = "circuit" }
 circuit-test = { module = "com.slack.circuit:circuit-test", version.ref = "circuit" }
 # camelCase, not `compose-runtime` / `compose-runtime-retain`: a dashed pair would make
 # `libs.compose.runtime` a group accessor rather than a library.
 composeRuntime = { module = "androidx.compose.runtime:runtime", version.ref = "compose-runtime" }
 composeRuntimeRetain = { module = "androidx.compose.runtime:runtime-retain", version.ref = "compose-runtime" }
 molecule-runtime = { module = "app.cash.molecule:molecule-runtime", version.ref = "molecule" }
+okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 store = { module = "org.mobilenativefoundation.store:store5", version.ref = "store" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
@@ -60,6 +66,7 @@ detekt-compose-rules = { module = "io.nlopez.compose.rules:detekt", version = "0
 
 [plugins]
 android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
+dependency-analysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependency-analysis" }
 dependency-sorter = { id = "com.squareup.sort-dependencies", version.ref = "dependency-sorter" }
 detekt = { id = "dev.detekt", version.ref = "detekt" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

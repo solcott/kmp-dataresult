@@ -11,6 +11,7 @@ import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 plugins {
   id("org.jetbrains.kotlin.multiplatform")
   id("com.android.kotlin.multiplatform.library")
+  id("com.autonomousapps.dependency-analysis")
   id("dev.detekt")
   id("com.squareup.sort-dependencies")
   id("project-config")

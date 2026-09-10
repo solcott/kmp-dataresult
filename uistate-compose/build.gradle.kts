@@ -15,6 +15,9 @@ kotlin {
     // `api` throughout: ContentState and MutableState are in the signatures, Flow<Outcome<T>> is
     // the parameter, and `retain` is what callers are relying on for retention.
     commonMain.dependencies {
+      // Declared here even though uistate re-exports it, because Outcome is in this module's own
+      // signatures (the Flow<Outcome<T>> parameter).
+      api(project(":dataresult"))
       api(project(":uistate"))
       api(libs.composeRuntime)
       api(libs.composeRuntimeRetain)

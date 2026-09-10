@@ -14,6 +14,7 @@ dependencies {
   // `implementation`, not `compileOnly`: the convention plugins below don't just reference these
   // types, they `apply` them by id. A compileOnly marker compiles fine and then fails at apply
   // time with "Plugin with id '...' not found".
+  implementation(libs.plugins.dependency.analysis.toDep())
   implementation(libs.plugins.dependency.sorter.toDep())
   implementation(libs.plugins.detekt.toDep())
   implementation(libs.plugins.ktfmt.toDep())

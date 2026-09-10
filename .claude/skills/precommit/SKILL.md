@@ -19,6 +19,8 @@ scope step 2 to `:<module>:build`.
    If `checkKotlinAbi` fails, quote the dump diff it prints and say that `./gradlew updateKotlinAbi`
    is the fix *only if the API change is intended*. Never run `updateKotlinAbi` yourself: that would
    rubber-stamp an accidental API change.
+   Then run `./gradlew buildHealth`, always for the whole build, since it's a root task. On failure,
+   quote the findings from `build/reports/dependency-analysis/build-health-report.txt`.
 3. Run `git diff --stat HEAD` and `git status --short`. If any file under `*/src/*Main/` changed but
    `CHANGELOG.md` did not, say "CHANGELOG.md has no entry for a change to main sources". Do not edit
    it.

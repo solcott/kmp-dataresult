@@ -15,6 +15,47 @@ plugins {
     alias(libs.plugins.android.multiplatform.library) apply false
     alias(libs.plugins.publish) apply false
     alias(libs.plugins.dependency.sorter)
+    // Applied here rather than through the `com.autonomousapps.build-health` settings plugin. DAGP
+    // must share a classloader with AGP and KGP, and this project's classloader already holds both:
+    // AGP from this block, KGP from the buildscript override above. The settings plugin would need
+    // them on the settings classpath instead, which undoes that override. Each module gets the
+    // per-project half of DAGP from `kmp-library`.
+    alias(libs.plugins.dependency.analysis)
+}
+
+// `buildHealth` fails on any finding instead of just reporting it, so the api/implementation
+// choices in the module build files stay true. A finding kept on purpose gets an exclusion here
+// that says why, the same way every api/implementation line carries a comment.
+dependencyAnalysis {
+    issues {
+        all {
+            onAny {
+                severity("fail")
+            }
+            onUsedTransitiveDependencies {
+                // KGP picks the JUnit flavor of kotlin-test for the jvm and Android host tests from
+                // commonTest's `kotlin("test")`. Declaring it again would duplicate that choice.
+                exclude("org.jetbrains.kotlin:kotlin-test-junit")
+                // Compose's JVM artifacts. The `runtime` / `runtime-retain` coordinates declared in
+                // commonMain redirect to these through Gradle module metadata, and DAGP doesn't follow
+                // the redirect on the jvm target, so it asks for them to be declared a second time.
+                exclude(
+                    "androidx.compose.runtime:runtime-desktop",
+                    "androidx.compose.runtime:runtime-retain-desktop",
+                )
+            }
+        }
+
+        // DAGP doesn't count a commonMain project dependency as declared for the jvm target, so it asks
+        // for it again in jvmMain. Android reads the same declaration correctly. Each module below
+        // declares the excluded project directly in commonMain, so for these coordinates a
+        // used-transitive finding can only be this false positive, never a real one.
+        project(":dataresult-apollo") { onUsedTransitiveDependencies { exclude(":dataresult") } }
+        project(":dataresult-store5") { onUsedTransitiveDependencies { exclude(":dataresult") } }
+        project(":uistate") { onUsedTransitiveDependencies { exclude(":dataresult") } }
+        project(":uistate-compose") { onUsedTransitiveDependencies { exclude(":uistate") } }
+        project(":uistate-circuit") { onUsedTransitiveDependencies { exclude(":uistate") } }
+    }
 }
 
 // Pins the Gradle daemon's JVM. `./gradlew updateDaemonJvm` writes the criteria to

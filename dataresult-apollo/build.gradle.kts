@@ -21,6 +21,11 @@ kotlin {
       implementation(libs.apollo.normalized.cache)
     }
 
-    commonTest.dependencies { implementation(libs.kotlinx.coroutines.test) }
+    commonTest.dependencies {
+      implementation(libs.kotlinx.coroutines.test)
+      // The tests compile against apollo-api types whose signatures use okio, which otherwise
+      // arrives only transitively.
+      implementation(libs.okio)
+    }
   }
 }
