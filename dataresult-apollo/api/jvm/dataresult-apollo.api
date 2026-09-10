@@ -1,0 +1,6 @@
+public final class io/github/solcott/dataresult/apollo/ApolloOutcomeKt {
+	public static final fun mapToOutcome (Lkotlinx/coroutines/flow/Flow;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/flow/Flow;
+	public static synthetic fun mapToOutcome$default (Lkotlinx/coroutines/flow/Flow;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlinx/coroutines/flow/Flow;
+	public static final fun toDataError (Lcom/apollographql/apollo/exception/ApolloException;)Lio/github/solcott/dataresult/DataError;
+}
+

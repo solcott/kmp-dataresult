@@ -1,0 +1,10 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, js, macosArm64, wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.github.solcott:dataresult-apollo>
+final fun (com.apollographql.apollo.exception/ApolloException).io.github.solcott.dataresult.apollo/toDataError(): io.github.solcott.dataresult/DataError // io.github.solcott.dataresult.apollo/toDataError|toDataError@com.apollographql.apollo.exception.ApolloException(){}[0]
+final fun <#A: com.apollographql.apollo.api/Operation.Data, #B: kotlin/Any?> (kotlinx.coroutines.flow/Flow<com.apollographql.apollo.api/ApolloResponse<#A>>).io.github.solcott.dataresult.apollo/mapToOutcome(kotlin/Function1<kotlin/Throwable, kotlin/Unit> = ..., kotlin/Function1<#A, #B>): kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcome<#B>> // io.github.solcott.dataresult.apollo/mapToOutcome|mapToOutcome@kotlinx.coroutines.flow.Flow<com.apollographql.apollo.api.ApolloResponse<0:0>>(kotlin.Function1<kotlin.Throwable,kotlin.Unit>;kotlin.Function1<0:0,0:1>){0§<com.apollographql.apollo.api.Operation.Data>;1§<kotlin.Any?>}[0]

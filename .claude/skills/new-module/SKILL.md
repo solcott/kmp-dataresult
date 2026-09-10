@@ -37,5 +37,8 @@ Adapters should follow `dataresult-apollo`, Compose integrations `uistate-compos
    target exception to the README "Targets" line, and an entry under `## Unreleased` in
    `CHANGELOG.md`.
 
-7. Run `/precommit <name>` and confirm the new module's tests actually ran (a non-zero count on
+7. **ABI dump**: run `./gradlew :<name>:updateKotlinAbi` and commit `<name>/api/`. Without it,
+   `checkKotlinAbi` fails `check`. Read the dump: anything in it is public API you are committing to.
+
+8. Run `/precommit <name>` and confirm the new module's tests actually ran (a non-zero count on
    `jvmTest`).

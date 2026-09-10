@@ -1,0 +1,86 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, js, macosArm64, wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.github.solcott:uistate>
+final enum class io.github.solcott.uistate/StatusPrecedence : kotlin/Enum<io.github.solcott.uistate/StatusPrecedence> { // io.github.solcott.uistate/StatusPrecedence|null[0]
+    enum entry FailedFirst // io.github.solcott.uistate/StatusPrecedence.FailedFirst|null[0]
+    enum entry LoadingFirst // io.github.solcott.uistate/StatusPrecedence.LoadingFirst|null[0]
+
+    final val entries // io.github.solcott.uistate/StatusPrecedence.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.solcott.uistate/StatusPrecedence> // io.github.solcott.uistate/StatusPrecedence.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.github.solcott.uistate/StatusPrecedence // io.github.solcott.uistate/StatusPrecedence.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.github.solcott.uistate/StatusPrecedence> // io.github.solcott.uistate/StatusPrecedence.values|values#static(){}[0]
+}
+
+final class <#A: kotlin/Any?> io.github.solcott.uistate/ContentState { // io.github.solcott.uistate/ContentState|null[0]
+    constructor <init>(#A, io.github.solcott.dataresult/Origin? = ..., io.github.solcott.uistate/LoadStatus = ...) // io.github.solcott.uistate/ContentState.<init>|<init>(1:0;io.github.solcott.dataresult.Origin?;io.github.solcott.uistate.LoadStatus){}[0]
+
+    final val data // io.github.solcott.uistate/ContentState.data|{}data[0]
+        final fun <get-data>(): #A // io.github.solcott.uistate/ContentState.data.<get-data>|<get-data>(){}[0]
+    final val origin // io.github.solcott.uistate/ContentState.origin|{}origin[0]
+        final fun <get-origin>(): io.github.solcott.dataresult/Origin? // io.github.solcott.uistate/ContentState.origin.<get-origin>|<get-origin>(){}[0]
+    final val status // io.github.solcott.uistate/ContentState.status|{}status[0]
+        final fun <get-status>(): io.github.solcott.uistate/LoadStatus // io.github.solcott.uistate/ContentState.status.<get-status>|<get-status>(){}[0]
+
+    final fun component1(): #A // io.github.solcott.uistate/ContentState.component1|component1(){}[0]
+    final fun component2(): io.github.solcott.dataresult/Origin? // io.github.solcott.uistate/ContentState.component2|component2(){}[0]
+    final fun component3(): io.github.solcott.uistate/LoadStatus // io.github.solcott.uistate/ContentState.component3|component3(){}[0]
+    final fun copy(#A = ..., io.github.solcott.dataresult/Origin? = ..., io.github.solcott.uistate/LoadStatus = ...): io.github.solcott.uistate/ContentState<#A> // io.github.solcott.uistate/ContentState.copy|copy(1:0;io.github.solcott.dataresult.Origin?;io.github.solcott.uistate.LoadStatus){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.solcott.uistate/ContentState.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.solcott.uistate/ContentState.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.solcott.uistate/ContentState.toString|toString(){}[0]
+}
+
+sealed class io.github.solcott.uistate/LoadStatus { // io.github.solcott.uistate/LoadStatus|null[0]
+    final class Failed : io.github.solcott.uistate/LoadStatus { // io.github.solcott.uistate/LoadStatus.Failed|null[0]
+        constructor <init>(io.github.solcott.dataresult/DataError) // io.github.solcott.uistate/LoadStatus.Failed.<init>|<init>(io.github.solcott.dataresult.DataError){}[0]
+
+        final val error // io.github.solcott.uistate/LoadStatus.Failed.error|{}error[0]
+            final fun <get-error>(): io.github.solcott.dataresult/DataError // io.github.solcott.uistate/LoadStatus.Failed.error.<get-error>|<get-error>(){}[0]
+
+        final fun component1(): io.github.solcott.dataresult/DataError // io.github.solcott.uistate/LoadStatus.Failed.component1|component1(){}[0]
+        final fun copy(io.github.solcott.dataresult/DataError = ...): io.github.solcott.uistate/LoadStatus.Failed // io.github.solcott.uistate/LoadStatus.Failed.copy|copy(io.github.solcott.dataresult.DataError){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.solcott.uistate/LoadStatus.Failed.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.solcott.uistate/LoadStatus.Failed.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.solcott.uistate/LoadStatus.Failed.toString|toString(){}[0]
+    }
+
+    final object Idle : io.github.solcott.uistate/LoadStatus { // io.github.solcott.uistate/LoadStatus.Idle|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.solcott.uistate/LoadStatus.Idle.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.solcott.uistate/LoadStatus.Idle.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.solcott.uistate/LoadStatus.Idle.toString|toString(){}[0]
+    }
+
+    final object Loading : io.github.solcott.uistate/LoadStatus { // io.github.solcott.uistate/LoadStatus.Loading|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.solcott.uistate/LoadStatus.Loading.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.solcott.uistate/LoadStatus.Loading.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.solcott.uistate/LoadStatus.Loading.toString|toString(){}[0]
+    }
+}
+
+final val io.github.solcott.uistate/errorOrNull // io.github.solcott.uistate/errorOrNull|@io.github.solcott.uistate.ContentState<*>{}errorOrNull[0]
+    final fun (io.github.solcott.uistate/ContentState<*>).<get-errorOrNull>(): io.github.solcott.dataresult/DataError? // io.github.solcott.uistate/errorOrNull.<get-errorOrNull>|<get-errorOrNull>@io.github.solcott.uistate.ContentState<*>(){}[0]
+final val io.github.solcott.uistate/errorOrNull // io.github.solcott.uistate/errorOrNull|@kotlin.collections.List<io.github.solcott.uistate.ContentState<*>>{}errorOrNull[0]
+    final fun (kotlin.collections/List<io.github.solcott.uistate/ContentState<*>>).<get-errorOrNull>(): io.github.solcott.dataresult/DataError? // io.github.solcott.uistate/errorOrNull.<get-errorOrNull>|<get-errorOrNull>@kotlin.collections.List<io.github.solcott.uistate.ContentState<*>>(){}[0]
+final val io.github.solcott.uistate/hasLoaded // io.github.solcott.uistate/hasLoaded|@io.github.solcott.uistate.ContentState<*>{}hasLoaded[0]
+    final fun (io.github.solcott.uistate/ContentState<*>).<get-hasLoaded>(): kotlin/Boolean // io.github.solcott.uistate/hasLoaded.<get-hasLoaded>|<get-hasLoaded>@io.github.solcott.uistate.ContentState<*>(){}[0]
+final val io.github.solcott.uistate/hasLoaded // io.github.solcott.uistate/hasLoaded|@kotlin.collections.List<io.github.solcott.uistate.ContentState<*>>{}hasLoaded[0]
+    final fun (kotlin.collections/List<io.github.solcott.uistate/ContentState<*>>).<get-hasLoaded>(): kotlin/Boolean // io.github.solcott.uistate/hasLoaded.<get-hasLoaded>|<get-hasLoaded>@kotlin.collections.List<io.github.solcott.uistate.ContentState<*>>(){}[0]
+final val io.github.solcott.uistate/isLoading // io.github.solcott.uistate/isLoading|@io.github.solcott.uistate.ContentState<*>{}isLoading[0]
+    final fun (io.github.solcott.uistate/ContentState<*>).<get-isLoading>(): kotlin/Boolean // io.github.solcott.uistate/isLoading.<get-isLoading>|<get-isLoading>@io.github.solcott.uistate.ContentState<*>(){}[0]
+final val io.github.solcott.uistate/isLoading // io.github.solcott.uistate/isLoading|@kotlin.collections.List<io.github.solcott.uistate.ContentState<*>>{}isLoading[0]
+    final fun (kotlin.collections/List<io.github.solcott.uistate/ContentState<*>>).<get-isLoading>(): kotlin/Boolean // io.github.solcott.uistate/isLoading.<get-isLoading>|<get-isLoading>@kotlin.collections.List<io.github.solcott.uistate.ContentState<*>>(){}[0]
+
+final fun (kotlin.collections/List<io.github.solcott.uistate/ContentState<*>>).io.github.solcott.uistate/combinedStatus(io.github.solcott.uistate/StatusPrecedence = ...): io.github.solcott.uistate/LoadStatus // io.github.solcott.uistate/combinedStatus|combinedStatus@kotlin.collections.List<io.github.solcott.uistate.ContentState<*>>(io.github.solcott.uistate.StatusPrecedence){}[0]
+final fun <#A: kotlin/Any?, #B: kotlin/Any?, #C: kotlin/Any?, #D: kotlin/Any?, #E: kotlin/Any?, #F: kotlin/Any?> io.github.solcott.uistate/combine(io.github.solcott.uistate/ContentState<#A>, io.github.solcott.uistate/ContentState<#B>, io.github.solcott.uistate/ContentState<#C>, io.github.solcott.uistate/ContentState<#D>, io.github.solcott.uistate/ContentState<#E>, io.github.solcott.uistate/StatusPrecedence = ..., kotlin/Function5<#A, #B, #C, #D, #E, #F>): io.github.solcott.uistate/ContentState<#F> // io.github.solcott.uistate/combine|combine(io.github.solcott.uistate.ContentState<0:0>;io.github.solcott.uistate.ContentState<0:1>;io.github.solcott.uistate.ContentState<0:2>;io.github.solcott.uistate.ContentState<0:3>;io.github.solcott.uistate.ContentState<0:4>;io.github.solcott.uistate.StatusPrecedence;kotlin.Function5<0:0,0:1,0:2,0:3,0:4,0:5>){0§<kotlin.Any?>;1§<kotlin.Any?>;2§<kotlin.Any?>;3§<kotlin.Any?>;4§<kotlin.Any?>;5§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?, #B: kotlin/Any?, #C: kotlin/Any?, #D: kotlin/Any?, #E: kotlin/Any?> io.github.solcott.uistate/combine(io.github.solcott.uistate/ContentState<#A>, io.github.solcott.uistate/ContentState<#B>, io.github.solcott.uistate/ContentState<#C>, io.github.solcott.uistate/ContentState<#D>, io.github.solcott.uistate/StatusPrecedence = ..., kotlin/Function4<#A, #B, #C, #D, #E>): io.github.solcott.uistate/ContentState<#E> // io.github.solcott.uistate/combine|combine(io.github.solcott.uistate.ContentState<0:0>;io.github.solcott.uistate.ContentState<0:1>;io.github.solcott.uistate.ContentState<0:2>;io.github.solcott.uistate.ContentState<0:3>;io.github.solcott.uistate.StatusPrecedence;kotlin.Function4<0:0,0:1,0:2,0:3,0:4>){0§<kotlin.Any?>;1§<kotlin.Any?>;2§<kotlin.Any?>;3§<kotlin.Any?>;4§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?, #B: kotlin/Any?, #C: kotlin/Any?, #D: kotlin/Any?> io.github.solcott.uistate/combine(io.github.solcott.uistate/ContentState<#A>, io.github.solcott.uistate/ContentState<#B>, io.github.solcott.uistate/ContentState<#C>, io.github.solcott.uistate/StatusPrecedence = ..., kotlin/Function3<#A, #B, #C, #D>): io.github.solcott.uistate/ContentState<#D> // io.github.solcott.uistate/combine|combine(io.github.solcott.uistate.ContentState<0:0>;io.github.solcott.uistate.ContentState<0:1>;io.github.solcott.uistate.ContentState<0:2>;io.github.solcott.uistate.StatusPrecedence;kotlin.Function3<0:0,0:1,0:2,0:3>){0§<kotlin.Any?>;1§<kotlin.Any?>;2§<kotlin.Any?>;3§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?, #B: kotlin/Any?, #C: kotlin/Any?> io.github.solcott.uistate/combine(io.github.solcott.uistate/ContentState<#A>, io.github.solcott.uistate/ContentState<#B>, io.github.solcott.uistate/StatusPrecedence = ..., kotlin/Function2<#A, #B, #C>): io.github.solcott.uistate/ContentState<#C> // io.github.solcott.uistate/combine|combine(io.github.solcott.uistate.ContentState<0:0>;io.github.solcott.uistate.ContentState<0:1>;io.github.solcott.uistate.StatusPrecedence;kotlin.Function2<0:0,0:1,0:2>){0§<kotlin.Any?>;1§<kotlin.Any?>;2§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (io.github.solcott.uistate/ContentState<#A>).io.github.solcott.uistate/applyEmission(io.github.solcott.dataresult/Outcome<#A>): io.github.solcott.uistate/ContentState<#A> // io.github.solcott.uistate/applyEmission|applyEmission@io.github.solcott.uistate.ContentState<0:0>(io.github.solcott.dataresult.Outcome<0:0>){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (io.github.solcott.uistate/ContentState<#A>).io.github.solcott.uistate/reloading(): io.github.solcott.uistate/ContentState<#A> // io.github.solcott.uistate/reloading|reloading@io.github.solcott.uistate.ContentState<0:0>(){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (io.github.solcott.uistate/ContentState<#A>).io.github.solcott.uistate/settled(): io.github.solcott.uistate/ContentState<#A> // io.github.solcott.uistate/settled|settled@io.github.solcott.uistate.ContentState<0:0>(){0§<kotlin.Any?>}[0]

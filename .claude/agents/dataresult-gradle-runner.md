@@ -27,7 +27,9 @@ exception: **`dataresult-store5` has no macosArm64**, so it has no `macosArm64Te
 | --- | --- |
 | Fix formatting and dependency order | `ktfmtFormat sortDependencies` |
 | Check them (what CI does) | `ktfmtCheck checkSortDependencies` |
-| Everything, as CI runs it | `build` (its `check` includes ktfmtCheck, checkSortDependencies, detekt) |
+| Everything, as CI runs it | `build` (its `check` includes ktfmtCheck, checkSortDependencies, detekt, checkKotlinAbi) |
+| Public API vs the committed `<module>/api/` dumps | `:<module>:checkKotlinAbi` |
+| Rewrite the API dumps (only when the caller asks) | `updateKotlinAbi` |
 | One module, every target | `:<module>:allTests` |
 | Fastest meaningful test run | `:<module>:jvmTest` (add `--tests '<fqcn>'` for one class) |
 | Android host tests | `:<module>:testAndroidHostTest` |

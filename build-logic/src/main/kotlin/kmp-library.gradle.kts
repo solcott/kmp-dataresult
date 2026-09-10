@@ -2,10 +2,12 @@ import com.android.build.api.withAndroid
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 
 // The shared KMP setup for every published module. AGP 9 dropped KMP support from
-// `com.android.library`, so the Android target comes from `com.android.kotlin.multiplatform.library`
-// and is configured through an `android { }` block nested inside `kotlin { }`.
+// `com.android.library`, so the Android target comes from
+// `com.android.kotlin.multiplatform.library` and is configured through an `android { }` block
+// nested inside `kotlin { }`.
 plugins {
   id("org.jetbrains.kotlin.multiplatform")
   id("com.android.kotlin.multiplatform.library")
@@ -89,6 +91,13 @@ kotlin {
     browser()
     nodejs()
   }
+
+  // Every module here is published, so its public API is a contract. The reference dumps under
+  // each module's api/ make an API change show up as a diff in review, and `check` fails until
+  // the dump is updated with `./gradlew updateKotlinAbi`. Since Kotlin 2.4 the call itself is what
+  // enables validation: `enabled = true` is a deprecation error, and klib targets (Apple, JS, Wasm)
+  // are covered without the removed `klib { enabled }`.
+  @OptIn(ExperimentalAbiValidation::class) abiValidation()
 
   sourceSets { commonTest.dependencies { implementation(kotlin("test")) } }
 }

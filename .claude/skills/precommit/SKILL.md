@@ -16,6 +16,9 @@ scope step 2 to `:<module>:build`.
    these tasks rewrote. Those rewrites are expected; they just need to be part of the commit.
 2. Run `./gradlew build` (or `:<module>:build`) with output filtered to failures. Report the test
    counts per module for the `jvmTest` results, and the `@Test` comparison the runner normally does.
+   If `checkKotlinAbi` fails, quote the dump diff it prints and say that `./gradlew updateKotlinAbi`
+   is the fix *only if the API change is intended*. Never run `updateKotlinAbi` yourself: that would
+   rubber-stamp an accidental API change.
 3. Run `git diff --stat HEAD` and `git status --short`. If any file under `*/src/*Main/` changed but
    `CHANGELOG.md` did not, say "CHANGELOG.md has no entry for a change to main sources". Do not edit
    it.

@@ -1,0 +1,10 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, js, macosArm64, wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.github.solcott:uistate-circuit>
+final fun <#A: kotlin/Any?, #B: kotlin/Any?> (kotlinx.coroutines.flow/Flow<#A>).io.github.solcott.uistate.circuit/produceRetainedContentState(#B, kotlin/Array<out kotlin/Any?>..., kotlin/Function1<#A, kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcome<#B>>>, androidx.compose.runtime/Composer?, kotlin/Int): io.github.solcott.uistate/ContentState<#B> // io.github.solcott.uistate.circuit/produceRetainedContentState|produceRetainedContentState@kotlinx.coroutines.flow.Flow<0:0>(0:1;kotlin.Array<out|kotlin.Any?>...;kotlin.Function1<0:0,kotlinx.coroutines.flow.Flow<io.github.solcott.dataresult.Outcome<0:1>>>;androidx.compose.runtime.Composer?;kotlin.Int){0§<kotlin.Any?>;1§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.github.solcott.uistate.circuit/produceRetainedContentState(#A, kotlin/Array<out kotlin/Any?>..., kotlin/Function0<kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcome<#A>>>, androidx.compose.runtime/Composer?, kotlin/Int): io.github.solcott.uistate/ContentState<#A> // io.github.solcott.uistate.circuit/produceRetainedContentState|produceRetainedContentState(0:0;kotlin.Array<out|kotlin.Any?>...;kotlin.Function0<kotlinx.coroutines.flow.Flow<io.github.solcott.dataresult.Outcome<0:0>>>;androidx.compose.runtime.Composer?;kotlin.Int){0§<kotlin.Any?>}[0]

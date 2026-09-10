@@ -1,0 +1,13 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, js, wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.github.solcott:dataresult-store5>
+final val io.github.solcott.dataresult.store5/dataError // io.github.solcott.dataresult.store5/dataError|@org.mobilenativefoundation.store.store5.StoreReadResponse.Error{}dataError[0]
+    final fun (org.mobilenativefoundation.store.store5/StoreReadResponse.Error).<get-dataError>(): io.github.solcott.dataresult/DataError // io.github.solcott.dataresult.store5/dataError.<get-dataError>|<get-dataError>@org.mobilenativefoundation.store.store5.StoreReadResponse.Error(){}[0]
+
+final fun <#A: kotlin/Any?> (kotlinx.coroutines.flow/Flow<org.mobilenativefoundation.store.store5/StoreReadResponse<#A>>).io.github.solcott.dataresult.store5/asOutcomes(): kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcome<#A>> // io.github.solcott.dataresult.store5/asOutcomes|asOutcomes@kotlinx.coroutines.flow.Flow<org.mobilenativefoundation.store.store5.StoreReadResponse<0:0>>(){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> (org.mobilenativefoundation.store.store5/StoreReadResponse<#A>).io.github.solcott.dataresult.store5/toOutcomeOrNull(): io.github.solcott.dataresult/Outcome<#A>? // io.github.solcott.dataresult.store5/toOutcomeOrNull|toOutcomeOrNull@org.mobilenativefoundation.store.store5.StoreReadResponse<0:0>(){0§<kotlin.Any?>}[0]

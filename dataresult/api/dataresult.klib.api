@@ -1,0 +1,125 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, js, macosArm64, wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.github.solcott:dataresult>
+final enum class io.github.solcott.dataresult/Origin : kotlin/Enum<io.github.solcott.dataresult/Origin> { // io.github.solcott.dataresult/Origin|null[0]
+    enum entry Cache // io.github.solcott.dataresult/Origin.Cache|null[0]
+    enum entry Network // io.github.solcott.dataresult/Origin.Network|null[0]
+
+    final val entries // io.github.solcott.dataresult/Origin.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.solcott.dataresult/Origin> // io.github.solcott.dataresult/Origin.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.github.solcott.dataresult/Origin // io.github.solcott.dataresult/Origin.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.github.solcott.dataresult/Origin> // io.github.solcott.dataresult/Origin.values|values#static(){}[0]
+}
+
+sealed class <#A: out kotlin/Any?> io.github.solcott.dataresult/Outcome { // io.github.solcott.dataresult/Outcome|null[0]
+    final class <#A1: out kotlin/Any?> Data : io.github.solcott.dataresult/Outcome<#A1> { // io.github.solcott.dataresult/Outcome.Data|null[0]
+        constructor <init>(#A1, io.github.solcott.dataresult/Origin) // io.github.solcott.dataresult/Outcome.Data.<init>|<init>(1:0;io.github.solcott.dataresult.Origin){}[0]
+
+        final val data // io.github.solcott.dataresult/Outcome.Data.data|{}data[0]
+            final fun <get-data>(): #A1 // io.github.solcott.dataresult/Outcome.Data.data.<get-data>|<get-data>(){}[0]
+        final val origin // io.github.solcott.dataresult/Outcome.Data.origin|{}origin[0]
+            final fun <get-origin>(): io.github.solcott.dataresult/Origin // io.github.solcott.dataresult/Outcome.Data.origin.<get-origin>|<get-origin>(){}[0]
+
+        final fun component1(): #A1 // io.github.solcott.dataresult/Outcome.Data.component1|component1(){}[0]
+        final fun component2(): io.github.solcott.dataresult/Origin // io.github.solcott.dataresult/Outcome.Data.component2|component2(){}[0]
+        final fun copy(#A1 = ..., io.github.solcott.dataresult/Origin = ...): io.github.solcott.dataresult/Outcome.Data<#A1> // io.github.solcott.dataresult/Outcome.Data.copy|copy(1:0;io.github.solcott.dataresult.Origin){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.solcott.dataresult/Outcome.Data.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.solcott.dataresult/Outcome.Data.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.solcott.dataresult/Outcome.Data.toString|toString(){}[0]
+    }
+
+    final class Error : io.github.solcott.dataresult/Outcome<kotlin/Nothing> { // io.github.solcott.dataresult/Outcome.Error|null[0]
+        constructor <init>(io.github.solcott.dataresult/DataError, io.github.solcott.dataresult/Origin) // io.github.solcott.dataresult/Outcome.Error.<init>|<init>(io.github.solcott.dataresult.DataError;io.github.solcott.dataresult.Origin){}[0]
+
+        final val cause // io.github.solcott.dataresult/Outcome.Error.cause|{}cause[0]
+            final fun <get-cause>(): io.github.solcott.dataresult/DataError // io.github.solcott.dataresult/Outcome.Error.cause.<get-cause>|<get-cause>(){}[0]
+        final val origin // io.github.solcott.dataresult/Outcome.Error.origin|{}origin[0]
+            final fun <get-origin>(): io.github.solcott.dataresult/Origin // io.github.solcott.dataresult/Outcome.Error.origin.<get-origin>|<get-origin>(){}[0]
+
+        final fun component1(): io.github.solcott.dataresult/DataError // io.github.solcott.dataresult/Outcome.Error.component1|component1(){}[0]
+        final fun component2(): io.github.solcott.dataresult/Origin // io.github.solcott.dataresult/Outcome.Error.component2|component2(){}[0]
+        final fun copy(io.github.solcott.dataresult/DataError = ..., io.github.solcott.dataresult/Origin = ...): io.github.solcott.dataresult/Outcome.Error // io.github.solcott.dataresult/Outcome.Error.copy|copy(io.github.solcott.dataresult.DataError;io.github.solcott.dataresult.Origin){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.solcott.dataresult/Outcome.Error.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.solcott.dataresult/Outcome.Error.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.solcott.dataresult/Outcome.Error.toString|toString(){}[0]
+    }
+
+    final object Loading : io.github.solcott.dataresult/Outcome<kotlin/Nothing> { // io.github.solcott.dataresult/Outcome.Loading|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.solcott.dataresult/Outcome.Loading.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.solcott.dataresult/Outcome.Loading.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.solcott.dataresult/Outcome.Loading.toString|toString(){}[0]
+    }
+}
+
+sealed class io.github.solcott.dataresult/DataError { // io.github.solcott.dataresult/DataError|null[0]
+    final class Api : io.github.solcott.dataresult/DataError { // io.github.solcott.dataresult/DataError.Api|null[0]
+        constructor <init>(kotlin.collections/List<kotlin/String>, kotlin/String? = ...) // io.github.solcott.dataresult/DataError.Api.<init>|<init>(kotlin.collections.List<kotlin.String>;kotlin.String?){}[0]
+
+        final val code // io.github.solcott.dataresult/DataError.Api.code|{}code[0]
+            final fun <get-code>(): kotlin/String? // io.github.solcott.dataresult/DataError.Api.code.<get-code>|<get-code>(){}[0]
+        final val messages // io.github.solcott.dataresult/DataError.Api.messages|{}messages[0]
+            final fun <get-messages>(): kotlin.collections/List<kotlin/String> // io.github.solcott.dataresult/DataError.Api.messages.<get-messages>|<get-messages>(){}[0]
+
+        final fun component1(): kotlin.collections/List<kotlin/String> // io.github.solcott.dataresult/DataError.Api.component1|component1(){}[0]
+        final fun component2(): kotlin/String? // io.github.solcott.dataresult/DataError.Api.component2|component2(){}[0]
+        final fun copy(kotlin.collections/List<kotlin/String> = ..., kotlin/String? = ...): io.github.solcott.dataresult/DataError.Api // io.github.solcott.dataresult/DataError.Api.copy|copy(kotlin.collections.List<kotlin.String>;kotlin.String?){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.solcott.dataresult/DataError.Api.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.solcott.dataresult/DataError.Api.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.solcott.dataresult/DataError.Api.toString|toString(){}[0]
+    }
+
+    final class Http : io.github.solcott.dataresult/DataError { // io.github.solcott.dataresult/DataError.Http|null[0]
+        constructor <init>(kotlin/Int) // io.github.solcott.dataresult/DataError.Http.<init>|<init>(kotlin.Int){}[0]
+
+        final val code // io.github.solcott.dataresult/DataError.Http.code|{}code[0]
+            final fun <get-code>(): kotlin/Int // io.github.solcott.dataresult/DataError.Http.code.<get-code>|<get-code>(){}[0]
+
+        final fun component1(): kotlin/Int // io.github.solcott.dataresult/DataError.Http.component1|component1(){}[0]
+        final fun copy(kotlin/Int = ...): io.github.solcott.dataresult/DataError.Http // io.github.solcott.dataresult/DataError.Http.copy|copy(kotlin.Int){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.solcott.dataresult/DataError.Http.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.solcott.dataresult/DataError.Http.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.solcott.dataresult/DataError.Http.toString|toString(){}[0]
+    }
+
+    final class Unknown : io.github.solcott.dataresult/DataError { // io.github.solcott.dataresult/DataError.Unknown|null[0]
+        constructor <init>(kotlin/Throwable? = ..., kotlin/String? = ...) // io.github.solcott.dataresult/DataError.Unknown.<init>|<init>(kotlin.Throwable?;kotlin.String?){}[0]
+
+        final val cause // io.github.solcott.dataresult/DataError.Unknown.cause|{}cause[0]
+            final fun <get-cause>(): kotlin/Throwable? // io.github.solcott.dataresult/DataError.Unknown.cause.<get-cause>|<get-cause>(){}[0]
+        final val message // io.github.solcott.dataresult/DataError.Unknown.message|{}message[0]
+            final fun <get-message>(): kotlin/String? // io.github.solcott.dataresult/DataError.Unknown.message.<get-message>|<get-message>(){}[0]
+
+        final fun component1(): kotlin/Throwable? // io.github.solcott.dataresult/DataError.Unknown.component1|component1(){}[0]
+        final fun component2(): kotlin/String? // io.github.solcott.dataresult/DataError.Unknown.component2|component2(){}[0]
+        final fun copy(kotlin/Throwable? = ..., kotlin/String? = ...): io.github.solcott.dataresult/DataError.Unknown // io.github.solcott.dataresult/DataError.Unknown.copy|copy(kotlin.Throwable?;kotlin.String?){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.solcott.dataresult/DataError.Unknown.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.solcott.dataresult/DataError.Unknown.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.solcott.dataresult/DataError.Unknown.toString|toString(){}[0]
+    }
+
+    final object Network : io.github.solcott.dataresult/DataError { // io.github.solcott.dataresult/DataError.Network|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.solcott.dataresult/DataError.Network.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.solcott.dataresult/DataError.Network.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.solcott.dataresult/DataError.Network.toString|toString(){}[0]
+    }
+
+    final object Serialization : io.github.solcott.dataresult/DataError { // io.github.solcott.dataresult/DataError.Serialization|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.github.solcott.dataresult/DataError.Serialization.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.github.solcott.dataresult/DataError.Serialization.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.github.solcott.dataresult/DataError.Serialization.toString|toString(){}[0]
+    }
+}
+
+final val io.github.solcott.dataresult/errorOrNull // io.github.solcott.dataresult/errorOrNull|@io.github.solcott.dataresult.Outcome<*>{}errorOrNull[0]
+    final fun (io.github.solcott.dataresult/Outcome<*>).<get-errorOrNull>(): io.github.solcott.dataresult/DataError? // io.github.solcott.dataresult/errorOrNull.<get-errorOrNull>|<get-errorOrNull>@io.github.solcott.dataresult.Outcome<*>(){}[0]
+final val io.github.solcott.dataresult/isLoading // io.github.solcott.dataresult/isLoading|@io.github.solcott.dataresult.Outcome<*>{}isLoading[0]
+    final fun (io.github.solcott.dataresult/Outcome<*>).<get-isLoading>(): kotlin/Boolean // io.github.solcott.dataresult/isLoading.<get-isLoading>|<get-isLoading>@io.github.solcott.dataresult.Outcome<*>(){}[0]
+
+final fun <#A: kotlin/Any?> (io.github.solcott.dataresult/Outcome<#A>).io.github.solcott.dataresult/dataOrNull(): #A? // io.github.solcott.dataresult/dataOrNull|dataOrNull@io.github.solcott.dataresult.Outcome<0:0>(){0§<kotlin.Any?>}[0]
+final inline fun <#A: kotlin/Any?, #B: kotlin/Any?> (io.github.solcott.dataresult/Outcome<#A>).io.github.solcott.dataresult/mapData(kotlin/Function1<#A, #B>): io.github.solcott.dataresult/Outcome<#B> // io.github.solcott.dataresult/mapData|mapData@io.github.solcott.dataresult.Outcome<0:0>(kotlin.Function1<0:0,0:1>){0§<kotlin.Any?>;1§<kotlin.Any?>}[0]

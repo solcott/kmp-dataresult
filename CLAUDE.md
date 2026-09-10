@@ -14,7 +14,8 @@ never reach this context.
 
 ```bash
 ./gradlew ktfmtFormat sortDependencies   # fix formatting + dependency order; do this before committing
-./gradlew build                          # every target, tests, and `check` = ktfmtCheck + checkSortDependencies + detekt
+./gradlew build                          # every target, tests, and `check` = ktfmtCheck + checkSortDependencies + detekt + checkKotlinAbi
+./gradlew updateKotlinAbi                # after an *intended* public API change; commit the <module>/api/ diff with it
 ./gradlew :uistate:jvmTest --tests 'io.github.solcott.uistate.ContentStateTest'   # one test class, fastest runner
 ./gradlew :uistate:allTests              # one module, every target
 ./gradlew :uistate:testAndroidHostTest   # Android host tests

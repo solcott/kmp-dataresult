@@ -3,7 +3,8 @@
 1. Set the release version in `gradle.properties` (drop the `-SNAPSHOT`).
 
 2. Update `CHANGELOG.md`: rename the `Unreleased` header to the release version and add a fresh
-   `Unreleased` section above it.
+   `Unreleased` section above it. `git diff <last-tag> -- '*/api/*'` lists every public API change
+   since the last release, so nothing reaches consumers without a changelog line.
 
 3. Verify against the consuming projects first, if the change is behavioral:
 

@@ -1,0 +1,108 @@
+public abstract class io/github/solcott/dataresult/DataError {
+}
+
+public final class io/github/solcott/dataresult/DataError$Api : io/github/solcott/dataresult/DataError {
+	public fun <init> (Ljava/util/List;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/util/List;Ljava/lang/String;)Lio/github/solcott/dataresult/DataError$Api;
+	public static synthetic fun copy$default (Lio/github/solcott/dataresult/DataError$Api;Ljava/util/List;Ljava/lang/String;ILjava/lang/Object;)Lio/github/solcott/dataresult/DataError$Api;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCode ()Ljava/lang/String;
+	public final fun getMessages ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/solcott/dataresult/DataError$Http : io/github/solcott/dataresult/DataError {
+	public fun <init> (I)V
+	public final fun component1 ()I
+	public final fun copy (I)Lio/github/solcott/dataresult/DataError$Http;
+	public static synthetic fun copy$default (Lio/github/solcott/dataresult/DataError$Http;IILjava/lang/Object;)Lio/github/solcott/dataresult/DataError$Http;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCode ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/solcott/dataresult/DataError$Network : io/github/solcott/dataresult/DataError {
+	public static final field INSTANCE Lio/github/solcott/dataresult/DataError$Network;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/solcott/dataresult/DataError$Serialization : io/github/solcott/dataresult/DataError {
+	public static final field INSTANCE Lio/github/solcott/dataresult/DataError$Serialization;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/solcott/dataresult/DataError$Unknown : io/github/solcott/dataresult/DataError {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/Throwable;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/Throwable;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/Throwable;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/Throwable;Ljava/lang/String;)Lio/github/solcott/dataresult/DataError$Unknown;
+	public static synthetic fun copy$default (Lio/github/solcott/dataresult/DataError$Unknown;Ljava/lang/Throwable;Ljava/lang/String;ILjava/lang/Object;)Lio/github/solcott/dataresult/DataError$Unknown;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCause ()Ljava/lang/Throwable;
+	public final fun getMessage ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/solcott/dataresult/Origin : java/lang/Enum {
+	public static final field Cache Lio/github/solcott/dataresult/Origin;
+	public static final field Network Lio/github/solcott/dataresult/Origin;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/solcott/dataresult/Origin;
+	public static fun values ()[Lio/github/solcott/dataresult/Origin;
+}
+
+public abstract class io/github/solcott/dataresult/Outcome {
+}
+
+public final class io/github/solcott/dataresult/Outcome$Data : io/github/solcott/dataresult/Outcome {
+	public fun <init> (Ljava/lang/Object;Lio/github/solcott/dataresult/Origin;)V
+	public final fun component1 ()Ljava/lang/Object;
+	public final fun component2 ()Lio/github/solcott/dataresult/Origin;
+	public final fun copy (Ljava/lang/Object;Lio/github/solcott/dataresult/Origin;)Lio/github/solcott/dataresult/Outcome$Data;
+	public static synthetic fun copy$default (Lio/github/solcott/dataresult/Outcome$Data;Ljava/lang/Object;Lio/github/solcott/dataresult/Origin;ILjava/lang/Object;)Lio/github/solcott/dataresult/Outcome$Data;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getData ()Ljava/lang/Object;
+	public final fun getOrigin ()Lio/github/solcott/dataresult/Origin;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/solcott/dataresult/Outcome$Error : io/github/solcott/dataresult/Outcome {
+	public fun <init> (Lio/github/solcott/dataresult/DataError;Lio/github/solcott/dataresult/Origin;)V
+	public final fun component1 ()Lio/github/solcott/dataresult/DataError;
+	public final fun component2 ()Lio/github/solcott/dataresult/Origin;
+	public final fun copy (Lio/github/solcott/dataresult/DataError;Lio/github/solcott/dataresult/Origin;)Lio/github/solcott/dataresult/Outcome$Error;
+	public static synthetic fun copy$default (Lio/github/solcott/dataresult/Outcome$Error;Lio/github/solcott/dataresult/DataError;Lio/github/solcott/dataresult/Origin;ILjava/lang/Object;)Lio/github/solcott/dataresult/Outcome$Error;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCause ()Lio/github/solcott/dataresult/DataError;
+	public final fun getOrigin ()Lio/github/solcott/dataresult/Origin;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/solcott/dataresult/Outcome$Loading : io/github/solcott/dataresult/Outcome {
+	public static final field INSTANCE Lio/github/solcott/dataresult/Outcome$Loading;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/solcott/dataresult/OutcomeKt {
+	public static final fun dataOrNull (Lio/github/solcott/dataresult/Outcome;)Ljava/lang/Object;
+	public static final fun getErrorOrNull (Lio/github/solcott/dataresult/Outcome;)Lio/github/solcott/dataresult/DataError;
+	public static final fun isLoading (Lio/github/solcott/dataresult/Outcome;)Z
+	public static final fun mapData (Lio/github/solcott/dataresult/Outcome;Lkotlin/jvm/functions/Function1;)Lio/github/solcott/dataresult/Outcome;
+}
+
