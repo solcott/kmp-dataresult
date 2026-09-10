@@ -76,9 +76,7 @@ class ProduceContentStateTest {
     params.emit(1)
     val neverEmits = MutableSharedFlow<Outcome<List<String>>>()
 
-    presenterTestOf({
-      Wrapper(produceContentStateFor(emptyList<String>(), params) { neverEmits })
-    }) {
+    presenterTestOf({ Wrapper(params.produceContentState(emptyList<String>()) { neverEmits }) }) {
       assertTrue(awaitItem().content.isLoading)
 
       params.emit(2)
@@ -132,7 +130,7 @@ class ProduceContentStateTest {
     }
   }
 
-  // --- produceContentStateFor
+  // --- Flow<P>.produceContentState
   // ----------------------------------------------------------------------
 
   @Test
@@ -143,7 +141,7 @@ class ProduceContentStateTest {
 
     presenterTestOf({
       Wrapper(
-        produceContentStateFor(emptyList<String>(), params) { p ->
+        params.produceContentState(emptyList<String>()) { p ->
           sources.getOrPut(p) { MutableSharedFlow(replay = 1) }
         }
       )
@@ -172,7 +170,7 @@ class ProduceContentStateTest {
 
     presenterTestOf({
       Wrapper(
-        produceContentStateFor(emptyList<String>(), params) {
+        params.produceContentState(emptyList<String>()) {
           queries++
           flowOf(loaded)
         }

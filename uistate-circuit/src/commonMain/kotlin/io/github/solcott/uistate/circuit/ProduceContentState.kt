@@ -20,6 +20,9 @@ import kotlinx.coroutines.flow.onEach
 /**
  * Collects [stream] into retained [ContentState], restarting on [keys].
  *
+ * For a source whose parameters change *while* it is collected — a search term, a filter — call the
+ * `Flow<P>.produceContentState` extension on those parameters instead.
+ *
  * The retained state is what holds the last loaded value, so a refresh keeps the current content on
  * screen instead of replacing it with a spinner. A caller does not need a second retained variable
  * beside this to do that — [ContentState.data] *is* that hold.
@@ -45,6 +48,13 @@ import kotlinx.coroutines.flow.onEach
  * means this stops collecting for the pane that is not on top, with **no error anywhere**: state
  * driving the stream updates and nothing re-queries. Wrap each composed pane in
  * `ProvideRecordLifecycle(isActive = true)` if it should keep running.
+ *
+ * ### Why this one is not an extension too
+ *
+ * Its sibling takes its parameters as a receiver, so this looks like it should take its source the
+ * same way — `Flow<Outcome<T>>.produceContentState(initial, keys)`. It can't: `Flow<Outcome<T>>` is
+ * a perfectly good `Flow<P>` with `P = Outcome<T>`, so the two extensions would be ambiguous at
+ * every call site. One top-level function and one extension is what lets them share a name.
  */
 @Composable
 fun <T> produceContentState(
@@ -60,35 +70,40 @@ fun <T> produceContentState(
 }
 
 /**
- * The variant for a source whose parameters change *while* it is collected — a search term, a
- * filter, a sort order.
+ * Collects a source whose **parameters change while it is being collected** — a search term, a
+ * filter, a sort order — into retained [ContentState].
  *
- * Each new value of [params] cancels the in-flight request and starts a fresh one from [stream],
- * marking the state `reloading()` first so the current content stays on screen under a refresh
- * indicator rather than dropping to a spinner. Use this rather than putting the parameter in
- * [keys]: a key change restarts the whole producer, which is the wrong shape for something the user
- * changes while looking at the results.
+ * This is the difference from the receiverless [produceContentState]: there, the source is fixed
+ * for the life of the producer; here, each value this flow emits swaps it for a new one. Reach for
+ * this whenever the user can change what is being asked for while looking at the answer, and for
+ * the plain one otherwise.
  *
- * [params] is deduplicated with `distinctUntilChanged()`, so a source that re-reports an unchanged
- * value — a child that reports its state again after a configuration change, say — does not restart
- * an identical request. Debouncing is the caller's: apply it to [params] before passing it, since
- * only the caller knows which of several combined inputs deserves it.
+ * Every emission cancels the in-flight request and starts a fresh one from [stream], marking the
+ * state `reloading()` first so the current content stays on screen under a refresh indicator rather
+ * than dropping to a spinner. Prefer this over putting the parameter in [keys]: a key change
+ * restarts the whole producer, which is the wrong shape for something that changes under the user's
+ * eyes.
+ *
+ * The receiver is deduplicated with `distinctUntilChanged()`, so a source that re-reports an
+ * unchanged value — a child that reports its state again after a configuration change, say — does
+ * not restart an identical request. Debouncing is the caller's: apply it to the receiver before
+ * calling, since only the caller knows which of several combined inputs deserves it.
  *
  * Everything in [produceContentState]'s documentation about retention, [keys] and the paused-record
  * hazard applies here too.
  *
- * A separate name rather than an overload of [produceContentState], because the two cannot be told
- * apart at a call site: a lambda written `{ repository.foo() }` satisfies `(P) -> Flow<Outcome<T>>`
- * just as well as `() -> Flow<Outcome<T>>`, by ignoring the implicit `it`. As overloads, every call
- * passing a `Flow` would be ambiguous.
+ * @receiver the parameters driving the source. Its shape mirrors `flatMapLatest`, which this is:
+ *   the receiver drives, and the lambda returns the flow to collect for each value.
  */
 @Composable
-fun <P, T> produceContentStateFor(
+fun <P, T> Flow<P>.produceContentState(
   initial: T,
-  params: Flow<P>,
   vararg keys: Any?,
   stream: (P) -> Flow<Outcome<T>>,
 ): ContentState<T> {
+  // Captured out here because inside the producer `this` is the ProduceStateScope, which shadows
+  // the Flow receiver.
+  val params = this
   val currentStream by rememberUpdatedState(stream)
   val state by
     produceRetainedState(ContentState(initial), *keys) {

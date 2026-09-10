@@ -48,19 +48,23 @@ configuration change:
 val state = produceContentState(initial = emptyList(), retryTrigger) { repository.articles() }
 ```
 
-For a source whose parameters change *while* it is on screen — a search term, a filter — use
-`produceContentStateFor`, which cancels the in-flight request on each new value and marks the state
+For a source whose parameters change *while* it is on screen — a search term, a filter — call it
+on the parameters instead. Each new value cancels the in-flight request and marks the state
 reloading first, so the current content stays put under a refresh indicator:
 
 ```kotlin
 val state =
-  produceContentStateFor(initial = emptyList(), params = filters, retryTrigger) { filter ->
+  filters.produceContentState(initial = emptyList(), retryTrigger) { filter ->
     repository.search(filter.query, filter.tags)
   }
 ```
 
-Two names rather than overloads: a lambda written `{ repository.foo() }` satisfies both shapes, by
-ignoring the implicit `it`, so as overloads every call passing a `Flow` would be ambiguous.
+The receiver is the whole difference: no receiver, a fixed source; a `Flow` receiver, a source
+that changes with it. It is the shape of `flatMapLatest` — the receiver drives, the lambda returns
+the flow to collect for each value. Debounce the receiver yourself if it needs it.
+
+The receiverless one is deliberately *not* an extension on the source. `Flow<Outcome<T>>` is a
+valid `Flow<P>` with `P = Outcome<T>`, so two extensions would be ambiguous at every call site.
 
 > **Circuit stops collecting for a paused record.** In a multi-pane layout, Circuit pauses the
 > record that is not current and `pausableState` drops the producer from composition. The pane that

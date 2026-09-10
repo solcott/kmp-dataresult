@@ -11,7 +11,7 @@ Initial release.
 - `uistate`: `ContentState`, `LoadStatus`, `applyEmission` and friends.
 - `dataresult-apollo`: `Flow<ApolloResponse<D>>.mapToOutcome`, `ApolloException.toDataError`.
 - `dataresult-store5`: `Flow<StoreReadResponse<T>>.asOutcomes`, `StoreReadResponse.toOutcomeOrNull`.
-- `uistate-circuit`: `produceContentState` and `produceContentStateFor`, which collect a stream of
-  `Outcome`s into retained `ContentState` inside a Circuit presenter. Includes a `settled()` safety
-  net guarded on `cause == null`, without which a cancelled collection would report an abandoned
-  request as finished.
+- `uistate-circuit`: `produceContentState`, and its `Flow<P>` extension for sources whose parameters
+  change while collected. Both collect a stream of `Outcome`s into retained `ContentState` inside a
+  Circuit presenter, with a `settled()` safety net guarded on `cause == null` — without it, a
+  cancelled collection would report an abandoned request as finished.
