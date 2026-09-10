@@ -18,8 +18,7 @@ val descriptions =
   mapOf(
     "dataresult" to
       "Transport-agnostic result and error types for Kotlin Multiplatform data sources.",
-    "uistate" to
-      "Stale-while-revalidate view state for content backed by a data source.",
+    "uistate" to "Stale-while-revalidate view state for content backed by a data source.",
     "uistate-compose" to
       "Collects a stream of Outcomes into ContentState retained with androidx retain.",
     "uistate-circuit" to
