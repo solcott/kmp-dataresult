@@ -56,6 +56,7 @@ rootProject.name = "kmp-dataresult"
 
 include(":dataresult")
 include(":uistate")
+include(":uistate-compose")
 include(":uistate-circuit")
 include(":dataresult-apollo")
 include(":dataresult-store5")

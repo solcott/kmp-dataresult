@@ -13,9 +13,10 @@ kotlin {
 
   sourceSets {
     commonMain.dependencies {
-      api(project(":uistate"))
+      api(project(":uistate-compose"))
       // `api` throughout: ContentState is the return type, Flow<Outcome<T>> the parameter, and
       // produceRetainedState's ProduceStateScope leaks through the inline machinery.
+      // `uistate-compose` rather than `uistate`: it holds the fold both variants share.
       api(libs.circuit.retained)
       api(libs.kotlinx.coroutines.core)
     }

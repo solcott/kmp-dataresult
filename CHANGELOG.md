@@ -11,7 +11,10 @@ Initial release.
 - `uistate`: `ContentState`, `LoadStatus`, `applyEmission` and friends.
 - `dataresult-apollo`: `Flow<ApolloResponse<D>>.mapToOutcome`, `ApolloException.toDataError`.
 - `dataresult-store5`: `Flow<StoreReadResponse<T>>.asOutcomes`, `StoreReadResponse.toOutcomeOrNull`.
-- `uistate-circuit`: `produceContentState`, and its `Flow<P>` extension for sources whose parameters
-  change while collected. Both collect a stream of `Outcome`s into retained `ContentState` inside a
-  Circuit presenter, with a `settled()` safety net guarded on `cause == null` — without it, a
-  cancelled collection would report an abandoned request as finished.
+- `uistate-compose`: `produceContentState`, and its `Flow<P>` extension for sources whose parameters
+  change while collected. Both collect a stream of `Outcome`s into `ContentState` held with androidx
+  `retain`. Built on `collectFrom` / `collectLatestFrom` — the fold on its own, usable without a
+  composition — with a `settled()` safety net guarded on `cause == null`; without it, a cancelled
+  collection would report an abandoned request as finished.
+- `uistate-circuit`: `produceRetainedContentState` and its `Flow<P>` extension — the same, with the
+  state held in Circuit's registry.

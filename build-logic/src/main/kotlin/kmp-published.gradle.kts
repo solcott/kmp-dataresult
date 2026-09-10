@@ -20,6 +20,8 @@ val descriptions =
       "Transport-agnostic result and error types for Kotlin Multiplatform data sources.",
     "uistate" to
       "Stale-while-revalidate view state for content backed by a data source.",
+    "uistate-compose" to
+      "Collects a stream of Outcomes into ContentState retained with androidx retain.",
     "uistate-circuit" to
       "Collects a stream of Outcomes into retained ContentState, for Circuit presenters.",
     "dataresult-apollo" to

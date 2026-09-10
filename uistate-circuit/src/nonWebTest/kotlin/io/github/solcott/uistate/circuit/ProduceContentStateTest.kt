@@ -35,7 +35,9 @@ class ProduceContentStateTest {
 
   @Test
   fun dataSettlesTheStateAndRecordsTheOrigin() = runTest {
-    presenterTestOf({ Wrapper(produceContentState(emptyList<String>()) { flowOf(loaded) }) }) {
+    presenterTestOf({
+      Wrapper(produceRetainedContentState(emptyList<String>()) { flowOf(loaded) })
+    }) {
       val settled = awaitSettled()
 
       assertEquals(listOf("a"), settled.data)
@@ -48,7 +50,7 @@ class ProduceContentStateTest {
   fun errorKeepsTheDataAlreadyOnScreen() = runTest {
     val source = flowOf(loaded, Outcome.Error(DataError.Network, Origin.Network))
 
-    presenterTestOf({ Wrapper(produceContentState(emptyList<String>()) { source }) }) {
+    presenterTestOf({ Wrapper(produceRetainedContentState(emptyList<String>()) { source }) }) {
       val failed = awaitStateWhere { it.errorOrNull != null }
 
       assertEquals(listOf("a"), failed.data)
@@ -62,7 +64,7 @@ class ProduceContentStateTest {
   fun aSourceThatCompletesWithoutEmittingStillSettles() = runTest {
     // Without the onCompletion net the spinner would hang forever: nothing ever called
     // applyEmission, so nothing ever moved the status off Loading.
-    presenterTestOf({ Wrapper(produceContentState(emptyList<String>()) { emptyFlow() }) }) {
+    presenterTestOf({ Wrapper(produceRetainedContentState(emptyList<String>()) { emptyFlow() }) }) {
       assertEquals(LoadStatus.Idle, awaitSettled().status)
     }
   }
@@ -76,7 +78,9 @@ class ProduceContentStateTest {
     params.emit(1)
     val neverEmits = MutableSharedFlow<Outcome<List<String>>>()
 
-    presenterTestOf({ Wrapper(params.produceContentState(emptyList<String>()) { neverEmits }) }) {
+    presenterTestOf({
+      Wrapper(params.produceRetainedContentState(emptyList<String>()) { neverEmits })
+    }) {
       assertTrue(awaitItem().content.isLoading)
 
       params.emit(2)
@@ -100,7 +104,7 @@ class ProduceContentStateTest {
 
     presenterTestOf({
       Wrapper(
-        produceContentState(emptyList<String>(), key.intValue) {
+        produceRetainedContentState(emptyList<String>(), key.intValue) {
           queries++
           if (queries == 1) flowOf(loaded) else second
         }
@@ -130,7 +134,7 @@ class ProduceContentStateTest {
     }
   }
 
-  // --- Flow<P>.produceContentState
+  // --- Flow<P>.produceRetainedContentState
   // ----------------------------------------------------------------------
 
   @Test
@@ -141,7 +145,7 @@ class ProduceContentStateTest {
 
     presenterTestOf({
       Wrapper(
-        params.produceContentState(emptyList<String>()) { p ->
+        params.produceRetainedContentState(emptyList<String>()) { p ->
           sources.getOrPut(p) { MutableSharedFlow(replay = 1) }
         }
       )
@@ -170,7 +174,7 @@ class ProduceContentStateTest {
 
     presenterTestOf({
       Wrapper(
-        params.produceContentState(emptyList<String>()) {
+        params.produceRetainedContentState(emptyList<String>()) {
           queries++
           flowOf(loaded)
         }

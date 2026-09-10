@@ -20,7 +20,8 @@ Two ideas, and adapters that connect them to real data sources:
 | `io.github.solcott:uistate` | `ContentState`, `LoadStatus`, `applyEmission` | `dataresult` |
 | `io.github.solcott:dataresult-apollo` | Apollo GraphQL → `Outcome` | `dataresult`, `apollo-api` |
 | `io.github.solcott:dataresult-store5` | Store5 → `Outcome` | `dataresult`, `store5` |
-| `io.github.solcott:uistate-circuit` | Collects `Outcome`s into retained `ContentState` | `uistate`, `circuit-retained` |
+| `io.github.solcott:uistate-compose` | Collects `Outcome`s into `ContentState`, on androidx `retain` | `uistate`, Compose runtime |
+| `io.github.solcott:uistate-circuit` | The same, retained in Circuit's registry | `uistate-compose`, `circuit-retained` |
 
 Take only what you need: a repository module usually wants `dataresult` plus one adapter, and only
 the presentation layer needs `uistate`.
@@ -41,8 +42,8 @@ var state by mutableStateOf(ContentState(emptyList<Article>()))
 repository.articles().collect { state = state.applyEmission(it) }
 ```
 
-In a Circuit presenter, `uistate-circuit` does that collection for you, into state that survives a
-configuration change:
+In Compose, `uistate-compose` does that collection for you, into state retained wherever the host
+retains values — across configuration changes on Android, by default:
 
 ```kotlin
 val state = produceContentState(initial = emptyList(), retryTrigger) { repository.articles() }
@@ -65,6 +66,16 @@ the flow to collect for each value. Debounce the receiver yourself if it needs i
 
 The receiverless one is deliberately *not* an extension on the source. `Flow<Outcome<T>>` is a
 valid `Flow<P>` with `P = Outcome<T>`, so two extensions would be ambiguous at every call site.
+
+In a Circuit presenter, use `uistate-circuit`'s `produceRetainedContentState` — the same two
+functions and the same contract, with the state held in Circuit's registry rather than by androidx
+`retain`. Each name mirrors the primitive underneath it: `produceContentState` ↔ Compose's
+`produceState`, `produceRetainedContentState` ↔ Circuit's `produceRetainedState`. Both retain; the
+name says which mechanism does it.
+
+Holding your own `MutableState`? `state.collectFrom(source)` and
+`state.collectLatestFrom(params) { … }` are the fold on its own — plain `suspend` functions, no
+composition required.
 
 > **Circuit stops collecting for a paused record.** In a multi-pane layout, Circuit pauses the
 > record that is not current and `pausableState` drops the producer from composition. The pane that
