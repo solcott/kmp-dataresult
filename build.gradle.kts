@@ -12,6 +12,8 @@ buildscript {
 }
 
 plugins {
+    // For the root `check` and `build` that build-logic's checks hang off (see the end of this file).
+    base
     alias(libs.plugins.android.multiplatform.library) apply false
     alias(libs.plugins.publish) apply false
     alias(libs.plugins.dependency.sorter)
@@ -64,3 +66,26 @@ tasks.named<UpdateDaemonJvm>("updateDaemonJvm") {
     languageVersion = JavaLanguageVersion.of(libs.versions.jvm.toolchain.get())
     vendor.set(JvmVendorSpec.AMAZON)
 }
+
+// build-logic is an included build with its own ktfmt, sort-dependencies and detekt setup. A task
+// selector such as `./gradlew ktfmtCheck` only reaches this build's projects, so until this was
+// wired up nothing ran those checks and build-logic drifted. Hooking the root tasks, rather than
+// adding `./gradlew -p build-logic ...` steps to CI, makes the commands everyone already runs
+// cover it: `ktfmtFormat` / `sortDependencies` fix it, `ktfmtCheck` / `checkSortDependencies`
+// check it, and `build` runs its `check` (detekt, ktfmt, sorting, validatePlugins). A CI-only step
+// would have left local runs and /precommit blind to it until CI failed.
+val buildLogic = gradle.includedBuild("build-logic")
+
+tasks.register("ktfmtFormat") {
+    group = "formatting"
+    description = "Formats build-logic. Each module's own ktfmtFormat covers the rest."
+    dependsOn(buildLogic.task(":ktfmtFormat"))
+}
+tasks.register("ktfmtCheck") {
+    group = "verification"
+    description = "Checks build-logic's formatting. Each module's own ktfmtCheck covers the rest."
+    dependsOn(buildLogic.task(":ktfmtCheck"))
+}
+tasks.named("sortDependencies") { dependsOn(buildLogic.task(":sortDependencies")) }
+tasks.named("checkSortDependencies") { dependsOn(buildLogic.task(":checkSortDependencies")) }
+tasks.named("check") { dependsOn(buildLogic.task(":check")) }

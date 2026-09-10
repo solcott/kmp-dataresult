@@ -23,11 +23,16 @@ Modules: `dataresult`, `uistate`, `uistate-compose`, `uistate-circuit`, `datares
 Targets for every module: android, jvm, iosArm64, iosSimulatorArm64, macosArm64, js, wasmJs, with one
 exception: **`dataresult-store5` has no macosArm64**, so it has no `macosArm64Test` task.
 
+`build-logic/` (the convention plugins) is an included build, not a module. The root build wires
+its `ktfmtFormat`, `ktfmtCheck`, `sortDependencies`, `checkSortDependencies` and `check` into the
+root tasks of the same name, so the root commands below cover it. Its tasks show up as
+`:build-logic:<task>`.
+
 | Intent | Task |
 | --- | --- |
-| Fix formatting and dependency order | `ktfmtFormat sortDependencies` |
-| Check them (what CI does) | `ktfmtCheck checkSortDependencies` |
-| Everything, as CI runs it | `build` (its `check` includes ktfmtCheck, checkSortDependencies, detekt, checkKotlinAbi) |
+| Fix formatting and dependency order (build-logic included) | `ktfmtFormat sortDependencies` |
+| Check them (what CI does; build-logic included) | `ktfmtCheck checkSortDependencies` |
+| Everything, as CI runs it | `build` (its `check` includes ktfmtCheck, checkSortDependencies, detekt, checkKotlinAbi; the root `check` adds build-logic's) |
 | Public API vs the committed `<module>/api/` dumps | `:<module>:checkKotlinAbi` |
 | Rewrite the API dumps (only when the caller asks) | `updateKotlinAbi` |
 | Dependency analysis (unused, misdeclared, api vs implementation) | `buildHealth` (root only; fails on any finding; quote `build/reports/dependency-analysis/build-health-report.txt`) |
@@ -35,6 +40,7 @@ exception: **`dataresult-store5` has no macosArm64**, so it has no `macosArm64Te
 | Fastest meaningful test run | `:<module>:jvmTest` (add `--tests '<fqcn>'` for one class) |
 | Android host tests | `:<module>:testAndroidHostTest` |
 | Lint only | `:<module>:detekt` |
+| build-logic only (ktfmt, sorting, detekt, validatePlugins) | `:check` (the root project's), or `-p build-logic check` standalone |
 | Local publish for a consumer | `publishToMavenLocal` |
 
 Always pass `-q` or `--console=plain`, and filter the output. Don't let `> Task` lines stream back

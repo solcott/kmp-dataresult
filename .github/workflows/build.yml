@@ -27,6 +27,9 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
 
+      # These root tasks also reach the included build-logic. The root build.gradle.kts wires
+      # ktfmtCheck, checkSortDependencies and check to build-logic's own tasks, so it needs no
+      # separate `-p build-logic` step.
       - name: Check formatting
         run: ./gradlew ktfmtCheck
 

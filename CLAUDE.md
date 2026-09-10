@@ -30,6 +30,11 @@ never reach this context.
 - The toolchain compiles on JDK 25, and the published bytecode targets 17 (`jvm-toolchain`/`jvm-compat` in
   `gradle/libs.versions.toml`). After changing `jvm-toolchain`, run `./gradlew updateDaemonJvm`.
 - Browser test tasks (`jsBrowserTest`, `wasmJsBrowserTest`) need Chrome; the Node ones don't.
+- `build-logic/` is an included build, and a task selector doesn't reach into one. So the root
+  `build.gradle.kts` wires `ktfmtFormat`, `ktfmtCheck`, `sortDependencies`, `checkSortDependencies`
+  and `check` to build-logic's own tasks, and the commands above (and CI) cover it too. A check
+  added to build-logic needs wiring there as well. `./gradlew -p build-logic <task>` runs one
+  standalone.
 
 ## Architecture
 

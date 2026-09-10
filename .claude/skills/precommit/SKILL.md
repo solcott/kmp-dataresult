@@ -1,6 +1,6 @@
 ---
 name: precommit
-description: Run this repo's CI checks locally before committing. It formats, sorts dependencies, builds every target with tests and detekt, and flags a missing CHANGELOG entry. It runs in the Haiku Gradle runner and returns a short verdict. Use it before any commit that touches Kotlin or Gradle files.
+description: Run this repo's CI checks locally before committing. It formats, sorts dependencies, builds every target with tests and detekt (build-logic included), and flags a missing CHANGELOG entry. It runs in the Haiku Gradle runner and returns a short verdict. Use it before any commit that touches Kotlin or Gradle files.
 argument-hint: "[module]"
 context: fork
 agent: dataresult-gradle-runner
@@ -10,11 +10,13 @@ Mirror CI (`.github/workflows/build.yml`) for the current working tree, and repo
 usual ≤20-line format.
 
 Module argument: `$ARGUMENTS`. If it is empty, build everything. If it names a module (for example `uistate`),
-scope step 2 to `:<module>:build`.
+scope step 2 to `:<module>:build :check`. The root `:check` is what runs the included build-logic's
+checks, and a module-scoped build would skip them.
 
-1. Run `./gradlew -q ktfmtFormat sortDependencies`. Then run `git status --short` and list any files
-   these tasks rewrote. Those rewrites are expected; they just need to be part of the commit.
-2. Run `./gradlew build` (or `:<module>:build`) with output filtered to failures. Report the test
+1. Run `./gradlew -q ktfmtFormat sortDependencies`. The root build wires these to build-logic too, so
+   its files can be among the rewrites. Then run `git status --short` and list any files these tasks
+   rewrote. Those rewrites are expected; they just need to be part of the commit.
+2. Run `./gradlew build` (or `:<module>:build :check`) with output filtered to failures. Report the test
    counts per module for the `jvmTest` results, and the `@Test` comparison the runner normally does.
    If `checkKotlinAbi` fails, quote the dump diff it prints and say that `./gradlew updateKotlinAbi`
    is the fix *only if the API change is intended*. Never run `updateKotlinAbi` yourself: that would
