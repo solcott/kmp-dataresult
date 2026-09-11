@@ -34,12 +34,135 @@ public final class io/github/solcott/uistate/ContentState {
 	public fun toString ()Ljava/lang/String;
 }
 
+public abstract class io/github/solcott/uistate/ContentStateGroup {
+	public abstract fun applyEmission (Lio/github/solcott/dataresult/OutcomeGroup;)Lio/github/solcott/uistate/ContentStateGroup;
+	public final fun combinedStatus (Lio/github/solcott/uistate/StatusPrecedence;)Lio/github/solcott/uistate/LoadStatus;
+	public static synthetic fun combinedStatus$default (Lio/github/solcott/uistate/ContentStateGroup;Lio/github/solcott/uistate/StatusPrecedence;ILjava/lang/Object;)Lio/github/solcott/uistate/LoadStatus;
+	public final fun getErrorOrNull ()Lio/github/solcott/dataresult/DataError;
+	public final fun getErrors ()Ljava/util/List;
+	public final fun getHasAllErrors ()Z
+	public final fun getHasAnyError ()Z
+	public final fun getHasLoaded ()Z
+	public abstract fun getStates ()Ljava/util/List;
+	public final fun isAllLoading ()Z
+	public final fun isAnyLoading ()Z
+	public abstract fun reloading ()Lio/github/solcott/uistate/ContentStateGroup;
+	public abstract fun settled ()Lio/github/solcott/uistate/ContentStateGroup;
+}
+
 public final class io/github/solcott/uistate/ContentStateKt {
 	public static final fun getErrorOrNull (Lio/github/solcott/uistate/ContentState;)Lio/github/solcott/dataresult/DataError;
 	public static final fun getHasLoaded (Lio/github/solcott/uistate/ContentState;)Z
 	public static final fun isLoading (Lio/github/solcott/uistate/ContentState;)Z
 	public static final fun reloading (Lio/github/solcott/uistate/ContentState;)Lio/github/solcott/uistate/ContentState;
 	public static final fun settled (Lio/github/solcott/uistate/ContentState;)Lio/github/solcott/uistate/ContentState;
+}
+
+public final class io/github/solcott/uistate/ContentStates2 : io/github/solcott/uistate/ContentStateGroup {
+	public fun <init> (Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;)V
+	public synthetic fun applyEmission (Lio/github/solcott/dataresult/OutcomeGroup;)Lio/github/solcott/uistate/ContentStateGroup;
+	public fun applyEmission (Lio/github/solcott/dataresult/Outcomes2;)Lio/github/solcott/uistate/ContentStates2;
+	public final fun component1 ()Lio/github/solcott/uistate/ContentState;
+	public final fun component2 ()Lio/github/solcott/uistate/ContentState;
+	public final fun copy (Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;)Lio/github/solcott/uistate/ContentStates2;
+	public static synthetic fun copy$default (Lio/github/solcott/uistate/ContentStates2;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;ILjava/lang/Object;)Lio/github/solcott/uistate/ContentStates2;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFirst ()Lio/github/solcott/uistate/ContentState;
+	public final fun getSecond ()Lio/github/solcott/uistate/ContentState;
+	public fun getStates ()Ljava/util/List;
+	public fun hashCode ()I
+	public synthetic fun reloading ()Lio/github/solcott/uistate/ContentStateGroup;
+	public fun reloading ()Lio/github/solcott/uistate/ContentStates2;
+	public synthetic fun settled ()Lio/github/solcott/uistate/ContentStateGroup;
+	public fun settled ()Lio/github/solcott/uistate/ContentStates2;
+	public final fun toContentState (Lio/github/solcott/uistate/StatusPrecedence;Lkotlin/jvm/functions/Function2;)Lio/github/solcott/uistate/ContentState;
+	public static synthetic fun toContentState$default (Lio/github/solcott/uistate/ContentStates2;Lio/github/solcott/uistate/StatusPrecedence;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lio/github/solcott/uistate/ContentState;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/solcott/uistate/ContentStates3 : io/github/solcott/uistate/ContentStateGroup {
+	public fun <init> (Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;)V
+	public synthetic fun applyEmission (Lio/github/solcott/dataresult/OutcomeGroup;)Lio/github/solcott/uistate/ContentStateGroup;
+	public fun applyEmission (Lio/github/solcott/dataresult/Outcomes3;)Lio/github/solcott/uistate/ContentStates3;
+	public final fun component1 ()Lio/github/solcott/uistate/ContentState;
+	public final fun component2 ()Lio/github/solcott/uistate/ContentState;
+	public final fun component3 ()Lio/github/solcott/uistate/ContentState;
+	public final fun copy (Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;)Lio/github/solcott/uistate/ContentStates3;
+	public static synthetic fun copy$default (Lio/github/solcott/uistate/ContentStates3;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;ILjava/lang/Object;)Lio/github/solcott/uistate/ContentStates3;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFirst ()Lio/github/solcott/uistate/ContentState;
+	public final fun getSecond ()Lio/github/solcott/uistate/ContentState;
+	public fun getStates ()Ljava/util/List;
+	public final fun getThird ()Lio/github/solcott/uistate/ContentState;
+	public fun hashCode ()I
+	public synthetic fun reloading ()Lio/github/solcott/uistate/ContentStateGroup;
+	public fun reloading ()Lio/github/solcott/uistate/ContentStates3;
+	public synthetic fun settled ()Lio/github/solcott/uistate/ContentStateGroup;
+	public fun settled ()Lio/github/solcott/uistate/ContentStates3;
+	public final fun toContentState (Lio/github/solcott/uistate/StatusPrecedence;Lkotlin/jvm/functions/Function3;)Lio/github/solcott/uistate/ContentState;
+	public static synthetic fun toContentState$default (Lio/github/solcott/uistate/ContentStates3;Lio/github/solcott/uistate/StatusPrecedence;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)Lio/github/solcott/uistate/ContentState;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/solcott/uistate/ContentStates4 : io/github/solcott/uistate/ContentStateGroup {
+	public fun <init> (Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;)V
+	public synthetic fun applyEmission (Lio/github/solcott/dataresult/OutcomeGroup;)Lio/github/solcott/uistate/ContentStateGroup;
+	public fun applyEmission (Lio/github/solcott/dataresult/Outcomes4;)Lio/github/solcott/uistate/ContentStates4;
+	public final fun component1 ()Lio/github/solcott/uistate/ContentState;
+	public final fun component2 ()Lio/github/solcott/uistate/ContentState;
+	public final fun component3 ()Lio/github/solcott/uistate/ContentState;
+	public final fun component4 ()Lio/github/solcott/uistate/ContentState;
+	public final fun copy (Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;)Lio/github/solcott/uistate/ContentStates4;
+	public static synthetic fun copy$default (Lio/github/solcott/uistate/ContentStates4;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;ILjava/lang/Object;)Lio/github/solcott/uistate/ContentStates4;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFirst ()Lio/github/solcott/uistate/ContentState;
+	public final fun getFourth ()Lio/github/solcott/uistate/ContentState;
+	public final fun getSecond ()Lio/github/solcott/uistate/ContentState;
+	public fun getStates ()Ljava/util/List;
+	public final fun getThird ()Lio/github/solcott/uistate/ContentState;
+	public fun hashCode ()I
+	public synthetic fun reloading ()Lio/github/solcott/uistate/ContentStateGroup;
+	public fun reloading ()Lio/github/solcott/uistate/ContentStates4;
+	public synthetic fun settled ()Lio/github/solcott/uistate/ContentStateGroup;
+	public fun settled ()Lio/github/solcott/uistate/ContentStates4;
+	public final fun toContentState (Lio/github/solcott/uistate/StatusPrecedence;Lkotlin/jvm/functions/Function4;)Lio/github/solcott/uistate/ContentState;
+	public static synthetic fun toContentState$default (Lio/github/solcott/uistate/ContentStates4;Lio/github/solcott/uistate/StatusPrecedence;Lkotlin/jvm/functions/Function4;ILjava/lang/Object;)Lio/github/solcott/uistate/ContentState;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/solcott/uistate/ContentStates5 : io/github/solcott/uistate/ContentStateGroup {
+	public fun <init> (Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;)V
+	public synthetic fun applyEmission (Lio/github/solcott/dataresult/OutcomeGroup;)Lio/github/solcott/uistate/ContentStateGroup;
+	public fun applyEmission (Lio/github/solcott/dataresult/Outcomes5;)Lio/github/solcott/uistate/ContentStates5;
+	public final fun component1 ()Lio/github/solcott/uistate/ContentState;
+	public final fun component2 ()Lio/github/solcott/uistate/ContentState;
+	public final fun component3 ()Lio/github/solcott/uistate/ContentState;
+	public final fun component4 ()Lio/github/solcott/uistate/ContentState;
+	public final fun component5 ()Lio/github/solcott/uistate/ContentState;
+	public final fun copy (Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;)Lio/github/solcott/uistate/ContentStates5;
+	public static synthetic fun copy$default (Lio/github/solcott/uistate/ContentStates5;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;ILjava/lang/Object;)Lio/github/solcott/uistate/ContentStates5;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFifth ()Lio/github/solcott/uistate/ContentState;
+	public final fun getFirst ()Lio/github/solcott/uistate/ContentState;
+	public final fun getFourth ()Lio/github/solcott/uistate/ContentState;
+	public final fun getSecond ()Lio/github/solcott/uistate/ContentState;
+	public fun getStates ()Ljava/util/List;
+	public final fun getThird ()Lio/github/solcott/uistate/ContentState;
+	public fun hashCode ()I
+	public synthetic fun reloading ()Lio/github/solcott/uistate/ContentStateGroup;
+	public fun reloading ()Lio/github/solcott/uistate/ContentStates5;
+	public synthetic fun settled ()Lio/github/solcott/uistate/ContentStateGroup;
+	public fun settled ()Lio/github/solcott/uistate/ContentStates5;
+	public final fun toContentState (Lio/github/solcott/uistate/StatusPrecedence;Lkotlin/jvm/functions/Function5;)Lio/github/solcott/uistate/ContentState;
+	public static synthetic fun toContentState$default (Lio/github/solcott/uistate/ContentStates5;Lio/github/solcott/uistate/StatusPrecedence;Lkotlin/jvm/functions/Function5;ILjava/lang/Object;)Lio/github/solcott/uistate/ContentState;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/solcott/uistate/ContentStatesKt {
+	public static final fun contentStatesOf (Ljava/lang/Object;Ljava/lang/Object;)Lio/github/solcott/uistate/ContentStates2;
+	public static final fun contentStatesOf (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Lio/github/solcott/uistate/ContentStates3;
+	public static final fun contentStatesOf (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Lio/github/solcott/uistate/ContentStates4;
+	public static final fun contentStatesOf (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Lio/github/solcott/uistate/ContentStates5;
 }
 
 public abstract class io/github/solcott/uistate/LoadStatus {

@@ -17,6 +17,96 @@ final enum class io.github.solcott.dataresult/Origin : kotlin/Enum<io.github.sol
     final fun values(): kotlin/Array<io.github.solcott.dataresult/Origin> // io.github.solcott.dataresult/Origin.values|values#static(){}[0]
 }
 
+final class <#A: out kotlin/Any?, #B: out kotlin/Any?, #C: out kotlin/Any?, #D: out kotlin/Any?, #E: out kotlin/Any?> io.github.solcott.dataresult/Outcomes5 : io.github.solcott.dataresult/OutcomeGroup { // io.github.solcott.dataresult/Outcomes5|null[0]
+    constructor <init>(io.github.solcott.dataresult/Outcome<#A>, io.github.solcott.dataresult/Outcome<#B>, io.github.solcott.dataresult/Outcome<#C>, io.github.solcott.dataresult/Outcome<#D>, io.github.solcott.dataresult/Outcome<#E>) // io.github.solcott.dataresult/Outcomes5.<init>|<init>(io.github.solcott.dataresult.Outcome<1:0>;io.github.solcott.dataresult.Outcome<1:1>;io.github.solcott.dataresult.Outcome<1:2>;io.github.solcott.dataresult.Outcome<1:3>;io.github.solcott.dataresult.Outcome<1:4>){}[0]
+
+    final val fifth // io.github.solcott.dataresult/Outcomes5.fifth|{}fifth[0]
+        final fun <get-fifth>(): io.github.solcott.dataresult/Outcome<#E> // io.github.solcott.dataresult/Outcomes5.fifth.<get-fifth>|<get-fifth>(){}[0]
+    final val first // io.github.solcott.dataresult/Outcomes5.first|{}first[0]
+        final fun <get-first>(): io.github.solcott.dataresult/Outcome<#A> // io.github.solcott.dataresult/Outcomes5.first.<get-first>|<get-first>(){}[0]
+    final val fourth // io.github.solcott.dataresult/Outcomes5.fourth|{}fourth[0]
+        final fun <get-fourth>(): io.github.solcott.dataresult/Outcome<#D> // io.github.solcott.dataresult/Outcomes5.fourth.<get-fourth>|<get-fourth>(){}[0]
+    final val outcomes // io.github.solcott.dataresult/Outcomes5.outcomes|{}outcomes[0]
+        final fun <get-outcomes>(): kotlin.collections/List<io.github.solcott.dataresult/Outcome<*>> // io.github.solcott.dataresult/Outcomes5.outcomes.<get-outcomes>|<get-outcomes>(){}[0]
+    final val second // io.github.solcott.dataresult/Outcomes5.second|{}second[0]
+        final fun <get-second>(): io.github.solcott.dataresult/Outcome<#B> // io.github.solcott.dataresult/Outcomes5.second.<get-second>|<get-second>(){}[0]
+    final val third // io.github.solcott.dataresult/Outcomes5.third|{}third[0]
+        final fun <get-third>(): io.github.solcott.dataresult/Outcome<#C> // io.github.solcott.dataresult/Outcomes5.third.<get-third>|<get-third>(){}[0]
+
+    final fun component1(): io.github.solcott.dataresult/Outcome<#A> // io.github.solcott.dataresult/Outcomes5.component1|component1(){}[0]
+    final fun component2(): io.github.solcott.dataresult/Outcome<#B> // io.github.solcott.dataresult/Outcomes5.component2|component2(){}[0]
+    final fun component3(): io.github.solcott.dataresult/Outcome<#C> // io.github.solcott.dataresult/Outcomes5.component3|component3(){}[0]
+    final fun component4(): io.github.solcott.dataresult/Outcome<#D> // io.github.solcott.dataresult/Outcomes5.component4|component4(){}[0]
+    final fun component5(): io.github.solcott.dataresult/Outcome<#E> // io.github.solcott.dataresult/Outcomes5.component5|component5(){}[0]
+    final fun copy(io.github.solcott.dataresult/Outcome<#A> = ..., io.github.solcott.dataresult/Outcome<#B> = ..., io.github.solcott.dataresult/Outcome<#C> = ..., io.github.solcott.dataresult/Outcome<#D> = ..., io.github.solcott.dataresult/Outcome<#E> = ...): io.github.solcott.dataresult/Outcomes5<#A, #B, #C, #D, #E> // io.github.solcott.dataresult/Outcomes5.copy|copy(io.github.solcott.dataresult.Outcome<1:0>;io.github.solcott.dataresult.Outcome<1:1>;io.github.solcott.dataresult.Outcome<1:2>;io.github.solcott.dataresult.Outcome<1:3>;io.github.solcott.dataresult.Outcome<1:4>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.solcott.dataresult/Outcomes5.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.solcott.dataresult/Outcomes5.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.solcott.dataresult/Outcomes5.toString|toString(){}[0]
+}
+
+final class <#A: out kotlin/Any?, #B: out kotlin/Any?, #C: out kotlin/Any?, #D: out kotlin/Any?> io.github.solcott.dataresult/Outcomes4 : io.github.solcott.dataresult/OutcomeGroup { // io.github.solcott.dataresult/Outcomes4|null[0]
+    constructor <init>(io.github.solcott.dataresult/Outcome<#A>, io.github.solcott.dataresult/Outcome<#B>, io.github.solcott.dataresult/Outcome<#C>, io.github.solcott.dataresult/Outcome<#D>) // io.github.solcott.dataresult/Outcomes4.<init>|<init>(io.github.solcott.dataresult.Outcome<1:0>;io.github.solcott.dataresult.Outcome<1:1>;io.github.solcott.dataresult.Outcome<1:2>;io.github.solcott.dataresult.Outcome<1:3>){}[0]
+
+    final val first // io.github.solcott.dataresult/Outcomes4.first|{}first[0]
+        final fun <get-first>(): io.github.solcott.dataresult/Outcome<#A> // io.github.solcott.dataresult/Outcomes4.first.<get-first>|<get-first>(){}[0]
+    final val fourth // io.github.solcott.dataresult/Outcomes4.fourth|{}fourth[0]
+        final fun <get-fourth>(): io.github.solcott.dataresult/Outcome<#D> // io.github.solcott.dataresult/Outcomes4.fourth.<get-fourth>|<get-fourth>(){}[0]
+    final val outcomes // io.github.solcott.dataresult/Outcomes4.outcomes|{}outcomes[0]
+        final fun <get-outcomes>(): kotlin.collections/List<io.github.solcott.dataresult/Outcome<*>> // io.github.solcott.dataresult/Outcomes4.outcomes.<get-outcomes>|<get-outcomes>(){}[0]
+    final val second // io.github.solcott.dataresult/Outcomes4.second|{}second[0]
+        final fun <get-second>(): io.github.solcott.dataresult/Outcome<#B> // io.github.solcott.dataresult/Outcomes4.second.<get-second>|<get-second>(){}[0]
+    final val third // io.github.solcott.dataresult/Outcomes4.third|{}third[0]
+        final fun <get-third>(): io.github.solcott.dataresult/Outcome<#C> // io.github.solcott.dataresult/Outcomes4.third.<get-third>|<get-third>(){}[0]
+
+    final fun component1(): io.github.solcott.dataresult/Outcome<#A> // io.github.solcott.dataresult/Outcomes4.component1|component1(){}[0]
+    final fun component2(): io.github.solcott.dataresult/Outcome<#B> // io.github.solcott.dataresult/Outcomes4.component2|component2(){}[0]
+    final fun component3(): io.github.solcott.dataresult/Outcome<#C> // io.github.solcott.dataresult/Outcomes4.component3|component3(){}[0]
+    final fun component4(): io.github.solcott.dataresult/Outcome<#D> // io.github.solcott.dataresult/Outcomes4.component4|component4(){}[0]
+    final fun copy(io.github.solcott.dataresult/Outcome<#A> = ..., io.github.solcott.dataresult/Outcome<#B> = ..., io.github.solcott.dataresult/Outcome<#C> = ..., io.github.solcott.dataresult/Outcome<#D> = ...): io.github.solcott.dataresult/Outcomes4<#A, #B, #C, #D> // io.github.solcott.dataresult/Outcomes4.copy|copy(io.github.solcott.dataresult.Outcome<1:0>;io.github.solcott.dataresult.Outcome<1:1>;io.github.solcott.dataresult.Outcome<1:2>;io.github.solcott.dataresult.Outcome<1:3>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.solcott.dataresult/Outcomes4.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.solcott.dataresult/Outcomes4.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.solcott.dataresult/Outcomes4.toString|toString(){}[0]
+}
+
+final class <#A: out kotlin/Any?, #B: out kotlin/Any?, #C: out kotlin/Any?> io.github.solcott.dataresult/Outcomes3 : io.github.solcott.dataresult/OutcomeGroup { // io.github.solcott.dataresult/Outcomes3|null[0]
+    constructor <init>(io.github.solcott.dataresult/Outcome<#A>, io.github.solcott.dataresult/Outcome<#B>, io.github.solcott.dataresult/Outcome<#C>) // io.github.solcott.dataresult/Outcomes3.<init>|<init>(io.github.solcott.dataresult.Outcome<1:0>;io.github.solcott.dataresult.Outcome<1:1>;io.github.solcott.dataresult.Outcome<1:2>){}[0]
+
+    final val first // io.github.solcott.dataresult/Outcomes3.first|{}first[0]
+        final fun <get-first>(): io.github.solcott.dataresult/Outcome<#A> // io.github.solcott.dataresult/Outcomes3.first.<get-first>|<get-first>(){}[0]
+    final val outcomes // io.github.solcott.dataresult/Outcomes3.outcomes|{}outcomes[0]
+        final fun <get-outcomes>(): kotlin.collections/List<io.github.solcott.dataresult/Outcome<*>> // io.github.solcott.dataresult/Outcomes3.outcomes.<get-outcomes>|<get-outcomes>(){}[0]
+    final val second // io.github.solcott.dataresult/Outcomes3.second|{}second[0]
+        final fun <get-second>(): io.github.solcott.dataresult/Outcome<#B> // io.github.solcott.dataresult/Outcomes3.second.<get-second>|<get-second>(){}[0]
+    final val third // io.github.solcott.dataresult/Outcomes3.third|{}third[0]
+        final fun <get-third>(): io.github.solcott.dataresult/Outcome<#C> // io.github.solcott.dataresult/Outcomes3.third.<get-third>|<get-third>(){}[0]
+
+    final fun component1(): io.github.solcott.dataresult/Outcome<#A> // io.github.solcott.dataresult/Outcomes3.component1|component1(){}[0]
+    final fun component2(): io.github.solcott.dataresult/Outcome<#B> // io.github.solcott.dataresult/Outcomes3.component2|component2(){}[0]
+    final fun component3(): io.github.solcott.dataresult/Outcome<#C> // io.github.solcott.dataresult/Outcomes3.component3|component3(){}[0]
+    final fun copy(io.github.solcott.dataresult/Outcome<#A> = ..., io.github.solcott.dataresult/Outcome<#B> = ..., io.github.solcott.dataresult/Outcome<#C> = ...): io.github.solcott.dataresult/Outcomes3<#A, #B, #C> // io.github.solcott.dataresult/Outcomes3.copy|copy(io.github.solcott.dataresult.Outcome<1:0>;io.github.solcott.dataresult.Outcome<1:1>;io.github.solcott.dataresult.Outcome<1:2>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.solcott.dataresult/Outcomes3.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.solcott.dataresult/Outcomes3.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.solcott.dataresult/Outcomes3.toString|toString(){}[0]
+}
+
+final class <#A: out kotlin/Any?, #B: out kotlin/Any?> io.github.solcott.dataresult/Outcomes2 : io.github.solcott.dataresult/OutcomeGroup { // io.github.solcott.dataresult/Outcomes2|null[0]
+    constructor <init>(io.github.solcott.dataresult/Outcome<#A>, io.github.solcott.dataresult/Outcome<#B>) // io.github.solcott.dataresult/Outcomes2.<init>|<init>(io.github.solcott.dataresult.Outcome<1:0>;io.github.solcott.dataresult.Outcome<1:1>){}[0]
+
+    final val first // io.github.solcott.dataresult/Outcomes2.first|{}first[0]
+        final fun <get-first>(): io.github.solcott.dataresult/Outcome<#A> // io.github.solcott.dataresult/Outcomes2.first.<get-first>|<get-first>(){}[0]
+    final val outcomes // io.github.solcott.dataresult/Outcomes2.outcomes|{}outcomes[0]
+        final fun <get-outcomes>(): kotlin.collections/List<io.github.solcott.dataresult/Outcome<*>> // io.github.solcott.dataresult/Outcomes2.outcomes.<get-outcomes>|<get-outcomes>(){}[0]
+    final val second // io.github.solcott.dataresult/Outcomes2.second|{}second[0]
+        final fun <get-second>(): io.github.solcott.dataresult/Outcome<#B> // io.github.solcott.dataresult/Outcomes2.second.<get-second>|<get-second>(){}[0]
+
+    final fun component1(): io.github.solcott.dataresult/Outcome<#A> // io.github.solcott.dataresult/Outcomes2.component1|component1(){}[0]
+    final fun component2(): io.github.solcott.dataresult/Outcome<#B> // io.github.solcott.dataresult/Outcomes2.component2|component2(){}[0]
+    final fun copy(io.github.solcott.dataresult/Outcome<#A> = ..., io.github.solcott.dataresult/Outcome<#B> = ...): io.github.solcott.dataresult/Outcomes2<#A, #B> // io.github.solcott.dataresult/Outcomes2.copy|copy(io.github.solcott.dataresult.Outcome<1:0>;io.github.solcott.dataresult.Outcome<1:1>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.solcott.dataresult/Outcomes2.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.solcott.dataresult/Outcomes2.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.solcott.dataresult/Outcomes2.toString|toString(){}[0]
+}
+
 sealed class <#A: out kotlin/Any?> io.github.solcott.dataresult/Outcome { // io.github.solcott.dataresult/Outcome|null[0]
     final class <#A1: out kotlin/Any?> Data : io.github.solcott.dataresult/Outcome<#A1> { // io.github.solcott.dataresult/Outcome.Data|null[0]
         constructor <init>(#A1, io.github.solcott.dataresult/Origin) // io.github.solcott.dataresult/Outcome.Data.<init>|<init>(1:0;io.github.solcott.dataresult.Origin){}[0]
@@ -116,10 +206,33 @@ sealed class io.github.solcott.dataresult/DataError { // io.github.solcott.datar
     }
 }
 
+sealed class io.github.solcott.dataresult/OutcomeGroup { // io.github.solcott.dataresult/OutcomeGroup|null[0]
+    abstract val outcomes // io.github.solcott.dataresult/OutcomeGroup.outcomes|{}outcomes[0]
+        abstract fun <get-outcomes>(): kotlin.collections/List<io.github.solcott.dataresult/Outcome<*>> // io.github.solcott.dataresult/OutcomeGroup.outcomes.<get-outcomes>|<get-outcomes>(){}[0]
+    final val errorOrNull // io.github.solcott.dataresult/OutcomeGroup.errorOrNull|{}errorOrNull[0]
+        final fun <get-errorOrNull>(): io.github.solcott.dataresult/DataError? // io.github.solcott.dataresult/OutcomeGroup.errorOrNull.<get-errorOrNull>|<get-errorOrNull>(){}[0]
+    final val errors // io.github.solcott.dataresult/OutcomeGroup.errors|{}errors[0]
+        final fun <get-errors>(): kotlin.collections/List<io.github.solcott.dataresult/DataError> // io.github.solcott.dataresult/OutcomeGroup.errors.<get-errors>|<get-errors>(){}[0]
+    final val hasAllData // io.github.solcott.dataresult/OutcomeGroup.hasAllData|{}hasAllData[0]
+        final fun <get-hasAllData>(): kotlin/Boolean // io.github.solcott.dataresult/OutcomeGroup.hasAllData.<get-hasAllData>|<get-hasAllData>(){}[0]
+    final val hasAllErrors // io.github.solcott.dataresult/OutcomeGroup.hasAllErrors|{}hasAllErrors[0]
+        final fun <get-hasAllErrors>(): kotlin/Boolean // io.github.solcott.dataresult/OutcomeGroup.hasAllErrors.<get-hasAllErrors>|<get-hasAllErrors>(){}[0]
+    final val hasAnyError // io.github.solcott.dataresult/OutcomeGroup.hasAnyError|{}hasAnyError[0]
+        final fun <get-hasAnyError>(): kotlin/Boolean // io.github.solcott.dataresult/OutcomeGroup.hasAnyError.<get-hasAnyError>|<get-hasAnyError>(){}[0]
+    final val isAllLoading // io.github.solcott.dataresult/OutcomeGroup.isAllLoading|{}isAllLoading[0]
+        final fun <get-isAllLoading>(): kotlin/Boolean // io.github.solcott.dataresult/OutcomeGroup.isAllLoading.<get-isAllLoading>|<get-isAllLoading>(){}[0]
+    final val isAnyLoading // io.github.solcott.dataresult/OutcomeGroup.isAnyLoading|{}isAnyLoading[0]
+        final fun <get-isAnyLoading>(): kotlin/Boolean // io.github.solcott.dataresult/OutcomeGroup.isAnyLoading.<get-isAnyLoading>|<get-isAnyLoading>(){}[0]
+}
+
 final val io.github.solcott.dataresult/errorOrNull // io.github.solcott.dataresult/errorOrNull|@io.github.solcott.dataresult.Outcome<*>{}errorOrNull[0]
     final fun (io.github.solcott.dataresult/Outcome<*>).<get-errorOrNull>(): io.github.solcott.dataresult/DataError? // io.github.solcott.dataresult/errorOrNull.<get-errorOrNull>|<get-errorOrNull>@io.github.solcott.dataresult.Outcome<*>(){}[0]
 final val io.github.solcott.dataresult/isLoading // io.github.solcott.dataresult/isLoading|@io.github.solcott.dataresult.Outcome<*>{}isLoading[0]
     final fun (io.github.solcott.dataresult/Outcome<*>).<get-isLoading>(): kotlin/Boolean // io.github.solcott.dataresult/isLoading.<get-isLoading>|<get-isLoading>@io.github.solcott.dataresult.Outcome<*>(){}[0]
 
+final fun <#A: kotlin/Any?, #B: kotlin/Any?, #C: kotlin/Any?, #D: kotlin/Any?, #E: kotlin/Any?> io.github.solcott.dataresult/combineOutcomes(kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcome<#A>>, kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcome<#B>>, kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcome<#C>>, kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcome<#D>>, kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcome<#E>>): kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcomes5<#A, #B, #C, #D, #E>> // io.github.solcott.dataresult/combineOutcomes|combineOutcomes(kotlinx.coroutines.flow.Flow<io.github.solcott.dataresult.Outcome<0:0>>;kotlinx.coroutines.flow.Flow<io.github.solcott.dataresult.Outcome<0:1>>;kotlinx.coroutines.flow.Flow<io.github.solcott.dataresult.Outcome<0:2>>;kotlinx.coroutines.flow.Flow<io.github.solcott.dataresult.Outcome<0:3>>;kotlinx.coroutines.flow.Flow<io.github.solcott.dataresult.Outcome<0:4>>){0§<kotlin.Any?>;1§<kotlin.Any?>;2§<kotlin.Any?>;3§<kotlin.Any?>;4§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?, #B: kotlin/Any?, #C: kotlin/Any?, #D: kotlin/Any?> io.github.solcott.dataresult/combineOutcomes(kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcome<#A>>, kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcome<#B>>, kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcome<#C>>, kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcome<#D>>): kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcomes4<#A, #B, #C, #D>> // io.github.solcott.dataresult/combineOutcomes|combineOutcomes(kotlinx.coroutines.flow.Flow<io.github.solcott.dataresult.Outcome<0:0>>;kotlinx.coroutines.flow.Flow<io.github.solcott.dataresult.Outcome<0:1>>;kotlinx.coroutines.flow.Flow<io.github.solcott.dataresult.Outcome<0:2>>;kotlinx.coroutines.flow.Flow<io.github.solcott.dataresult.Outcome<0:3>>){0§<kotlin.Any?>;1§<kotlin.Any?>;2§<kotlin.Any?>;3§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?, #B: kotlin/Any?, #C: kotlin/Any?> io.github.solcott.dataresult/combineOutcomes(kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcome<#A>>, kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcome<#B>>, kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcome<#C>>): kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcomes3<#A, #B, #C>> // io.github.solcott.dataresult/combineOutcomes|combineOutcomes(kotlinx.coroutines.flow.Flow<io.github.solcott.dataresult.Outcome<0:0>>;kotlinx.coroutines.flow.Flow<io.github.solcott.dataresult.Outcome<0:1>>;kotlinx.coroutines.flow.Flow<io.github.solcott.dataresult.Outcome<0:2>>){0§<kotlin.Any?>;1§<kotlin.Any?>;2§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?, #B: kotlin/Any?> io.github.solcott.dataresult/combineOutcomes(kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcome<#A>>, kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcome<#B>>): kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcomes2<#A, #B>> // io.github.solcott.dataresult/combineOutcomes|combineOutcomes(kotlinx.coroutines.flow.Flow<io.github.solcott.dataresult.Outcome<0:0>>;kotlinx.coroutines.flow.Flow<io.github.solcott.dataresult.Outcome<0:1>>){0§<kotlin.Any?>;1§<kotlin.Any?>}[0]
 final fun <#A: kotlin/Any?> (io.github.solcott.dataresult/Outcome<#A>).io.github.solcott.dataresult/dataOrNull(): #A? // io.github.solcott.dataresult/dataOrNull|dataOrNull@io.github.solcott.dataresult.Outcome<0:0>(){0§<kotlin.Any?>}[0]
 final inline fun <#A: kotlin/Any?, #B: kotlin/Any?> (io.github.solcott.dataresult/Outcome<#A>).io.github.solcott.dataresult/mapData(kotlin/Function1<#A, #B>): io.github.solcott.dataresult/Outcome<#B> // io.github.solcott.dataresult/mapData|mapData@io.github.solcott.dataresult.Outcome<0:0>(kotlin.Function1<0:0,0:1>){0§<kotlin.Any?>;1§<kotlin.Any?>}[0]

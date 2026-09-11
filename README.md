@@ -16,8 +16,8 @@ Two ideas, and adapters that connect them to real data sources:
 
 | Artifact | Contents | Depends on |
 | --- | --- | --- |
-| `io.github.solcott:dataresult` | `Outcome`, `DataError`, `Origin` | nothing |
-| `io.github.solcott:uistate` | `ContentState`, `LoadStatus`, `applyEmission` | `dataresult` |
+| `io.github.solcott:dataresult` | `Outcome`, `DataError`, `Origin`, `combineOutcomes` | `kotlinx-coroutines-core` |
+| `io.github.solcott:uistate` | `ContentState`, `LoadStatus`, `applyEmission`, `ContentStates2`–`5` | `dataresult` |
 | `io.github.solcott:dataresult-apollo` | Apollo GraphQL → `Outcome` | `dataresult`, `apollo-api` |
 | `io.github.solcott:dataresult-store5` | Store5 → `Outcome` | `dataresult`, `store5` |
 | `io.github.solcott:uistate-compose` | Collects `Outcome`s into `ContentState`, on androidx `retain` | `uistate`, Compose runtime |
@@ -129,6 +129,46 @@ source has failed while another is still loading: `FailedFirst`, the default, su
 once; `LoadingFirst` holds it until everything has settled. The same rule is available on its own as
 `sources.combinedStatus(precedence)`, and `combine` is exactly that plus a transform.
 
+### Combining sources
+
+When one call has to answer from several sources at once — recent searches from disk, suggestions
+from the network — combine the flows in the data layer. `combineOutcomes` takes two to five
+`Flow<Outcome<…>>`s and emits an `Outcomes2`…`Outcomes5` whenever any of them does:
+
+```kotlin
+// Data layer: one method, three sources, each keeping its own type.
+fun suggestions(query: String): Flow<Outcomes3<List<Recent>, List<Category>, List<Ingredient>>> =
+  combineOutcomes(recents(query), categories(query), ingredients(query))
+```
+
+Every source is started with `Loading`, so the group emits at once and the fastest source is not
+held back by the slowest. Each outcome stays reachable on its own — `outcomes.first`, or
+`val (recents, categories, ingredients) = outcomes` — and the group answers for all of them:
+`isAnyLoading`, `isAllLoading`, `hasAnyError`, `hasAllErrors`, `errors`, `errorOrNull`,
+`hasAllData`. A source that throws cancels the group, so map failures to `Outcome.Error` at each
+source.
+
+On the presentation side, fold the group into one `ContentState` per source, so each keeps its own
+last value — recents show while categories are still loading, and one failed source does not blank
+the rest:
+
+```kotlin
+val states =
+  query.produceContentStates(
+    contentStatesOf(emptyList<Recent>(), emptyList<Category>(), emptyList<Ingredient>())
+  ) { q ->
+    repository.suggestions(q)
+  }
+val (recents, categories, ingredients) = states // a ContentState<List<…>> each
+if (states.isAnyLoading) ProgressBar()
+```
+
+`produceRetainedContentStates` is the Circuit version, and `collectFrom` / `collectLatestFrom`
+accept a group too. The group of states has the same aggregates, plus `hasLoaded` and
+`combinedStatus(precedence)`. When the screen should show nothing until every source is ready,
+`states.toContentState { a, b, c -> … }` collapses the group into one `ContentState` with
+`combine`'s rules.
+
 ### Apollo
 
 ```kotlin
@@ -207,6 +247,20 @@ least one consumer. Swift export rejects generic subtypes conforming to an erase
 and emits nested member typealiases without an access modifier (so they default to `internal`).
 `sealed class` avoids both. Keep Compose types out of `dataresult` and `uistate` for the same
 reason — a Compose type anywhere in the reachable API breaks the iOS build with no warning.
+
+**Why the combined types are positional.** `Outcomes2`…`Outcomes5` and
+`ContentStates2`…`ContentStates5` number their slots rather than letting each consumer name them.
+The library has to know every slot's type to fold a group into per-source `ContentState`s, and a
+group with consumer-defined fields could only be folded by code written for it, on every screen.
+Destructuring gives the slots names where they are used. Both hierarchies are sealed for the same
+reason: the producers rely on each subclass returning its own type from `applyEmission`, and a
+subclass from outside the library could not promise that.
+
+**Why `combineOutcomes` seeds every source with `Loading`.** `kotlinx.coroutines.flow.combine` emits
+nothing until every source has emitted once. A source that never reports its own lifecycle — an
+Apollo flow, a local store mapped straight to data — would hold the whole group back behind
+whichever source is slowest. The cost is a possibly doubled `Loading` from sources that already emit
+one, and folding the same emission twice changes nothing.
 
 **Why the adapters take a callback instead of a logger.** `mapToOutcome`'s `onException` parameter
 keeps this library independent of any logging framework, and lets a caller inject its own tagged

@@ -1,5 +1,7 @@
 public final class io/github/solcott/uistate/circuit/ProduceContentStateKt {
 	public static final fun produceRetainedContentState (Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)Lio/github/solcott/uistate/ContentState;
 	public static final fun produceRetainedContentState (Lkotlinx/coroutines/flow/Flow;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;I)Lio/github/solcott/uistate/ContentState;
+	public static final fun produceRetainedContentStates (Lio/github/solcott/uistate/ContentStateGroup;[Ljava/lang/Object;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)Lio/github/solcott/uistate/ContentStateGroup;
+	public static final fun produceRetainedContentStates (Lkotlinx/coroutines/flow/Flow;Lio/github/solcott/uistate/ContentStateGroup;[Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;I)Lio/github/solcott/uistate/ContentStateGroup;
 }
 
