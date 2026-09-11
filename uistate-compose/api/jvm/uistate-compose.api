@@ -1,10 +1,14 @@
 public final class io/github/solcott/uistate/compose/CollectContentStateKt {
 	public static final fun collectFrom (Landroidx/compose/runtime/MutableState;Lkotlinx/coroutines/flow/Flow;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun collectGroupFrom (Landroidx/compose/runtime/MutableState;Lkotlinx/coroutines/flow/Flow;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun collectGroupLatestFrom (Landroidx/compose/runtime/MutableState;Lkotlinx/coroutines/flow/Flow;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static final fun collectLatestFrom (Landroidx/compose/runtime/MutableState;Lkotlinx/coroutines/flow/Flow;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class io/github/solcott/uistate/compose/ProduceContentStateKt {
 	public static final fun produceContentState (Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)Lio/github/solcott/uistate/ContentState;
 	public static final fun produceContentState (Lkotlinx/coroutines/flow/Flow;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;I)Lio/github/solcott/uistate/ContentState;
+	public static final fun produceContentStates (Lio/github/solcott/uistate/ContentStateGroup;[Ljava/lang/Object;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)Lio/github/solcott/uistate/ContentStateGroup;
+	public static final fun produceContentStates (Lkotlinx/coroutines/flow/Flow;Lio/github/solcott/uistate/ContentStateGroup;[Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;I)Lio/github/solcott/uistate/ContentStateGroup;
 }
 

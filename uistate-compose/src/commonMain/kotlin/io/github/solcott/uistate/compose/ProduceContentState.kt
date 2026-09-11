@@ -7,7 +7,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.retain.retain
 import io.github.solcott.dataresult.Outcome
+import io.github.solcott.dataresult.OutcomeGroup
 import io.github.solcott.uistate.ContentState
+import io.github.solcott.uistate.ContentStateGroup
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -107,6 +109,53 @@ fun <P, T> Flow<P>.produceContentState(
   // Unkeyed for the same reason as the receiverless overload: `retain`'s keys would discard what
   // it holds.
   val holder = retain { mutableStateOf(ContentState(initial)) }
+  LaunchedEffect(*keys) { holder.collectLatestFrom(params) { currentStream(it) } }
+  return holder.value
+}
+
+/**
+ * [produceContentState] for several sources collected as one group — a flow of [OutcomeGroup]s,
+ * usually from `combineOutcomes` — held as one [ContentState] per source.
+ *
+ * Each source keeps its own last value and its own status, so one that is still loading or has
+ * failed never blanks another. [initial] is the group to show before anything has loaded; build it
+ * with `contentStatesOf`. Retention and [keys] behave exactly as in [produceContentState].
+ *
+ * Plural rather than another overload of [produceContentState]: a group is a perfectly good `T`
+ * there, and overloads that differ only in what their lambda returns are told apart by whichever
+ * the compiler finds more specific, not by what the caller meant.
+ */
+@Composable
+fun <S : ContentStateGroup<O>, O : OutcomeGroup> produceContentStates(
+  initial: S,
+  vararg keys: Any?,
+  stream: () -> Flow<O>,
+): S {
+  val currentStream by rememberUpdatedState(stream)
+  // Unkeyed for the same reason as produceContentState: `retain`'s keys would discard what it
+  // holds.
+  val holder = retain { mutableStateOf(initial) }
+  LaunchedEffect(*keys) { holder.collectFrom(currentStream()) }
+  return holder.value
+}
+
+/**
+ * [produceContentStates] for a group whose **parameters change while it is being collected**. Each
+ * distinct value of this flow cancels the in-flight requests, marks every source reloading so its
+ * current content stays on screen, and collects [stream] of the new value. Everything in
+ * `Flow<P>.produceContentState`'s documentation applies here too.
+ *
+ * @receiver the parameters driving the sources; the lambda returns the group to collect for each.
+ */
+@Composable
+fun <P, S : ContentStateGroup<O>, O : OutcomeGroup> Flow<P>.produceContentStates(
+  initial: S,
+  vararg keys: Any?,
+  stream: (P) -> Flow<O>,
+): S {
+  val params = this
+  val currentStream by rememberUpdatedState(stream)
+  val holder = retain { mutableStateOf(initial) }
   LaunchedEffect(*keys) { holder.collectLatestFrom(params) { currentStream(it) } }
   return holder.value
 }

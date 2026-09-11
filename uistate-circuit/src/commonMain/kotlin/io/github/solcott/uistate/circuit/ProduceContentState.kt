@@ -5,7 +5,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import com.slack.circuit.retained.produceRetainedState
 import io.github.solcott.dataresult.Outcome
+import io.github.solcott.dataresult.OutcomeGroup
 import io.github.solcott.uistate.ContentState
+import io.github.solcott.uistate.ContentStateGroup
 import io.github.solcott.uistate.compose.collectFrom
 import io.github.solcott.uistate.compose.collectLatestFrom
 import kotlinx.coroutines.flow.Flow
@@ -72,5 +74,46 @@ fun <P, T> Flow<P>.produceRetainedContentState(
     produceRetainedState(ContentState(initial), *keys) {
       collectLatestFrom(params) { currentStream(it) }
     }
+  return state
+}
+
+/**
+ * `uistate-compose`'s `produceContentStates` for a Circuit presenter: a flow of [OutcomeGroup]s,
+ * usually from `combineOutcomes`, held as one [ContentState] per source and retained in Circuit's
+ * registry. Build [initial] with `contentStatesOf`.
+ *
+ * See [produceRetainedContentState] for retention, [keys] and the paused-record hazard, all of
+ * which apply here.
+ */
+@Composable
+fun <S : ContentStateGroup<O>, O : OutcomeGroup> produceRetainedContentStates(
+  initial: S,
+  vararg keys: Any?,
+  stream: () -> Flow<O>,
+): S {
+  val currentStream by rememberUpdatedState(stream)
+  val state by produceRetainedState(initial, *keys) { collectFrom(currentStream()) }
+  return state
+}
+
+/**
+ * [produceRetainedContentStates] for a group whose **parameters change while it is being
+ * collected** — a search term, a filter. Each distinct value of this flow cancels the in-flight
+ * requests, marks every source reloading so its current content stays on screen, and collects
+ * [stream] of the new value.
+ *
+ * @receiver the parameters driving the sources; the lambda returns the group to collect for each.
+ */
+@Composable
+fun <P, S : ContentStateGroup<O>, O : OutcomeGroup> Flow<P>.produceRetainedContentStates(
+  initial: S,
+  vararg keys: Any?,
+  stream: (P) -> Flow<O>,
+): S {
+  // Captured out here because inside the producer `this` is the ProduceStateScope.
+  val params = this
+  val currentStream by rememberUpdatedState(stream)
+  val state by
+    produceRetainedState(initial, *keys) { collectLatestFrom(params) { currentStream(it) } }
   return state
 }
