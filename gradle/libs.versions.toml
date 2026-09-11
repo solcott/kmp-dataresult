@@ -38,7 +38,7 @@ publish = "0.37.0"
 molecule = "2.2.0"
 # Test-only, for dataresult-apollo, whose tests touch okio types through apollo-api. This is the
 # version apollo-api 5.1.0 already resolves, so declaring it changes nothing on the classpath.
-okio = "3.16.2"
+okio = "3.18.2"
 turbine = "1.2.1"
 
 [libraries]
