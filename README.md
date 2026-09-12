@@ -42,6 +42,15 @@ var state by mutableStateOf(ContentState(emptyList<Article>()))
 repository.articles().collect { state = state.applyEmission(it) }
 ```
 
+A cache miss is not an answer. A database-backed source of truth returns an empty list for a key it
+has never fetched, and Store emits that before the fetch starts — so, forwarded as it is, a first
+visit shows an empty screen while the network is still being asked. Tell the adapter a fetch is
+coming and what empty means, and it holds that first read back until the fetch answers:
+
+```kotlin
+store.stream(request).asOutcomes(fetching = request.refresh) { it.isEmpty() }
+```
+
 In Compose, `uistate-compose` does that collection for you, into state retained wherever the host
 retains values — across configuration changes on Android, by default:
 
@@ -93,7 +102,11 @@ when {
 ```
 
 Check `hasLoaded` rather than testing `data` for emptiness — an empty list is a real answer, and
-treating it as "nothing yet" leaves a spinner over a legitimately empty screen.
+treating it as "nothing yet" leaves a spinner over a legitimately empty screen. The exception is an
+empty value from cache while its request is still in flight or has failed: that is a cache miss, not
+a result. The adapters hold misses back where they can (see above); for a source that can't,
+`state.hasAnswer { it.isEmpty() }` is `hasLoaded` that says no to one. It is only ever false while a
+request is outstanding or has failed, so it can't hang a spinner either.
 
 For an intentional re-fetch (a retry, a filter change, pull-to-refresh) call `state.reloading()` to
 put up the indicator immediately; the next emission settles it.
@@ -241,6 +254,14 @@ own request lifecycle and some don't. Store5 emits `Loading` when it goes back t
 losing that signal means losing the background-refresh indicator. Sources that can't observe their
 own lifecycle — an Apollo flow, say — simply never emit it, and a consumer that starts in a loading
 state is unaffected either way.
+
+**Why a cache miss is not `Data`.** A database-backed source of truth can't return null for a key it
+has never fetched. Its query returns an empty list, which looks exactly like "nothing matched".
+Emitted as `Data`, that list settles the consumer's status and counts as loaded. A first visit then
+shows an empty screen until the network answers, and keeps showing it if the network fails. Only the
+source knows a fetch is coming, so the source holds the miss back: `asOutcomes(fetching, isEmpty)`
+does, as does the Apollo adapter's cache-miss drop. `hasAnswer` exists for sources that can't know.
+It reads `status` as well as `origin`, so it can never be false once a state has settled.
 
 **Why `sealed class` and not `sealed interface`.** These types are exported to Swift wholesale by at
 least one consumer. Swift export rejects generic subtypes conforming to an erased parent protocol,

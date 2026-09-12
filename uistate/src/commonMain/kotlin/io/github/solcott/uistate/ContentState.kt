@@ -14,7 +14,9 @@ import io.github.solcott.dataresult.Origin
  * [origin] is null until the first value arrives, which is what distinguishes "nothing has loaded
  * yet" from "a value loaded and happens to be empty". Prefer [hasLoaded] over inspecting [data] for
  * emptiness when choosing between a first-load placeholder and real content — an empty list is a
- * legitimate result, not a reason to keep showing a spinner.
+ * legitimate result, not a reason to keep showing a spinner. The one exception is an empty value
+ * read from cache while its request is still in flight or has failed: that is a cache miss, not a
+ * result, and [hasAnswer] tells the two apart.
  *
  * The model is agnostic to whether the source completes. A one-shot query, a cache watcher that
  * re-emits after local writes, and a subscription/SSE stream are all handled the same way: fold
@@ -56,6 +58,28 @@ val ContentState<*>.isLoading: Boolean
  */
 val ContentState<*>.hasLoaded: Boolean
   get() = origin != null
+
+/**
+ * True once the held value is an *answer*: like [hasLoaded], except that an empty value from
+ * [Origin.Cache] does not count while [ContentState.status] is [LoadStatus.Loading] or
+ * [LoadStatus.Failed].
+ *
+ * An empty cache read on a first visit is a miss, not a result — it is what a database returns for
+ * a key it has never fetched, and the request it prompted has not answered yet. Counting it as
+ * loaded shows an empty screen while the network is still being asked, and keeps showing it instead
+ * of the failure if the network then fails. Sources should not emit a miss at all (see `Outcome`;
+ * the Store5 adapter's `asOutcomes(fetching, isEmpty)` holds one back), so this is the backstop for
+ * a source that cannot know a fetch is coming, such as a hand-written flow.
+ *
+ * A settled state is always an answer, whatever its origin: nothing else is coming, so an empty
+ * cache is the result. That is what keeps this from hanging a spinner — it can only be false while
+ * a request is in flight or has failed.
+ *
+ * [isEmpty] says what empty means for [T], which the library cannot know: `List<T>::isEmpty` for a
+ * list, `{ it == null }` for an optional single value.
+ */
+fun <T> ContentState<T>.hasAnswer(isEmpty: (T) -> Boolean): Boolean =
+  hasLoaded && !(origin == Origin.Cache && status !is LoadStatus.Idle && isEmpty(data))
 
 /** The failure of the most recent request, or null if it did not fail. */
 val ContentState<*>.errorOrNull: DataError?

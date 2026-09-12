@@ -103,6 +103,69 @@ class ContentStateTest {
     assertFalse(state.isLoading)
   }
 
+  // --- hasAnswer ------------------------------------------------------------------------------
+
+  @Test
+  fun anEmptyCacheReadWhileLoadingIsNotAnAnswer() {
+    // A first visit: the database has nothing for this key yet, and the network is being asked.
+    val state =
+      initial.applyEmission(Outcome.Data(emptyList(), Origin.Cache)).applyEmission(Outcome.Loading)
+
+    assertTrue(state.hasLoaded)
+    assertFalse(state.hasAnswer(List<String>::isEmpty))
+  }
+
+  @Test
+  fun anEmptyCacheReadWhoseFetchFailedIsNotAnAnswer() {
+    // Offline on a first visit: the screen owes the user the failure, not "nothing found".
+    val state =
+      initial
+        .applyEmission(Outcome.Data(emptyList(), Origin.Cache))
+        .applyEmission(Outcome.Error(DataError.Network, Origin.Network))
+
+    assertFalse(state.hasAnswer(List<String>::isEmpty))
+  }
+
+  @Test
+  fun aSettledEmptyCacheReadIsAnAnswer() {
+    // Nothing else is coming, so the cache is the result. This is what keeps hasAnswer from ever
+    // hanging a spinner.
+    val state = initial.applyEmission(Outcome.Data(emptyList(), Origin.Cache))
+
+    assertTrue(state.hasAnswer(List<String>::isEmpty))
+  }
+
+  @Test
+  fun anEmptyNetworkResultIsAnAnswerEvenWhileRefreshing() {
+    val state = initial.applyEmission(Outcome.Data(emptyList(), Origin.Network)).reloading()
+
+    assertTrue(state.hasAnswer(List<String>::isEmpty))
+  }
+
+  @Test
+  fun aNonEmptyCacheReadWhileLoadingIsAnAnswer() {
+    // Stale-while-revalidate is unchanged: cached content stays up under a refresh indicator.
+    val state =
+      initial.applyEmission(Outcome.Data(listOf("a"), Origin.Cache)).applyEmission(Outcome.Loading)
+
+    assertTrue(state.hasAnswer(List<String>::isEmpty))
+  }
+
+  @Test
+  fun nothingLoadedIsNotAnAnswer() {
+    assertFalse(initial.hasAnswer(List<String>::isEmpty))
+  }
+
+  @Test
+  fun emptinessIsWhatTheCallerSaysItIs() {
+    val state =
+      ContentState<String?>(null)
+        .applyEmission(Outcome.Data(null, Origin.Cache))
+        .applyEmission(Outcome.Loading)
+
+    assertFalse(state.hasAnswer { it == null })
+  }
+
   // --- reloading / settled --------------------------------------------------------------------
 
   @Test

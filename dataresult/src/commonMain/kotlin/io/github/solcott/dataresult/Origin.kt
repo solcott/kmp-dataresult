@@ -1,6 +1,6 @@
 package io.github.solcott.dataresult
 
-/** Where a piece of data came from, or where an in-flight load is being served from. */
+/** Where the data or failure in an [Outcome] came from. `Outcome.Loading` carries none. */
 enum class Origin {
   Cache,
   Network,

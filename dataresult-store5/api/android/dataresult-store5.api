@@ -1,5 +1,6 @@
 public final class io/github/solcott/dataresult/store5/StoreOutcomeKt {
-	public static final fun asOutcomes (Lkotlinx/coroutines/flow/Flow;)Lkotlinx/coroutines/flow/Flow;
+	public static final fun asOutcomes (Lkotlinx/coroutines/flow/Flow;ZLkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/flow/Flow;
+	public static synthetic fun asOutcomes$default (Lkotlinx/coroutines/flow/Flow;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlinx/coroutines/flow/Flow;
 	public static final fun getDataError (Lorg/mobilenativefoundation/store/store5/StoreReadResponse$Error;)Lio/github/solcott/dataresult/DataError;
 	public static final fun toOutcomeOrNull (Lorg/mobilenativefoundation/store/store5/StoreReadResponse;)Lio/github/solcott/dataresult/Outcome;
 }

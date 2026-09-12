@@ -54,6 +54,11 @@ under `src/commonMain`.
   `status` and keep the last value (stale-while-revalidate). `hasLoaded` is `origin != null`, which is
   deliberate: an empty list is a real answer. `status` settles on every emission, so a source never has to
   complete.
+- **A cache miss is not `Data`.** An empty cached read while a fetch is pending is a miss, and sources
+  hold it back. The Apollo adapter drops `CacheMissException`. `asOutcomes(fetching, isEmpty)` holds an
+  empty *first* read until the fetch settles: `NoNewData` or completion releases it, and a fetcher error
+  discards it. `ContentState.hasAnswer(isEmpty)` is the consumer-side backstop. It is only ever false
+  while `Loading` or `Failed`, so it can't hang a spinner.
 - **The fold lives in `uistate-compose`'s `CollectContentState.kt`** (`collectFrom`,
   `collectLatestFrom`). It is plain `suspend` code with no composition, so its tests run on every target. Both
   `produceContentState` (androidx `retain` + a keyed `LaunchedEffect`) and `uistate-circuit`'s
