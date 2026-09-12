@@ -20,6 +20,13 @@ package io.github.solcott.dataresult
  * [Data] and [Error] each record the [Origin] they came from, letting callers distinguish cached
  * data from fresh network data. [Loading] does not: which source will serve an in-flight request is
  * a fetch-policy detail consumers must not depend on.
+ *
+ * [Data] is an *answer* — a value a consumer can render as the result — and a cache miss is not
+ * one. A source that knows a fetch is coming must not emit an empty or absent cached value as
+ * [Data]: a consumer cannot tell it from a real "nothing matched", so it would show an empty screen
+ * while the network is still being asked, and keep showing it if the network then fails. Hold the
+ * miss back until the fetch answers. The adapters do: the Apollo one drops cache misses, and the
+ * Store5 one holds back an empty first read when told a fetch is on its way.
  */
 sealed class Outcome<out T> {
   data object Loading : Outcome<Nothing>()

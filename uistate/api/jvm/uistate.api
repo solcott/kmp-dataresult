@@ -53,6 +53,7 @@ public abstract class io/github/solcott/uistate/ContentStateGroup {
 public final class io/github/solcott/uistate/ContentStateKt {
 	public static final fun getErrorOrNull (Lio/github/solcott/uistate/ContentState;)Lio/github/solcott/dataresult/DataError;
 	public static final fun getHasLoaded (Lio/github/solcott/uistate/ContentState;)Z
+	public static final fun hasAnswer (Lio/github/solcott/uistate/ContentState;Lkotlin/jvm/functions/Function1;)Z
 	public static final fun isLoading (Lio/github/solcott/uistate/ContentState;)Z
 	public static final fun reloading (Lio/github/solcott/uistate/ContentState;)Lio/github/solcott/uistate/ContentState;
 	public static final fun settled (Lio/github/solcott/uistate/ContentState;)Lio/github/solcott/uistate/ContentState;

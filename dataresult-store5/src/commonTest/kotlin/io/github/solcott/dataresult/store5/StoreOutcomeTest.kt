@@ -7,6 +7,9 @@ import io.github.solcott.dataresult.Outcome
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.mobilenativefoundation.store.store5.StoreReadResponse
@@ -131,5 +134,158 @@ class StoreOutcomeTest {
       assertEquals(Outcome.Data("fresh", Origin.Network), awaitItem())
       awaitComplete()
     }
+  }
+
+  // --- Cache misses ---------------------------------------------------------------------------
+  //
+  // Tests that something is *not* held use a stream that never completes, as a real Store stream
+  // never does: completion releases a held value, which would hide a value held by mistake. Tests
+  // that a held value is *discarded* use one that completes, for the opposite reason.
+
+  private val sourceOfTruth = StoreReadResponseOrigin.SourceOfTruth
+
+  private fun openStream(
+    vararg responses: StoreReadResponse<List<String>>
+  ): Flow<StoreReadResponse<List<String>>> = flow {
+    responses.forEach { emit(it) }
+    awaitCancellation()
+  }
+
+  private fun Flow<StoreReadResponse<List<String>>>.whileFetching() =
+    asOutcomes(fetching = true) { it.isEmpty() }
+
+  @Test
+  fun anEmptyFirstReadIsHeldWhileTheFetchIsInFlight() = runTest {
+    openStream(
+        StoreReadResponse.Data(emptyList(), sourceOfTruth),
+        StoreReadResponse.Loading(fetcher),
+      )
+      .whileFetching()
+      .test {
+        assertEquals(Outcome.Loading, awaitItem())
+        expectNoEvents()
+        cancelAndIgnoreRemainingEvents()
+      }
+  }
+
+  @Test
+  fun fetchedDataReplacesAHeldMiss() = runTest {
+    flowOf<StoreReadResponse<List<String>>>(
+        StoreReadResponse.Data(emptyList(), sourceOfTruth),
+        StoreReadResponse.Loading(fetcher),
+        StoreReadResponse.Data(listOf("fresh"), fetcher),
+      )
+      .whileFetching()
+      .test {
+        assertEquals(Outcome.Loading, awaitItem())
+        assertEquals(Outcome.Data(listOf("fresh"), Origin.Network), awaitItem())
+        awaitComplete()
+      }
+  }
+
+  @Test
+  fun anEmptyFetchIsAnAnswer() = runTest {
+    // Held back only because it came from cache: the same empty list from the network is real.
+    flowOf<StoreReadResponse<List<String>>>(
+        StoreReadResponse.Data(emptyList(), sourceOfTruth),
+        StoreReadResponse.Loading(fetcher),
+        StoreReadResponse.Data(emptyList(), fetcher),
+      )
+      .whileFetching()
+      .test {
+        assertEquals(Outcome.Loading, awaitItem())
+        assertEquals(Outcome.Data(emptyList<String>(), Origin.Network), awaitItem())
+        awaitComplete()
+      }
+  }
+
+  @Test
+  fun aFailedFetchDiscardsAHeldMiss() = runTest {
+    // Offline on a first visit: the consumer gets the failure, never an empty result before it.
+    flowOf<StoreReadResponse<List<String>>>(
+        StoreReadResponse.Data(emptyList(), sourceOfTruth),
+        StoreReadResponse.Loading(fetcher),
+        StoreReadResponse.Error.Message("down", fetcher),
+      )
+      .whileFetching()
+      .test {
+        assertEquals(Outcome.Loading, awaitItem())
+        assertEquals(Outcome.Error(DataError.Api(listOf("down")), Origin.Network), awaitItem())
+        awaitComplete()
+      }
+  }
+
+  @Test
+  fun noNewDataReleasesAHeldMiss() = runTest {
+    openStream(
+        StoreReadResponse.Data(emptyList(), sourceOfTruth),
+        StoreReadResponse.Loading(fetcher),
+        StoreReadResponse.NoNewData(fetcher),
+      )
+      .whileFetching()
+      .test {
+        assertEquals(Outcome.Loading, awaitItem())
+        assertEquals(Outcome.Data(emptyList<String>(), Origin.Cache), awaitItem())
+        cancelAndIgnoreRemainingEvents()
+      }
+  }
+
+  @Test
+  fun completingReleasesAHeldMiss() = runTest {
+    // A source that ends without fetching must still answer, or the consumer's spinner would hang.
+    flowOf(StoreReadResponse.Data(emptyList<String>(), sourceOfTruth)).whileFetching().test {
+      assertEquals(Outcome.Data(emptyList<String>(), Origin.Cache), awaitItem())
+      awaitComplete()
+    }
+  }
+
+  @Test
+  fun aCacheErrorDoesNotSettleTheFetch() = runTest {
+    openStream(
+        StoreReadResponse.Data(emptyList(), sourceOfTruth),
+        StoreReadResponse.Error.Message("read", sourceOfTruth),
+        StoreReadResponse.Data(emptyList(), sourceOfTruth),
+      )
+      .whileFetching()
+      .test {
+        assertEquals(Outcome.Error(DataError.Api(listOf("read")), Origin.Cache), awaitItem())
+        expectNoEvents()
+        cancelAndIgnoreRemainingEvents()
+      }
+  }
+
+  @Test
+  fun aNonEmptyFirstReadIsNotHeld() = runTest {
+    // Stale-while-revalidate: cached content shows at once, under the fetch that follows it.
+    openStream(StoreReadResponse.Data(listOf("stale"), sourceOfTruth)).whileFetching().test {
+      assertEquals(Outcome.Data(listOf("stale"), Origin.Cache), awaitItem())
+      cancelAndIgnoreRemainingEvents()
+    }
+  }
+
+  @Test
+  fun onlyAFirstReadCanBeAMiss() = runTest {
+    // After something has shown, an empty read is a real change -- a local delete, say.
+    openStream(
+        StoreReadResponse.Data(listOf("a"), sourceOfTruth),
+        StoreReadResponse.Data(emptyList(), sourceOfTruth),
+      )
+      .whileFetching()
+      .test {
+        assertEquals(Outcome.Data(listOf("a"), Origin.Cache), awaitItem())
+        assertEquals(Outcome.Data(emptyList<String>(), Origin.Cache), awaitItem())
+        cancelAndIgnoreRemainingEvents()
+      }
+  }
+
+  @Test
+  fun withoutAFetchNothingIsHeld() = runTest {
+    // No fetch is coming to answer instead, so the cache is the answer.
+    openStream(StoreReadResponse.Data(emptyList(), sourceOfTruth))
+      .asOutcomes(isEmpty = { it.isEmpty() })
+      .test {
+        assertEquals(Outcome.Data(emptyList<String>(), Origin.Cache), awaitItem())
+        cancelAndIgnoreRemainingEvents()
+      }
   }
 }

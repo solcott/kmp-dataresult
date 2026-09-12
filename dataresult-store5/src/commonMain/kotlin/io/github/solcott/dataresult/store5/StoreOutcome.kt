@@ -4,7 +4,7 @@ import io.github.solcott.dataresult.DataError
 import io.github.solcott.dataresult.Origin
 import io.github.solcott.dataresult.Outcome
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.flow
 import org.mobilenativefoundation.store.store5.StoreReadResponse
 import org.mobilenativefoundation.store.store5.StoreReadResponseOrigin
 
@@ -14,10 +14,68 @@ import org.mobilenativefoundation.store.store5.StoreReadResponseOrigin
  *
  * `NoNewData` is dropped, so the stream carries only emissions that change what a consumer should
  * render. Everything else maps through [toOutcomeOrNull].
+ *
+ * **Cache misses.** Pass [fetching] — the request's `refresh` — and [isEmpty] to keep a cache miss
+ * from reaching the consumer as an answer. A source of truth backed by a database cannot return
+ * null for a key it has never fetched: its query returns an empty list, and Store emits that as
+ * data before it starts the fetch. Forwarded as it is, that empty list looks exactly like "nothing
+ * matched", so a first visit shows an empty screen while the network is still being asked — and
+ * keeps showing it, rather than the failure, if the network then fails.
+ *
+ * With [fetching] set, an empty *first* cached value is held back until the fetch settles:
+ * - data from the fetcher replaces it;
+ * - an error from the fetcher is emitted and the held value discarded, so the consumer shows the
+ *   failure instead of an empty result it never really had;
+ * - `NoNewData`, or the stream completing, releases it — the cache was the answer after all, and
+ *   nothing is left waiting on a value that is never coming.
+ *
+ * Only a first value can be a miss: once anything has been emitted, an empty cached value is a real
+ * change, such as a local delete, and passes straight through. Without [fetching] nothing is held,
+ * because no fetch is coming to answer instead. Cancellation ends the stream without releasing a
+ * held value, so an abandoned request never reports a miss as its result.
  */
-fun <T> Flow<StoreReadResponse<T>>.asOutcomes(): Flow<Outcome<T>> = mapNotNull {
-  it.toOutcomeOrNull()
+fun <T> Flow<StoreReadResponse<T>>.asOutcomes(
+  fetching: Boolean = false,
+  isEmpty: (T) -> Boolean = { false },
+): Flow<Outcome<T>> = flow {
+  var pending = fetching
+  var emittedData = false
+  var held: Outcome.Data<T>? = null
+  this@asOutcomes.collect { response ->
+    if (pending && response.settlesFetch()) {
+      pending = false
+      if (response is StoreReadResponse.NoNewData) {
+        held?.let {
+          emit(it)
+          emittedData = true
+        }
+      }
+      held = null
+    }
+    val outcome = response.toOutcomeOrNull() ?: return@collect
+    if (outcome is Outcome.Data) {
+      if (pending && !emittedData && outcome.origin == Origin.Cache && isEmpty(outcome.data)) {
+        held = outcome
+        return@collect
+      }
+      held = null
+      emittedData = true
+    }
+    emit(outcome)
+  }
+  // Reached only when the source completes normally: cancellation throws out of `collect` first.
+  held?.let { emit(it) }
 }
+
+/** Whether this response ends a fetch: the fetcher answered, failed, or had nothing new. */
+private fun StoreReadResponse<*>.settlesFetch(): Boolean =
+  when (this) {
+    is StoreReadResponse.Data -> origin is StoreReadResponseOrigin.Fetcher
+    is StoreReadResponse.Error -> origin is StoreReadResponseOrigin.Fetcher
+    is StoreReadResponse.NoNewData -> true
+    is StoreReadResponse.Initial,
+    is StoreReadResponse.Loading -> false
+  }
 
 /**
  * Maps one [StoreReadResponse] to an [Outcome], or null for a response that carries no information
