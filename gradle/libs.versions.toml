@@ -22,7 +22,7 @@ apollo-normalized-cache = "1.0.7"
 store = "5.1.0-beta01"
 # Circuit, for `uistate-circuit`'s produceRetainedState. A floor, not a pin -- Gradle resolves
 # upward, so a consumer ahead of this is fine.
-circuit = "0.38.0"
+circuit = "0.39.0"
 # androidx Compose runtime, for `uistate-compose`. A floor, not a pin: this is what circuit-retained
 # 0.38.0 already requires, so the module raises no consumer's version.
 compose-runtime = "1.12.1"
