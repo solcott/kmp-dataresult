@@ -39,5 +39,14 @@
         "okio is declared only for `dataresult-apollo`'s tests, at the version apollo-api already resolves. Keep it in step with apollo-api rather than ahead of it.",
       ],
     },
+    {
+      // setup-java's java-version floats on a major ('25'), so CI already gets every patch.
+      // Renovate would pin it to an exact build and open a PR per patch. The JDK major moves by
+      // hand together with jvm-toolchain (see CLAUDE.md).
+      description: "Don't track setup-java's JDK",
+      matchManagers: ["github-actions"],
+      matchDepNames: ["java-jdk"],
+      enabled: false,
+    },
   ],
 }
