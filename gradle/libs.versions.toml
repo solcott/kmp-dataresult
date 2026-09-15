@@ -29,7 +29,7 @@ compose-runtime = "1.12.1"
 
 # Build tooling
 detekt = "2.0.0-alpha.6"
-dependency-analysis = "3.19.1"
+dependency-analysis = "3.19.2"
 dependency-sorter = "0.21.0"
 ktfmt = "0.27.0"
 publish = "0.37.0"
