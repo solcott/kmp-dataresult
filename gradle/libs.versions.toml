@@ -16,7 +16,7 @@ kotlinx-coroutines = "1.11.0"
 
 # Adapter targets. These pin the *minimum* API the adapters compile against; consumers are free
 # to resolve forward.
-apollo = "5.1.0"
+apollo = "5.2.0"
 # `isFromCache` lives here, not in apollo-runtime — a separate coordinate on its own version line.
 apollo-normalized-cache = "1.0.7"
 store = "5.1.0-beta01"
