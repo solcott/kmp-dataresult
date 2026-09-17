@@ -1,5 +1,6 @@
 package io.github.solcott.uistate
 
+import androidx.compose.runtime.Immutable
 import io.github.solcott.dataresult.DataError
 import io.github.solcott.dataresult.OutcomeGroup
 import io.github.solcott.dataresult.Outcomes2
@@ -26,6 +27,7 @@ import io.github.solcott.dataresult.Outcomes5
  * [settled] to return its own type. The producers rely on that, and the hierarchy is sealed so that
  * nothing outside this library can break it.
  */
+@Immutable
 sealed class ContentStateGroup<O : OutcomeGroup> {
   /** Every state in the group, in argument order. */
   abstract val states: List<ContentState<*>>

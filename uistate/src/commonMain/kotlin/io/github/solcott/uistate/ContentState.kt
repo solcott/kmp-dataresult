@@ -1,5 +1,6 @@
 package io.github.solcott.uistate
 
+import androidx.compose.runtime.Immutable
 import io.github.solcott.dataresult.DataError
 import io.github.solcott.dataresult.Origin
 
@@ -23,7 +24,13 @@ import io.github.solcott.dataresult.Origin
  * each emission with [applyEmission], which settles [status] on every value rather than waiting for
  * the flow to end. That is what lets a never-completing stream still reach a settled, non-loading
  * state.
+ *
+ * `@Immutable` lets a composable that takes a `ContentState` skip when it is `equals` to the last
+ * one. This module isn't built with the Compose compiler, so without the annotation every class
+ * here would be unstable. The promise covers [T] too: replace [data] and never mutate it in place,
+ * or a screen showing it won't recompose.
  */
+@Immutable
 data class ContentState<T>(
   val data: T,
   val origin: Origin? = null,
@@ -39,6 +46,7 @@ data class ContentState<T>(
  * - [Failed] — the most recent request failed; any previously loaded [ContentState.data] is kept,
  *   and a live source may recover by emitting again.
  */
+@Immutable
 sealed class LoadStatus {
   data object Idle : LoadStatus()
 

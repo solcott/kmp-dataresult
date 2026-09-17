@@ -12,6 +12,7 @@ package io.github.solcott.dataresult
  * that `uistate` can fold a group into one `ContentState` per source with no per-screen code. A
  * group with consumer-defined named fields could not be folded generically.
  */
+@Immutable
 sealed class OutcomeGroup {
   /** Every outcome in the group, in argument order. */
   abstract val outcomes: List<Outcome<*>>

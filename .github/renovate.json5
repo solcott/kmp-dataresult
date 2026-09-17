@@ -20,6 +20,7 @@
         "com.apollographql.cache:normalized-cache",
         "org.mobilenativefoundation.store:store5",
         "androidx.compose.runtime:runtime",
+        "androidx.compose.runtime:runtime-annotation",
         "androidx.compose.runtime:runtime-retain",
         "com.slack.circuit:circuit-retained",
         "com.slack.circuit:circuit-runtime",

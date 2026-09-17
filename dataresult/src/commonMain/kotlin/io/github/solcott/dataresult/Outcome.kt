@@ -1,5 +1,7 @@
 package io.github.solcott.dataresult
 
+import androidx.compose.runtime.Immutable
+
 /**
  * A single emission from a data source: [Loading] while a request is in flight, [Data] carrying a
  * value, or [Error] carrying a typed [DataError].
@@ -27,7 +29,12 @@ package io.github.solcott.dataresult
  * while the network is still being asked, and keep showing it if the network then fails. Hold the
  * miss back until the fetch answers. The adapters do: the Apollo one drops cache misses, and the
  * Store5 one holds back an empty first read when told a fetch is on its way.
+ *
+ * `@Immutable` tells the Compose compiler, which never sees this module, that an outcome is
+ * compared by `equals` and never changes. That holds only if [Data.data] is never mutated in place,
+ * which a source must not do anyway.
  */
+@Immutable
 sealed class Outcome<out T> {
   data object Loading : Outcome<Nothing>()
 

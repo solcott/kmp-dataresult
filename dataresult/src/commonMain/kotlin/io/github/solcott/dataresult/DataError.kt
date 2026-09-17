@@ -1,5 +1,7 @@
 package io.github.solcott.dataresult
 
+import androidx.compose.runtime.Immutable
+
 /**
  * Transport-agnostic failure vocabulary.
  *
@@ -7,6 +9,7 @@ package io.github.solcott.dataresult
  * data source (Apollo, Ktor, Store, …) maps its own errors into these cases at its own boundary, so
  * nothing outside that boundary depends on a specific networking library.
  */
+@Immutable
 sealed class DataError {
   /** No usable response: offline, DNS failure, dropped connection, or timeout. */
   data object Network : DataError()

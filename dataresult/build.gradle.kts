@@ -10,7 +10,14 @@ kotlin {
 
   sourceSets {
     // `api`: combineOutcomes takes and returns Flow, so every consumer of this module sees it.
-    commonMain.dependencies { api(libs.kotlinx.coroutines.core) }
+    commonMain.dependencies {
+      // `api`: the classes here are `@Immutable`, and a consumer's Compose compiler has to resolve
+      // that annotation to see it. A class it can't resolve is dropped silently, and the types go
+      // back to unstable. Annotations only, no Compose runtime or Compose types.
+      api(libs.composeRuntimeAnnotations)
+      // `api`: combineOutcomes takes and returns Flow, so every consumer of this module sees it.
+      api(libs.kotlinx.coroutines.core)
+    }
 
     commonTest.dependencies {
       implementation(libs.kotlinx.coroutines.test)
