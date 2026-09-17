@@ -249,6 +249,14 @@ Releasing is described in [RELEASING.md](RELEASING.md).
 
 ## Design notes
 
+**Why `Outcome` and `ContentState` are two types.** An `Outcome` is one emission, and a
+`ContentState` is every emission so far folded together by `applyEmission`. Showing cached data
+under a refresh indicator, or keeping it after a failure, exists only after that fold. A single type
+would need either a `Loading` that carries the previous value, which makes every source remember its
+last emission, or a nullable `data`, which can't tell "nothing loaded yet" from "loaded, and null".
+`ContentState` also starts from a placeholder value, and choosing one is a UI decision. Keeping it
+in `uistate` lets adapters and repositories depend on `dataresult` alone.
+
 **Why `Loading` is an `Outcome` and not just a `ContentState` concern.** Some sources report their
 own request lifecycle and some don't. Store5 emits `Loading` when it goes back to the fetcher, and
 losing that signal means losing the background-refresh indicator. Sources that can't observe their
