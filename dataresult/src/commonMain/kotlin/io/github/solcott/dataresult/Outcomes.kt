@@ -1,5 +1,10 @@
 package io.github.solcott.dataresult
 
+import androidx.compose.runtime.Immutable
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
+
 /**
  * Several [Outcome]s emitted together, each keeping its own type — what a data source returns when
  * it draws on more than one source at once. Build a flow of them with `combineOutcomes`.
@@ -15,7 +20,7 @@ package io.github.solcott.dataresult
 @Immutable
 sealed class OutcomeGroup {
   /** Every outcome in the group, in argument order. */
-  abstract val outcomes: List<Outcome<*>>
+  abstract val outcomes: ImmutableList<Outcome<*>>
 
   /** True while at least one source has a request in flight. */
   val isAnyLoading: Boolean
@@ -34,8 +39,8 @@ sealed class OutcomeGroup {
     get() = outcomes.all { it is Outcome.Error }
 
   /** The failure of every source that failed, in argument order. */
-  val errors: List<DataError>
-    get() = outcomes.mapNotNull { it.errorOrNull }
+  val errors: ImmutableList<DataError>
+    get() = outcomes.mapNotNull { it.errorOrNull }.toImmutableList()
 
   /** The first failure in argument order, or null if none failed. [errors] holds the rest. */
   val errorOrNull: DataError?
@@ -52,7 +57,7 @@ sealed class OutcomeGroup {
 
 /** Two outcomes emitted together. See [OutcomeGroup]. */
 data class Outcomes2<out A, out B>(val first: Outcome<A>, val second: Outcome<B>) : OutcomeGroup() {
-  override val outcomes: List<Outcome<*>> = listOf(first, second)
+  override val outcomes: ImmutableList<Outcome<*>> = persistentListOf(first, second)
 }
 
 /** Three outcomes emitted together. See [OutcomeGroup]. */
@@ -61,7 +66,7 @@ data class Outcomes3<out A, out B, out C>(
   val second: Outcome<B>,
   val third: Outcome<C>,
 ) : OutcomeGroup() {
-  override val outcomes: List<Outcome<*>> = listOf(first, second, third)
+  override val outcomes: ImmutableList<Outcome<*>> = persistentListOf(first, second, third)
 }
 
 /** Four outcomes emitted together. See [OutcomeGroup]. */
@@ -71,7 +76,7 @@ data class Outcomes4<out A, out B, out C, out D>(
   val third: Outcome<C>,
   val fourth: Outcome<D>,
 ) : OutcomeGroup() {
-  override val outcomes: List<Outcome<*>> = listOf(first, second, third, fourth)
+  override val outcomes: ImmutableList<Outcome<*>> = persistentListOf(first, second, third, fourth)
 }
 
 /** Five outcomes emitted together. See [OutcomeGroup]. */
@@ -82,5 +87,6 @@ data class Outcomes5<out A, out B, out C, out D, out E>(
   val fourth: Outcome<D>,
   val fifth: Outcome<E>,
 ) : OutcomeGroup() {
-  override val outcomes: List<Outcome<*>> = listOf(first, second, third, fourth, fifth)
+  override val outcomes: ImmutableList<Outcome<*>> =
+    persistentListOf(first, second, third, fourth, fifth)
 }

@@ -17,6 +17,7 @@ kotlin {
       api(libs.composeRuntimeAnnotations)
       // `api`: combineOutcomes takes and returns Flow, so every consumer of this module sees it.
       api(libs.kotlinx.coroutines.core)
+      api(libs.kotlinx.immutable.collections)
     }
 
     commonTest.dependencies {

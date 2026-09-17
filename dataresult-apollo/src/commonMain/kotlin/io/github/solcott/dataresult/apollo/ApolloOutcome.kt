@@ -14,6 +14,7 @@ import com.apollographql.cache.normalized.isFromCache
 import io.github.solcott.dataresult.DataError
 import io.github.solcott.dataresult.Origin
 import io.github.solcott.dataresult.Outcome
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapNotNull
 
@@ -41,7 +42,10 @@ fun <T : Operation.Data, R> Flow<ApolloResponse<T>>.mapToOutcome(
   val exception = response.exception
   when {
     response.hasErrors() ->
-      Outcome.Error(DataError.Api(response.errors.orEmpty().map { it.message }), origin)
+      Outcome.Error(
+        DataError.Api(response.errors.orEmpty().map { it.message }.toImmutableList()),
+        origin,
+      )
     exception is CacheMissException || exception is HttpCacheMissException -> null
     exception != null -> {
       onException(exception)
