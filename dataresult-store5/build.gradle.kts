@@ -11,7 +11,7 @@ kotlin {
     commonMain.dependencies {
       api(project(":dataresult"))
       api(libs.kotlinx.coroutines.core)
-      api(libs.store)
+      api(libs.store5)
     }
 
     commonTest.dependencies {

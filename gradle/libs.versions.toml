@@ -19,7 +19,7 @@ kotlinx-coroutines = "1.11.0"
 apollo = "5.2.0"
 # `isFromCache` lives here, not in apollo-runtime — a separate coordinate on its own version line.
 apollo-normalized-cache = "1.0.8"
-store = "5.1.0-beta01"
+store5 = "5.1.0-beta01"
 # Circuit, for `uistate-circuit`'s produceRetainedState. A floor, not a pin -- Gradle resolves
 # upward, so a consumer ahead of this is fine.
 circuit = "0.39.0"
@@ -55,7 +55,7 @@ composeRuntime = { module = "androidx.compose.runtime:runtime", version.ref = "c
 composeRuntimeRetain = { module = "androidx.compose.runtime:runtime-retain", version.ref = "compose-runtime" }
 molecule-runtime = { module = "app.cash.molecule:molecule-runtime", version.ref = "molecule" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
-store = { module = "org.mobilenativefoundation.store:store5", version.ref = "store" }
+store5 = { module = "org.mobilenativefoundation.store:store5", version.ref = "store5" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 # Build-plugin classpath deps for build-logic.
