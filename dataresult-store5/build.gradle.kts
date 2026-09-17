@@ -11,7 +11,9 @@ kotlin {
     commonMain.dependencies {
       api(project(":dataresult"))
       api(libs.kotlinx.coroutines.core)
-      api(libs.store)
+      api(libs.store5)
+
+      implementation(libs.kotlinx.immutable.collections)
     }
 
     commonTest.dependencies {

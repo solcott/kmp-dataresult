@@ -19,6 +19,7 @@ kotlin {
       // Read-only access to Apollo's per-response cache metadata (isFromCache) for Origin mapping.
       // Nothing from it reaches the public API.
       implementation(libs.apollo.normalized.cache)
+      implementation(libs.kotlinx.immutable.collections)
     }
 
     commonTest.dependencies {

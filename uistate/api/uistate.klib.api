@@ -29,7 +29,7 @@ final class <#A: kotlin/Any?, #B: kotlin/Any?, #C: kotlin/Any?, #D: kotlin/Any?,
     final val second // io.github.solcott.uistate/ContentStates5.second|{}second[0]
         final fun <get-second>(): io.github.solcott.uistate/ContentState<#B> // io.github.solcott.uistate/ContentStates5.second.<get-second>|<get-second>(){}[0]
     final val states // io.github.solcott.uistate/ContentStates5.states|{}states[0]
-        final fun <get-states>(): kotlin.collections/List<io.github.solcott.uistate/ContentState<*>> // io.github.solcott.uistate/ContentStates5.states.<get-states>|<get-states>(){}[0]
+        final fun <get-states>(): kotlinx.collections.immutable/ImmutableList<io.github.solcott.uistate/ContentState<*>> // io.github.solcott.uistate/ContentStates5.states.<get-states>|<get-states>(){}[0]
     final val third // io.github.solcott.uistate/ContentStates5.third|{}third[0]
         final fun <get-third>(): io.github.solcott.uistate/ContentState<#C> // io.github.solcott.uistate/ContentStates5.third.<get-third>|<get-third>(){}[0]
 
@@ -58,7 +58,7 @@ final class <#A: kotlin/Any?, #B: kotlin/Any?, #C: kotlin/Any?, #D: kotlin/Any?>
     final val second // io.github.solcott.uistate/ContentStates4.second|{}second[0]
         final fun <get-second>(): io.github.solcott.uistate/ContentState<#B> // io.github.solcott.uistate/ContentStates4.second.<get-second>|<get-second>(){}[0]
     final val states // io.github.solcott.uistate/ContentStates4.states|{}states[0]
-        final fun <get-states>(): kotlin.collections/List<io.github.solcott.uistate/ContentState<*>> // io.github.solcott.uistate/ContentStates4.states.<get-states>|<get-states>(){}[0]
+        final fun <get-states>(): kotlinx.collections.immutable/ImmutableList<io.github.solcott.uistate/ContentState<*>> // io.github.solcott.uistate/ContentStates4.states.<get-states>|<get-states>(){}[0]
     final val third // io.github.solcott.uistate/ContentStates4.third|{}third[0]
         final fun <get-third>(): io.github.solcott.uistate/ContentState<#C> // io.github.solcott.uistate/ContentStates4.third.<get-third>|<get-third>(){}[0]
 
@@ -84,7 +84,7 @@ final class <#A: kotlin/Any?, #B: kotlin/Any?, #C: kotlin/Any?> io.github.solcot
     final val second // io.github.solcott.uistate/ContentStates3.second|{}second[0]
         final fun <get-second>(): io.github.solcott.uistate/ContentState<#B> // io.github.solcott.uistate/ContentStates3.second.<get-second>|<get-second>(){}[0]
     final val states // io.github.solcott.uistate/ContentStates3.states|{}states[0]
-        final fun <get-states>(): kotlin.collections/List<io.github.solcott.uistate/ContentState<*>> // io.github.solcott.uistate/ContentStates3.states.<get-states>|<get-states>(){}[0]
+        final fun <get-states>(): kotlinx.collections.immutable/ImmutableList<io.github.solcott.uistate/ContentState<*>> // io.github.solcott.uistate/ContentStates3.states.<get-states>|<get-states>(){}[0]
     final val third // io.github.solcott.uistate/ContentStates3.third|{}third[0]
         final fun <get-third>(): io.github.solcott.uistate/ContentState<#C> // io.github.solcott.uistate/ContentStates3.third.<get-third>|<get-third>(){}[0]
 
@@ -109,7 +109,7 @@ final class <#A: kotlin/Any?, #B: kotlin/Any?> io.github.solcott.uistate/Content
     final val second // io.github.solcott.uistate/ContentStates2.second|{}second[0]
         final fun <get-second>(): io.github.solcott.uistate/ContentState<#B> // io.github.solcott.uistate/ContentStates2.second.<get-second>|<get-second>(){}[0]
     final val states // io.github.solcott.uistate/ContentStates2.states|{}states[0]
-        final fun <get-states>(): kotlin.collections/List<io.github.solcott.uistate/ContentState<*>> // io.github.solcott.uistate/ContentStates2.states.<get-states>|<get-states>(){}[0]
+        final fun <get-states>(): kotlinx.collections.immutable/ImmutableList<io.github.solcott.uistate/ContentState<*>> // io.github.solcott.uistate/ContentStates2.states.<get-states>|<get-states>(){}[0]
 
     final fun <#A1: kotlin/Any?> toContentState(io.github.solcott.uistate/StatusPrecedence = ..., kotlin/Function2<#A, #B, #A1>): io.github.solcott.uistate/ContentState<#A1> // io.github.solcott.uistate/ContentStates2.toContentState|toContentState(io.github.solcott.uistate.StatusPrecedence;kotlin.Function2<1:0,1:1,0:0>){0§<kotlin.Any?>}[0]
     final fun applyEmission(io.github.solcott.dataresult/Outcomes2<#A, #B>): io.github.solcott.uistate/ContentStates2<#A, #B> // io.github.solcott.uistate/ContentStates2.applyEmission|applyEmission(io.github.solcott.dataresult.Outcomes2<1:0,1:1>){}[0]
@@ -144,11 +144,11 @@ final class <#A: kotlin/Any?> io.github.solcott.uistate/ContentState { // io.git
 
 sealed class <#A: io.github.solcott.dataresult/OutcomeGroup> io.github.solcott.uistate/ContentStateGroup { // io.github.solcott.uistate/ContentStateGroup|null[0]
     abstract val states // io.github.solcott.uistate/ContentStateGroup.states|{}states[0]
-        abstract fun <get-states>(): kotlin.collections/List<io.github.solcott.uistate/ContentState<*>> // io.github.solcott.uistate/ContentStateGroup.states.<get-states>|<get-states>(){}[0]
+        abstract fun <get-states>(): kotlinx.collections.immutable/ImmutableList<io.github.solcott.uistate/ContentState<*>> // io.github.solcott.uistate/ContentStateGroup.states.<get-states>|<get-states>(){}[0]
     final val errorOrNull // io.github.solcott.uistate/ContentStateGroup.errorOrNull|{}errorOrNull[0]
         final fun <get-errorOrNull>(): io.github.solcott.dataresult/DataError? // io.github.solcott.uistate/ContentStateGroup.errorOrNull.<get-errorOrNull>|<get-errorOrNull>(){}[0]
     final val errors // io.github.solcott.uistate/ContentStateGroup.errors|{}errors[0]
-        final fun <get-errors>(): kotlin.collections/List<io.github.solcott.dataresult/DataError> // io.github.solcott.uistate/ContentStateGroup.errors.<get-errors>|<get-errors>(){}[0]
+        final fun <get-errors>(): kotlinx.collections.immutable/ImmutableList<io.github.solcott.dataresult/DataError> // io.github.solcott.uistate/ContentStateGroup.errors.<get-errors>|<get-errors>(){}[0]
     final val hasAllErrors // io.github.solcott.uistate/ContentStateGroup.hasAllErrors|{}hasAllErrors[0]
         final fun <get-hasAllErrors>(): kotlin/Boolean // io.github.solcott.uistate/ContentStateGroup.hasAllErrors.<get-hasAllErrors>|<get-hasAllErrors>(){}[0]
     final val hasAnyError // io.github.solcott.uistate/ContentStateGroup.hasAnyError|{}hasAnyError[0]

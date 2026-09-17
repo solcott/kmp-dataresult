@@ -33,4 +33,9 @@ Initial release.
   accept a group too.
 - `uistate-circuit`: `produceRetainedContentState` and its `Flow<P>` extension — the same, with the
   state held in Circuit's registry — and `produceRetainedContentStates` for a group of sources.
+- `Outcome`, `DataError`, `OutcomeGroup`, `ContentState`, `LoadStatus` and `ContentStateGroup` are
+  `@Immutable`, so Compose treats them as stable and skips on `equals`. `dataresult` and `uistate`
+  therefore depend on `androidx.compose.runtime:runtime-annotation` 1.9.0. It has no Compose
+  runtime or Compose types, but androidx group alignment makes a Compose runtime in the same app
+  resolve to at least 1.9.0.
 - Snapshot builds of `main` are published to GitHub Packages. See "Snapshots" in the README.

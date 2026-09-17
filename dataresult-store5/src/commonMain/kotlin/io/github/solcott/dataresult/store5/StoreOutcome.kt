@@ -3,6 +3,7 @@ package io.github.solcott.dataresult.store5
 import io.github.solcott.dataresult.DataError
 import io.github.solcott.dataresult.Origin
 import io.github.solcott.dataresult.Outcome
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.mobilenativefoundation.store.store5.StoreReadResponse
@@ -117,7 +118,7 @@ val StoreReadResponse.Error.dataError: DataError
     when (this) {
       is StoreReadResponse.Error.Exception ->
         DataError.Unknown(cause = error, message = error.message)
-      is StoreReadResponse.Error.Message -> DataError.Api(listOf(message))
+      is StoreReadResponse.Error.Message -> DataError.Api(persistentListOf(message))
       is StoreReadResponse.Error.Custom<*> ->
         DataError.Unknown(cause = error as? Throwable, message = error.toString())
     }

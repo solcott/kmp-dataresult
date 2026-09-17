@@ -9,6 +9,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
+import kotlinx.collections.immutable.persistentListOf
 
 class ContentStateTest {
 
@@ -206,7 +207,7 @@ class ContentStateTest {
 
   @Test
   fun errorOrNullReportsOnlyTheFailedStatus() {
-    val error = DataError.Api(listOf("boom"), code = "E1")
+    val error = DataError.Api(persistentListOf("boom"), code = "E1")
 
     assertEquals(error, initial.applyEmission(Outcome.Error(error, Origin.Network)).errorOrNull)
     assertNull(initial.applyEmission(Outcome.Loading).errorOrNull)

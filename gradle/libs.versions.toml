@@ -2,14 +2,18 @@
 agp = "9.4.0"
 kotlin = "2.4.20"
 
+#noinspection UnusedVersionCatalogEntry
 androidCompileSdk = "37"
 # Deliberately low: these modules touch no Android API, so a permissive floor costs nothing and
 # keeps the library usable from anything.
+#noinspection UnusedVersionCatalogEntry
 androidMinSdk = "21"
 
 # The toolchain compiles and runs on 25; published bytecode stays at 17. Both are pinned per
 # JVM target in `kmp-library`, because a toolchain silently raises jvmTarget to its own version.
+#noinspection UnusedVersionCatalogEntry
 jvm-toolchain = "25" # After updating run ./gradlew updateDaemonJvm
+#noinspection UnusedVersionCatalogEntry
 jvm-compat = "17"
 
 kotlinx-coroutines = "1.11.0"
@@ -19,13 +23,17 @@ kotlinx-coroutines = "1.11.0"
 apollo = "5.2.0"
 # `isFromCache` lives here, not in apollo-runtime — a separate coordinate on its own version line.
 apollo-normalized-cache = "1.0.8"
-store = "5.1.0-beta01"
+store5 = "5.1.0-beta01"
 # Circuit, for `uistate-circuit`'s produceRetainedState. A floor, not a pin -- Gradle resolves
 # upward, so a consumer ahead of this is fine.
 circuit = "0.39.0"
 # androidx Compose runtime, for `uistate-compose`. A floor, not a pin: this is what circuit-retained
 # 0.38.0 already requires, so the module raises no consumer's version.
 compose-runtime = "1.12.1"
+# `@Immutable` for `dataresult` and `uistate`, whose consumers need not use Compose at all. Kept apart
+# from compose-runtime and at the first stable release: androidx aligns the runtime group, so this
+# version is the Compose runtime floor it imposes on every consumer of those two modules.
+compose-runtime-annotation = "1.12.1"
 
 # Build tooling
 detekt = "2.0.0-alpha.6"
@@ -52,10 +60,12 @@ circuit-test = { module = "com.slack.circuit:circuit-test", version.ref = "circu
 # camelCase, not `compose-runtime` / `compose-runtime-retain`: a dashed pair would make
 # `libs.compose.runtime` a group accessor rather than a library.
 composeRuntime = { module = "androidx.compose.runtime:runtime", version.ref = "compose-runtime" }
+composeRuntimeAnnotations = { module = "androidx.compose.runtime:runtime-annotation", version.ref = "compose-runtime-annotation" }
 composeRuntimeRetain = { module = "androidx.compose.runtime:runtime-retain", version.ref = "compose-runtime" }
+kotlinx-immutable-collections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version = "0.5.2" }
 molecule-runtime = { module = "app.cash.molecule:molecule-runtime", version.ref = "molecule" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
-store = { module = "org.mobilenativefoundation.store:store5", version.ref = "store" }
+store5 = { module = "org.mobilenativefoundation.store:store5", version.ref = "store5" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 # Build-plugin classpath deps for build-logic.

@@ -1,5 +1,8 @@
 package io.github.solcott.dataresult
 
+import androidx.compose.runtime.Immutable
+import kotlinx.collections.immutable.ImmutableList
+
 /**
  * Transport-agnostic failure vocabulary.
  *
@@ -7,6 +10,7 @@ package io.github.solcott.dataresult
  * data source (Apollo, Ktor, Store, …) maps its own errors into these cases at its own boundary, so
  * nothing outside that boundary depends on a specific networking library.
  */
+@Immutable
 sealed class DataError {
   /** No usable response: offline, DNS failure, dropped connection, or timeout. */
   data object Network : DataError()
@@ -18,7 +22,7 @@ sealed class DataError {
    * The transport succeeded but the backend reported logical errors in the payload — GraphQL
    * `errors`, a REST error envelope, and so on.
    */
-  data class Api(val messages: List<String>, val code: String? = null) : DataError()
+  data class Api(val messages: ImmutableList<String>, val code: String? = null) : DataError()
 
   /** A response body arrived but could not be decoded, or did not match the expected schema. */
   data object Serialization : DataError()
