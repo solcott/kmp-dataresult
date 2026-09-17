@@ -18,7 +18,7 @@ kotlinx-coroutines = "1.11.0"
 # to resolve forward.
 apollo = "5.2.0"
 # `isFromCache` lives here, not in apollo-runtime — a separate coordinate on its own version line.
-apollo-normalized-cache = "1.0.7"
+apollo-normalized-cache = "1.0.8"
 store = "5.1.0-beta01"
 # Circuit, for `uistate-circuit`'s produceRetainedState. A floor, not a pin -- Gradle resolves
 # upward, so a consumer ahead of this is fine.
