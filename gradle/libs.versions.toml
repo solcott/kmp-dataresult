@@ -2,14 +2,18 @@
 agp = "9.4.0"
 kotlin = "2.4.20"
 
+#noinspection UnusedVersionCatalogEntry
 androidCompileSdk = "37"
 # Deliberately low: these modules touch no Android API, so a permissive floor costs nothing and
 # keeps the library usable from anything.
+#noinspection UnusedVersionCatalogEntry
 androidMinSdk = "21"
 
 # The toolchain compiles and runs on 25; published bytecode stays at 17. Both are pinned per
 # JVM target in `kmp-library`, because a toolchain silently raises jvmTarget to its own version.
+#noinspection UnusedVersionCatalogEntry
 jvm-toolchain = "25" # After updating run ./gradlew updateDaemonJvm
+#noinspection UnusedVersionCatalogEntry
 jvm-compat = "17"
 
 kotlinx-coroutines = "1.11.0"
