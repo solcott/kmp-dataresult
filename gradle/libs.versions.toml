@@ -72,7 +72,7 @@ turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
-detekt-compose-rules = { module = "io.nlopez.compose.rules:detekt", version = "0.6.6" }
+detekt-compose-rules = { module = "io.nlopez.compose.rules:detekt", version = "0.6.7" }
 
 [plugins]
 android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
