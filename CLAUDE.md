@@ -79,7 +79,8 @@ under `src/commonMain`.
 
 - **Swift export:** consumers export `dataresult` and `uistate` to Swift wholesale. Use `sealed class`,
   never `sealed interface`, and keep every Compose type out of those two modules. A Compose type in
-  the reachable API breaks the iOS build with no warning.
+  the reachable API breaks the iOS build with no warning. The same goes for kotlinx-collections-immutable:
+  public collections stay `List`, and `@Immutable` on the class already makes Compose treat it as stable.
 - **Targets:** `build-logic/.../kmp-library.gradle.kts` supplies android, jvm, iosArm64,
   iosSimulatorArm64, js and wasmJs. Each module declares `macosArm64()` itself, except
   `dataresult-store5` (Store5 publishes no macOS artifact). There is no iosX64.

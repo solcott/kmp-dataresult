@@ -26,7 +26,6 @@ import io.github.solcott.dataresult.Outcome
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
@@ -67,7 +66,7 @@ class ApolloOutcomeTest {
       )
 
     assertEquals(
-      listOf(Outcome.Error(DataError.Api(persistentListOf("boom", "bang")), Origin.Network)),
+      listOf(Outcome.Error(DataError.Api(listOf("boom", "bang")), Origin.Network)),
       response.outcomes(),
     )
   }
@@ -77,7 +76,7 @@ class ApolloOutcomeTest {
     val response = response(errors = listOf(GraphQLError.Builder("boom").build()), fromCache = true)
 
     assertEquals(
-      listOf(Outcome.Error(DataError.Api(persistentListOf("boom")), Origin.Cache)),
+      listOf(Outcome.Error(DataError.Api(listOf("boom")), Origin.Cache)),
       response.outcomes(),
     )
   }
@@ -152,7 +151,7 @@ class ApolloOutcomeTest {
       )
 
     assertEquals(
-      listOf(Outcome.Error(DataError.Api(persistentListOf("boom")), Origin.Network)),
+      listOf(Outcome.Error(DataError.Api(listOf("boom")), Origin.Network)),
       response.outcomes(),
     )
   }

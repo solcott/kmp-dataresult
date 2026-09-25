@@ -16,7 +16,6 @@ kotlin {
       // Declared here even though dataresult re-exports it, because ContentState and LoadStatus
       // carry `@Immutable` themselves. `api` for the same reason as in dataresult.
       api(libs.composeRuntimeAnnotations)
-      api(libs.kotlinx.immutable.collections)
     }
   }
 }

@@ -7,7 +7,6 @@ import io.github.solcott.dataresult.Outcome
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -80,7 +79,7 @@ class StoreOutcomeTest {
   fun messageErrorBecomesAnApiError() {
     val outcome = StoreReadResponse.Error.Message("nope", fetcher).toOutcomeOrNull()
 
-    assertEquals(Outcome.Error(DataError.Api(persistentListOf("nope")), Origin.Network), outcome)
+    assertEquals(Outcome.Error(DataError.Api(listOf("nope")), Origin.Network), outcome)
   }
 
   @Test
@@ -112,7 +111,7 @@ class StoreOutcomeTest {
       StoreReadResponse.Error.Message("stale", StoreReadResponseOrigin.SourceOfTruth)
         .toOutcomeOrNull()
 
-    assertEquals(Outcome.Error(DataError.Api(persistentListOf("stale")), Origin.Cache), outcome)
+    assertEquals(Outcome.Error(DataError.Api(listOf("stale")), Origin.Cache), outcome)
   }
 
   // --- Flow -----------------------------------------------------------------------------------
@@ -211,10 +210,7 @@ class StoreOutcomeTest {
       .whileFetching()
       .test {
         assertEquals(Outcome.Loading, awaitItem())
-        assertEquals(
-          Outcome.Error(DataError.Api(persistentListOf("down")), Origin.Network),
-          awaitItem(),
-        )
+        assertEquals(Outcome.Error(DataError.Api(listOf("down")), Origin.Network), awaitItem())
         awaitComplete()
       }
   }
@@ -252,10 +248,7 @@ class StoreOutcomeTest {
       )
       .whileFetching()
       .test {
-        assertEquals(
-          Outcome.Error(DataError.Api(persistentListOf("read")), Origin.Cache),
-          awaitItem(),
-        )
+        assertEquals(Outcome.Error(DataError.Api(listOf("read")), Origin.Cache), awaitItem())
         expectNoEvents()
         cancelAndIgnoreRemainingEvents()
       }
