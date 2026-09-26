@@ -6,7 +6,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
-import kotlinx.collections.immutable.persistentListOf
 
 class OutcomesTest {
 
@@ -32,17 +31,14 @@ class OutcomesTest {
 
   @Test
   fun everyArityListsItsOutcomesInArgumentOrder() {
-    assertEquals(persistentListOf(data, loading), Outcomes2(data, loading).outcomes)
+    assertEquals(listOf(data, loading), Outcomes2(data, loading).outcomes)
+    assertEquals(listOf(data, loading, httpError), Outcomes3(data, loading, httpError).outcomes)
     assertEquals(
-      persistentListOf(data, loading, httpError),
-      Outcomes3(data, loading, httpError).outcomes,
-    )
-    assertEquals(
-      persistentListOf(data, loading, httpError, networkError),
+      listOf(data, loading, httpError, networkError),
       Outcomes4(data, loading, httpError, networkError).outcomes,
     )
     assertEquals(
-      persistentListOf(data, loading, httpError, networkError, data),
+      listOf(data, loading, httpError, networkError, data),
       Outcomes5(data, loading, httpError, networkError, data).outcomes,
     )
   }

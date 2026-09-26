@@ -7,9 +7,6 @@ import io.github.solcott.dataresult.Outcomes2
 import io.github.solcott.dataresult.Outcomes3
 import io.github.solcott.dataresult.Outcomes4
 import io.github.solcott.dataresult.Outcomes5
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toImmutableList
 
 /**
  * One [ContentState] per source of an [OutcomeGroup]: what a screen holds when it renders several
@@ -33,7 +30,7 @@ import kotlinx.collections.immutable.toImmutableList
 @Immutable
 sealed class ContentStateGroup<O : OutcomeGroup> {
   /** Every state in the group, in argument order. */
-  abstract val states: ImmutableList<ContentState<*>>
+  abstract val states: List<ContentState<*>>
 
   /** Folds one emission of every source into that source's own state. */
   abstract fun applyEmission(outcomes: O): ContentStateGroup<O>
@@ -63,8 +60,8 @@ sealed class ContentStateGroup<O : OutcomeGroup> {
     get() = states.all { it.errorOrNull != null }
 
   /** The failure of every source whose most recent request failed, in argument order. */
-  val errors: ImmutableList<DataError>
-    get() = states.mapNotNull { it.errorOrNull }.toImmutableList()
+  val errors: List<DataError>
+    get() = states.mapNotNull { it.errorOrNull }
 
   /** The first failure in argument order, or null if none failed. [errors] holds the rest. */
   val errorOrNull: DataError?
@@ -85,7 +82,7 @@ sealed class ContentStateGroup<O : OutcomeGroup> {
 /** Two sources, one [ContentState] each. See [ContentStateGroup]. */
 data class ContentStates2<A, B>(val first: ContentState<A>, val second: ContentState<B>) :
   ContentStateGroup<Outcomes2<A, B>>() {
-  override val states: ImmutableList<ContentState<*>> = persistentListOf(first, second)
+  override val states: List<ContentState<*>> = listOf(first, second)
 
   override fun applyEmission(outcomes: Outcomes2<A, B>): ContentStates2<A, B> =
     ContentStates2(first.applyEmission(outcomes.first), second.applyEmission(outcomes.second))
@@ -112,7 +109,7 @@ data class ContentStates3<A, B, C>(
   val second: ContentState<B>,
   val third: ContentState<C>,
 ) : ContentStateGroup<Outcomes3<A, B, C>>() {
-  override val states: ImmutableList<ContentState<*>> = persistentListOf(first, second, third)
+  override val states: List<ContentState<*>> = listOf(first, second, third)
 
   override fun applyEmission(outcomes: Outcomes3<A, B, C>): ContentStates3<A, B, C> =
     ContentStates3(
@@ -141,8 +138,7 @@ data class ContentStates4<A, B, C, D>(
   val third: ContentState<C>,
   val fourth: ContentState<D>,
 ) : ContentStateGroup<Outcomes4<A, B, C, D>>() {
-  override val states: ImmutableList<ContentState<*>> =
-    persistentListOf(first, second, third, fourth)
+  override val states: List<ContentState<*>> = listOf(first, second, third, fourth)
 
   override fun applyEmission(outcomes: Outcomes4<A, B, C, D>): ContentStates4<A, B, C, D> =
     ContentStates4(
@@ -173,8 +169,7 @@ data class ContentStates5<A, B, C, D, E>(
   val fourth: ContentState<D>,
   val fifth: ContentState<E>,
 ) : ContentStateGroup<Outcomes5<A, B, C, D, E>>() {
-  override val states: ImmutableList<ContentState<*>> =
-    persistentListOf(first, second, third, fourth, fifth)
+  override val states: List<ContentState<*>> = listOf(first, second, third, fourth, fifth)
 
   override fun applyEmission(outcomes: Outcomes5<A, B, C, D, E>): ContentStates5<A, B, C, D, E> =
     ContentStates5(

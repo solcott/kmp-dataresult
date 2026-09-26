@@ -9,15 +9,15 @@ public abstract class io/github/solcott/dataresult/DataError {
 }
 
 public final class io/github/solcott/dataresult/DataError$Api : io/github/solcott/dataresult/DataError {
-	public fun <init> (Lkotlinx/collections/immutable/ImmutableList;Ljava/lang/String;)V
-	public synthetic fun <init> (Lkotlinx/collections/immutable/ImmutableList;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lkotlinx/collections/immutable/ImmutableList;
+	public fun <init> (Ljava/util/List;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/util/List;
 	public final fun component2 ()Ljava/lang/String;
-	public final fun copy (Lkotlinx/collections/immutable/ImmutableList;Ljava/lang/String;)Lio/github/solcott/dataresult/DataError$Api;
-	public static synthetic fun copy$default (Lio/github/solcott/dataresult/DataError$Api;Lkotlinx/collections/immutable/ImmutableList;Ljava/lang/String;ILjava/lang/Object;)Lio/github/solcott/dataresult/DataError$Api;
+	public final fun copy (Ljava/util/List;Ljava/lang/String;)Lio/github/solcott/dataresult/DataError$Api;
+	public static synthetic fun copy$default (Lio/github/solcott/dataresult/DataError$Api;Ljava/util/List;Ljava/lang/String;ILjava/lang/Object;)Lio/github/solcott/dataresult/DataError$Api;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCode ()Ljava/lang/String;
-	public final fun getMessages ()Lkotlinx/collections/immutable/ImmutableList;
+	public final fun getMessages ()Ljava/util/List;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -108,11 +108,11 @@ public final class io/github/solcott/dataresult/Outcome$Loading : io/github/solc
 
 public abstract class io/github/solcott/dataresult/OutcomeGroup {
 	public final fun getErrorOrNull ()Lio/github/solcott/dataresult/DataError;
-	public final fun getErrors ()Lkotlinx/collections/immutable/ImmutableList;
+	public final fun getErrors ()Ljava/util/List;
 	public final fun getHasAllData ()Z
 	public final fun getHasAllErrors ()Z
 	public final fun getHasAnyError ()Z
-	public abstract fun getOutcomes ()Lkotlinx/collections/immutable/ImmutableList;
+	public abstract fun getOutcomes ()Ljava/util/List;
 	public final fun isAllLoading ()Z
 	public final fun isAnyLoading ()Z
 }
@@ -132,7 +132,7 @@ public final class io/github/solcott/dataresult/Outcomes2 : io/github/solcott/da
 	public static synthetic fun copy$default (Lio/github/solcott/dataresult/Outcomes2;Lio/github/solcott/dataresult/Outcome;Lio/github/solcott/dataresult/Outcome;ILjava/lang/Object;)Lio/github/solcott/dataresult/Outcomes2;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFirst ()Lio/github/solcott/dataresult/Outcome;
-	public fun getOutcomes ()Lkotlinx/collections/immutable/ImmutableList;
+	public fun getOutcomes ()Ljava/util/List;
 	public final fun getSecond ()Lio/github/solcott/dataresult/Outcome;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
@@ -147,7 +147,7 @@ public final class io/github/solcott/dataresult/Outcomes3 : io/github/solcott/da
 	public static synthetic fun copy$default (Lio/github/solcott/dataresult/Outcomes3;Lio/github/solcott/dataresult/Outcome;Lio/github/solcott/dataresult/Outcome;Lio/github/solcott/dataresult/Outcome;ILjava/lang/Object;)Lio/github/solcott/dataresult/Outcomes3;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFirst ()Lio/github/solcott/dataresult/Outcome;
-	public fun getOutcomes ()Lkotlinx/collections/immutable/ImmutableList;
+	public fun getOutcomes ()Ljava/util/List;
 	public final fun getSecond ()Lio/github/solcott/dataresult/Outcome;
 	public final fun getThird ()Lio/github/solcott/dataresult/Outcome;
 	public fun hashCode ()I
@@ -165,7 +165,7 @@ public final class io/github/solcott/dataresult/Outcomes4 : io/github/solcott/da
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFirst ()Lio/github/solcott/dataresult/Outcome;
 	public final fun getFourth ()Lio/github/solcott/dataresult/Outcome;
-	public fun getOutcomes ()Lkotlinx/collections/immutable/ImmutableList;
+	public fun getOutcomes ()Ljava/util/List;
 	public final fun getSecond ()Lio/github/solcott/dataresult/Outcome;
 	public final fun getThird ()Lio/github/solcott/dataresult/Outcome;
 	public fun hashCode ()I
@@ -185,7 +185,7 @@ public final class io/github/solcott/dataresult/Outcomes5 : io/github/solcott/da
 	public final fun getFifth ()Lio/github/solcott/dataresult/Outcome;
 	public final fun getFirst ()Lio/github/solcott/dataresult/Outcome;
 	public final fun getFourth ()Lio/github/solcott/dataresult/Outcome;
-	public fun getOutcomes ()Lkotlinx/collections/immutable/ImmutableList;
+	public fun getOutcomes ()Ljava/util/List;
 	public final fun getSecond ()Lio/github/solcott/dataresult/Outcome;
 	public final fun getThird ()Lio/github/solcott/dataresult/Outcome;
 	public fun hashCode ()I

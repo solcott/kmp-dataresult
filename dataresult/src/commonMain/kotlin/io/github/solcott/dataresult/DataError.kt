@@ -1,7 +1,6 @@
 package io.github.solcott.dataresult
 
 import androidx.compose.runtime.Immutable
-import kotlinx.collections.immutable.ImmutableList
 
 /**
  * Transport-agnostic failure vocabulary.
@@ -22,7 +21,7 @@ sealed class DataError {
    * The transport succeeded but the backend reported logical errors in the payload — GraphQL
    * `errors`, a REST error envelope, and so on.
    */
-  data class Api(val messages: ImmutableList<String>, val code: String? = null) : DataError()
+  data class Api(val messages: List<String>, val code: String? = null) : DataError()
 
   /** A response body arrived but could not be decoded, or did not match the expected schema. */
   data object Serialization : DataError()
