@@ -18,7 +18,7 @@ never reach this context.
 
 ```bash
 ./gradlew ktfmtFormat sortDependencies   # fix formatting + dependency order; do this before committing
-./gradlew build                          # every target, tests, and `check` = ktfmtCheck + checkSortDependencies + detekt + checkKotlinAbi
+./gradlew build                          # every target, tests, and `check` = ktfmtCheck + checkSortDependencies + detekt + checkKotlinAbi (+ checkSwiftExport)
 ./gradlew updateKotlinAbi                # after an *intended* public API change; commit the <module>/api/ diff with it
 ./gradlew buildHealth                    # dependency analysis: fails on any finding
 ./gradlew :uistate:jvmTest --tests 'io.github.solcott.uistate.ContentStateTest'   # one test class, fastest runner
@@ -57,6 +57,9 @@ under `src/commonMain`.
 - Adding a module: use `/new-module`.
 
 ## Keeping context small
+
+Hooks in `.claude/settings.json` enforce the two rules below that matter most. In the main session,
+they refuse inline `gradle`/`gradlew` and reads of generated output. Subagents are exempt.
 
 - The codebase is ~2k lines, so read the specific file directly instead of spawning an Explore agent.
 - Don't read `detekt/detekt.yml` (929 lines, almost all defaults), `build/`, `.gradle/`, `.kotlin/` or
