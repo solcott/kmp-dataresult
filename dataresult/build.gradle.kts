@@ -1,6 +1,7 @@
 plugins {
   id("kmp-library")
   id("kmp-published")
+  id("swift-export-guard")
 }
 
 kotlin {

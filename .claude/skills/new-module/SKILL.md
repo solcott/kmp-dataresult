@@ -30,8 +30,8 @@ Adapters should follow `dataresult-apollo`, Compose integrations `uistate-compos
    Android namespace is derived as `io.github.solcott.<name with '-' → '.'>`, so the package must
    match. Tests go in `commonTest` (or `nonWebTest`).
 
-5. **Swift-export rules**, for anything under `dataresult`/`uistate`: `sealed class`, not
-   `sealed interface`, and no Compose types.
+5. **Swift export:** if the module's API is reachable from `dataresult` or `uistate`, apply the
+   `swift-export-guard` plugin next to `kmp-published`, and follow `.claude/rules/swift-export.md`.
 
 6. **Docs**: add a row to the README "Artifacts" table (the artifact, its contents, what it depends on), any
    target exception to the README "Targets" line, and an entry under `## Unreleased` in
