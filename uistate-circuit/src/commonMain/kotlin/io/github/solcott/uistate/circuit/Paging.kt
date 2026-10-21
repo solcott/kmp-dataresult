@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 /**
@@ -138,8 +139,10 @@ class Paging<T, M> internal constructor(internal var idOf: (T) -> Any?) {
       loadedFor = null
       state = pagedStateOf<T, M>().firstPageCompleted()
       // Nothing can be requested while disabled; drop what is asked rather than replay it later.
-      // This suspends until the effect restarts, which a change to `enabled` does.
-      for (ignored in commands) Unit
+      // This suspends until the effect restarts, which a change to `enabled` does. `receiveAsFlow`,
+      // not `consumeAsFlow`: consuming would close the retained channel when the effect is
+      // cancelled.
+      commands.receiveAsFlow().collect {}
       return@coroutineScope
     }
 
@@ -148,7 +151,7 @@ class Paging<T, M> internal constructor(internal var idOf: (T) -> Any?) {
       abandonAll()
       appendAfter = null
       // Asked of the previous key's list, not this one's.
-      while (commands.tryReceive().isSuccess) Unit
+      while (commands.tryReceive().isSuccess) continue
       if (initial != null) {
         state = pagedStateOf(initial, idOf)
       } else {

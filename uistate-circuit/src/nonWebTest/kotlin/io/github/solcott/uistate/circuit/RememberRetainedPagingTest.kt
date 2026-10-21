@@ -1,5 +1,6 @@
 package io.github.solcott.uistate.circuit
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.Snapshot
@@ -371,19 +372,18 @@ class RememberRetainedPagingTest {
       assertEquals(listOf<String?>(null), source.requests)
     }
   }
+}
 
-  // The writes below happen outside the composition, so the recomposer only sees them once apply
-  // notifications are sent.
-  private fun TestScope.changeKey(change: () -> Unit) {
-    change()
-    Snapshot.sendApplyNotifications()
-    testScheduler.advanceUntilIdle()
-  }
+// The writes below happen outside the composition, so the recomposer only sees them once apply
+// notifications are sent.
+private fun TestScope.changeKey(change: () -> Unit) {
+  change()
+  Snapshot.sendApplyNotifications()
+  testScheduler.advanceUntilIdle()
+}
 
-  private fun TestScope.show(
-    shown: androidx.compose.runtime.MutableState<Boolean>,
-    value: Boolean,
-  ) = changeKey { shown.value = value }
+private fun TestScope.show(shown: MutableState<Boolean>, value: Boolean) = changeKey {
+  shown.value = value
 }
 
 private suspend fun ReceiveTurbine<PagingUi>.awaitPaged(

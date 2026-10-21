@@ -252,25 +252,26 @@ fun <T, M> PagedState<T, M>.applyNextPage(
   outcome: Outcome<Page<T, M>>,
   idOf: (T) -> Any?,
 ): PagedState<T, M> {
-  if (!current) return this
   val held = slots.indexOfFirst { it.after == after }
   val requested = slots.isNotEmpty() && slots.last().next == after
-  if (held < 0 && !requested) return this
-  return when (outcome) {
-    Outcome.Loading -> copy(append = LoadStatus.Loading)
-    is Outcome.Error -> copy(append = LoadStatus.Failed(outcome.cause))
-    is Outcome.Data -> {
-      val page = outcome.data
-      val slot = PagedState.Slot(after = after, next = page.next, items = page.items)
-      val slots =
-        when {
-          held < 0 -> slots + slot
-          slots[held].next == page.next -> slots.toMutableList().also { it[held] = slot }
-          else -> slots.take(held) + slot
-        }
-      copy(slots = slots, append = LoadStatus.Idle).withItems(idOf)
+  val stale = !current || (held < 0 && !requested)
+  return if (stale) this
+  else
+    when (outcome) {
+      Outcome.Loading -> copy(append = LoadStatus.Loading)
+      is Outcome.Error -> copy(append = LoadStatus.Failed(outcome.cause))
+      is Outcome.Data -> {
+        val page = outcome.data
+        val slot = PagedState.Slot(after = after, next = page.next, items = page.items)
+        val slots =
+          when {
+            held < 0 -> slots + slot
+            slots[held].next == page.next -> slots.toMutableList().also { it[held] = slot }
+            else -> slots.take(held) + slot
+          }
+        copy(slots = slots, append = LoadStatus.Idle).withItems(idOf)
+      }
     }
-  }
 }
 
 /**
