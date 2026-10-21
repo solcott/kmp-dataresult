@@ -1,7 +1,20 @@
+public final class io/github/solcott/uistate/circuit/Paging {
+	public static final field $stable I
+	public final fun getState ()Lio/github/solcott/uistate/PagedState;
+	public final fun loadMore ()V
+	public final fun refresh ()V
+	public final fun retry ()V
+	public final fun update (Lkotlin/jvm/functions/Function1;)V
+}
+
 public final class io/github/solcott/uistate/circuit/ProduceContentStateKt {
 	public static final fun produceRetainedContentState (Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)Lio/github/solcott/uistate/ContentState;
 	public static final fun produceRetainedContentState (Lkotlinx/coroutines/flow/Flow;Ljava/lang/Object;[Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;I)Lio/github/solcott/uistate/ContentState;
 	public static final fun produceRetainedContentStates (Lio/github/solcott/uistate/ContentStateGroup;[Ljava/lang/Object;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)Lio/github/solcott/uistate/ContentStateGroup;
 	public static final fun produceRetainedContentStates (Lkotlinx/coroutines/flow/Flow;Lio/github/solcott/uistate/ContentStateGroup;[Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;I)Lio/github/solcott/uistate/ContentStateGroup;
+}
+
+public final class io/github/solcott/uistate/circuit/RememberRetainedPagingKt {
+	public static final fun rememberRetainedPaging ([Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Lio/github/solcott/uistate/OnKeyChange;ZLio/github/solcott/dataresult/Outcome$Data;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lio/github/solcott/uistate/circuit/Paging;
 }
 

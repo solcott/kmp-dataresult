@@ -6,6 +6,17 @@
 // - Show declarations: true
 
 // Library unique name: <io.github.solcott:uistate>
+final enum class io.github.solcott.uistate/OnKeyChange : kotlin/Enum<io.github.solcott.uistate/OnKeyChange> { // io.github.solcott.uistate/OnKeyChange|null[0]
+    enum entry ClearItems // io.github.solcott.uistate/OnKeyChange.ClearItems|null[0]
+    enum entry KeepItems // io.github.solcott.uistate/OnKeyChange.KeepItems|null[0]
+
+    final val entries // io.github.solcott.uistate/OnKeyChange.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.solcott.uistate/OnKeyChange> // io.github.solcott.uistate/OnKeyChange.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.github.solcott.uistate/OnKeyChange // io.github.solcott.uistate/OnKeyChange.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.github.solcott.uistate/OnKeyChange> // io.github.solcott.uistate/OnKeyChange.values|values#static(){}[0]
+}
+
 final enum class io.github.solcott.uistate/StatusPrecedence : kotlin/Enum<io.github.solcott.uistate/StatusPrecedence> { // io.github.solcott.uistate/StatusPrecedence|null[0]
     enum entry FailedFirst // io.github.solcott.uistate/StatusPrecedence.FailedFirst|null[0]
     enum entry LoadingFirst // io.github.solcott.uistate/StatusPrecedence.LoadingFirst|null[0]
@@ -123,6 +134,29 @@ final class <#A: kotlin/Any?, #B: kotlin/Any?> io.github.solcott.uistate/Content
     final fun toString(): kotlin/String // io.github.solcott.uistate/ContentStates2.toString|toString(){}[0]
 }
 
+final class <#A: kotlin/Any?, #B: kotlin/Any?> io.github.solcott.uistate/PagedState { // io.github.solcott.uistate/PagedState|null[0]
+    final val append // io.github.solcott.uistate/PagedState.append|{}append[0]
+        final fun <get-append>(): io.github.solcott.uistate/LoadStatus // io.github.solcott.uistate/PagedState.append.<get-append>|<get-append>(){}[0]
+    final val canLoadMore // io.github.solcott.uistate/PagedState.canLoadMore|{}canLoadMore[0]
+        final fun <get-canLoadMore>(): kotlin/Boolean // io.github.solcott.uistate/PagedState.canLoadMore.<get-canLoadMore>|<get-canLoadMore>(){}[0]
+    final val endReached // io.github.solcott.uistate/PagedState.endReached|{}endReached[0]
+        final fun <get-endReached>(): kotlin/Boolean // io.github.solcott.uistate/PagedState.endReached.<get-endReached>|<get-endReached>(){}[0]
+    final val items // io.github.solcott.uistate/PagedState.items|{}items[0]
+        final fun <get-items>(): kotlin.collections/List<#A> // io.github.solcott.uistate/PagedState.items.<get-items>|<get-items>(){}[0]
+    final val meta // io.github.solcott.uistate/PagedState.meta|{}meta[0]
+        final fun <get-meta>(): #B? // io.github.solcott.uistate/PagedState.meta.<get-meta>|<get-meta>(){}[0]
+    final val nextCursor // io.github.solcott.uistate/PagedState.nextCursor|{}nextCursor[0]
+        final fun <get-nextCursor>(): kotlin/String? // io.github.solcott.uistate/PagedState.nextCursor.<get-nextCursor>|<get-nextCursor>(){}[0]
+    final val origin // io.github.solcott.uistate/PagedState.origin|{}origin[0]
+        final fun <get-origin>(): io.github.solcott.dataresult/Origin? // io.github.solcott.uistate/PagedState.origin.<get-origin>|<get-origin>(){}[0]
+    final val refresh // io.github.solcott.uistate/PagedState.refresh|{}refresh[0]
+        final fun <get-refresh>(): io.github.solcott.uistate/LoadStatus // io.github.solcott.uistate/PagedState.refresh.<get-refresh>|<get-refresh>(){}[0]
+
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.solcott.uistate/PagedState.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.solcott.uistate/PagedState.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.solcott.uistate/PagedState.toString|toString(){}[0]
+}
+
 final class <#A: kotlin/Any?> io.github.solcott.uistate/ContentState { // io.github.solcott.uistate/ContentState|null[0]
     constructor <init>(#A, io.github.solcott.dataresult/Origin? = ..., io.github.solcott.uistate/LoadStatus = ...) // io.github.solcott.uistate/ContentState.<init>|<init>(1:0;io.github.solcott.dataresult.Origin?;io.github.solcott.uistate.LoadStatus){}[0]
 
@@ -140,6 +174,25 @@ final class <#A: kotlin/Any?> io.github.solcott.uistate/ContentState { // io.git
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.solcott.uistate/ContentState.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.solcott.uistate/ContentState.hashCode|hashCode(){}[0]
     final fun toString(): kotlin/String // io.github.solcott.uistate/ContentState.toString|toString(){}[0]
+}
+
+final class <#A: out kotlin/Any?, #B: out kotlin/Any?> io.github.solcott.uistate/Page { // io.github.solcott.uistate/Page|null[0]
+    constructor <init>(kotlin.collections/List<#A>, #B, kotlin/String?) // io.github.solcott.uistate/Page.<init>|<init>(kotlin.collections.List<1:0>;1:1;kotlin.String?){}[0]
+
+    final val items // io.github.solcott.uistate/Page.items|{}items[0]
+        final fun <get-items>(): kotlin.collections/List<#A> // io.github.solcott.uistate/Page.items.<get-items>|<get-items>(){}[0]
+    final val meta // io.github.solcott.uistate/Page.meta|{}meta[0]
+        final fun <get-meta>(): #B // io.github.solcott.uistate/Page.meta.<get-meta>|<get-meta>(){}[0]
+    final val next // io.github.solcott.uistate/Page.next|{}next[0]
+        final fun <get-next>(): kotlin/String? // io.github.solcott.uistate/Page.next.<get-next>|<get-next>(){}[0]
+
+    final fun component1(): kotlin.collections/List<#A> // io.github.solcott.uistate/Page.component1|component1(){}[0]
+    final fun component2(): #B // io.github.solcott.uistate/Page.component2|component2(){}[0]
+    final fun component3(): kotlin/String? // io.github.solcott.uistate/Page.component3|component3(){}[0]
+    final fun copy(kotlin.collections/List<#A> = ..., #B = ..., kotlin/String? = ...): io.github.solcott.uistate/Page<#A, #B> // io.github.solcott.uistate/Page.copy|copy(kotlin.collections.List<1:0>;1:1;kotlin.String?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.solcott.uistate/Page.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.solcott.uistate/Page.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.solcott.uistate/Page.toString|toString(){}[0]
 }
 
 sealed class <#A: io.github.solcott.dataresult/OutcomeGroup> io.github.solcott.uistate/ContentStateGroup { // io.github.solcott.uistate/ContentStateGroup|null[0]
@@ -197,8 +250,12 @@ final val io.github.solcott.uistate/errorOrNull // io.github.solcott.uistate/err
     final fun (io.github.solcott.uistate/ContentState<*>).<get-errorOrNull>(): io.github.solcott.dataresult/DataError? // io.github.solcott.uistate/errorOrNull.<get-errorOrNull>|<get-errorOrNull>@io.github.solcott.uistate.ContentState<*>(){}[0]
 final val io.github.solcott.uistate/errorOrNull // io.github.solcott.uistate/errorOrNull|@kotlin.collections.List<io.github.solcott.uistate.ContentState<*>>{}errorOrNull[0]
     final fun (kotlin.collections/List<io.github.solcott.uistate/ContentState<*>>).<get-errorOrNull>(): io.github.solcott.dataresult/DataError? // io.github.solcott.uistate/errorOrNull.<get-errorOrNull>|<get-errorOrNull>@kotlin.collections.List<io.github.solcott.uistate.ContentState<*>>(){}[0]
+final val io.github.solcott.uistate/hasAnswer // io.github.solcott.uistate/hasAnswer|@io.github.solcott.uistate.PagedState<*,*>{}hasAnswer[0]
+    final fun (io.github.solcott.uistate/PagedState<*, *>).<get-hasAnswer>(): kotlin/Boolean // io.github.solcott.uistate/hasAnswer.<get-hasAnswer>|<get-hasAnswer>@io.github.solcott.uistate.PagedState<*,*>(){}[0]
 final val io.github.solcott.uistate/hasLoaded // io.github.solcott.uistate/hasLoaded|@io.github.solcott.uistate.ContentState<*>{}hasLoaded[0]
     final fun (io.github.solcott.uistate/ContentState<*>).<get-hasLoaded>(): kotlin/Boolean // io.github.solcott.uistate/hasLoaded.<get-hasLoaded>|<get-hasLoaded>@io.github.solcott.uistate.ContentState<*>(){}[0]
+final val io.github.solcott.uistate/hasLoaded // io.github.solcott.uistate/hasLoaded|@io.github.solcott.uistate.PagedState<*,*>{}hasLoaded[0]
+    final fun (io.github.solcott.uistate/PagedState<*, *>).<get-hasLoaded>(): kotlin/Boolean // io.github.solcott.uistate/hasLoaded.<get-hasLoaded>|<get-hasLoaded>@io.github.solcott.uistate.PagedState<*,*>(){}[0]
 final val io.github.solcott.uistate/hasLoaded // io.github.solcott.uistate/hasLoaded|@kotlin.collections.List<io.github.solcott.uistate.ContentState<*>>{}hasLoaded[0]
     final fun (kotlin.collections/List<io.github.solcott.uistate/ContentState<*>>).<get-hasLoaded>(): kotlin/Boolean // io.github.solcott.uistate/hasLoaded.<get-hasLoaded>|<get-hasLoaded>@kotlin.collections.List<io.github.solcott.uistate.ContentState<*>>(){}[0]
 final val io.github.solcott.uistate/isLoading // io.github.solcott.uistate/isLoading|@io.github.solcott.uistate.ContentState<*>{}isLoading[0]
@@ -214,8 +271,18 @@ final fun <#A: kotlin/Any?, #B: kotlin/Any?, #C: kotlin/Any?, #D: kotlin/Any?> i
 final fun <#A: kotlin/Any?, #B: kotlin/Any?, #C: kotlin/Any?, #D: kotlin/Any?> io.github.solcott.uistate/contentStatesOf(#A, #B, #C, #D): io.github.solcott.uistate/ContentStates4<#A, #B, #C, #D> // io.github.solcott.uistate/contentStatesOf|contentStatesOf(0:0;0:1;0:2;0:3){0§<kotlin.Any?>;1§<kotlin.Any?>;2§<kotlin.Any?>;3§<kotlin.Any?>}[0]
 final fun <#A: kotlin/Any?, #B: kotlin/Any?, #C: kotlin/Any?> io.github.solcott.uistate/combine(io.github.solcott.uistate/ContentState<#A>, io.github.solcott.uistate/ContentState<#B>, io.github.solcott.uistate/StatusPrecedence = ..., kotlin/Function2<#A, #B, #C>): io.github.solcott.uistate/ContentState<#C> // io.github.solcott.uistate/combine|combine(io.github.solcott.uistate.ContentState<0:0>;io.github.solcott.uistate.ContentState<0:1>;io.github.solcott.uistate.StatusPrecedence;kotlin.Function2<0:0,0:1,0:2>){0§<kotlin.Any?>;1§<kotlin.Any?>;2§<kotlin.Any?>}[0]
 final fun <#A: kotlin/Any?, #B: kotlin/Any?, #C: kotlin/Any?> io.github.solcott.uistate/contentStatesOf(#A, #B, #C): io.github.solcott.uistate/ContentStates3<#A, #B, #C> // io.github.solcott.uistate/contentStatesOf|contentStatesOf(0:0;0:1;0:2){0§<kotlin.Any?>;1§<kotlin.Any?>;2§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?, #B: kotlin/Any?> (io.github.solcott.uistate/PagedState<#A, #B>).io.github.solcott.uistate/applyFirstPage(io.github.solcott.dataresult/Outcome<io.github.solcott.uistate/Page<#A, #B>>, kotlin/Function1<#A, kotlin/Any?>): io.github.solcott.uistate/PagedState<#A, #B> // io.github.solcott.uistate/applyFirstPage|applyFirstPage@io.github.solcott.uistate.PagedState<0:0,0:1>(io.github.solcott.dataresult.Outcome<io.github.solcott.uistate.Page<0:0,0:1>>;kotlin.Function1<0:0,kotlin.Any?>){0§<kotlin.Any?>;1§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?, #B: kotlin/Any?> (io.github.solcott.uistate/PagedState<#A, #B>).io.github.solcott.uistate/applyNextPage(kotlin/String, io.github.solcott.dataresult/Outcome<io.github.solcott.uistate/Page<#A, #B>>, kotlin/Function1<#A, kotlin/Any?>): io.github.solcott.uistate/PagedState<#A, #B> // io.github.solcott.uistate/applyNextPage|applyNextPage@io.github.solcott.uistate.PagedState<0:0,0:1>(kotlin.String;io.github.solcott.dataresult.Outcome<io.github.solcott.uistate.Page<0:0,0:1>>;kotlin.Function1<0:0,kotlin.Any?>){0§<kotlin.Any?>;1§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?, #B: kotlin/Any?> (io.github.solcott.uistate/PagedState<#A, #B>).io.github.solcott.uistate/firstPageCompleted(): io.github.solcott.uistate/PagedState<#A, #B> // io.github.solcott.uistate/firstPageCompleted|firstPageCompleted@io.github.solcott.uistate.PagedState<0:0,0:1>(){0§<kotlin.Any?>;1§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?, #B: kotlin/Any?> (io.github.solcott.uistate/PagedState<#A, #B>).io.github.solcott.uistate/nextPageCompleted(kotlin/String): io.github.solcott.uistate/PagedState<#A, #B> // io.github.solcott.uistate/nextPageCompleted|nextPageCompleted@io.github.solcott.uistate.PagedState<0:0,0:1>(kotlin.String){0§<kotlin.Any?>;1§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?, #B: kotlin/Any?> (io.github.solcott.uistate/PagedState<#A, #B>).io.github.solcott.uistate/refreshing(): io.github.solcott.uistate/PagedState<#A, #B> // io.github.solcott.uistate/refreshing|refreshing@io.github.solcott.uistate.PagedState<0:0,0:1>(){0§<kotlin.Any?>;1§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?, #B: kotlin/Any?> (io.github.solcott.uistate/PagedState<#A, #B>).io.github.solcott.uistate/restarted(io.github.solcott.uistate/OnKeyChange): io.github.solcott.uistate/PagedState<#A, #B> // io.github.solcott.uistate/restarted|restarted@io.github.solcott.uistate.PagedState<0:0,0:1>(io.github.solcott.uistate.OnKeyChange){0§<kotlin.Any?>;1§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?, #B: kotlin/Any?> (io.github.solcott.uistate/PagedState<#A, #B>).io.github.solcott.uistate/updated(kotlin/Function1<#A, kotlin/Any?>, kotlin/Function1<kotlin.collections/List<#A>, kotlin.collections/List<#A>>): io.github.solcott.uistate/PagedState<#A, #B> // io.github.solcott.uistate/updated|updated@io.github.solcott.uistate.PagedState<0:0,0:1>(kotlin.Function1<0:0,kotlin.Any?>;kotlin.Function1<kotlin.collections.List<0:0>,kotlin.collections.List<0:0>>){0§<kotlin.Any?>;1§<kotlin.Any?>}[0]
 final fun <#A: kotlin/Any?, #B: kotlin/Any?> io.github.solcott.uistate/contentStatesOf(#A, #B): io.github.solcott.uistate/ContentStates2<#A, #B> // io.github.solcott.uistate/contentStatesOf|contentStatesOf(0:0;0:1){0§<kotlin.Any?>;1§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?, #B: kotlin/Any?> io.github.solcott.uistate/pagedStateOf(): io.github.solcott.uistate/PagedState<#A, #B> // io.github.solcott.uistate/pagedStateOf|pagedStateOf(){0§<kotlin.Any?>;1§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?, #B: kotlin/Any?> io.github.solcott.uistate/pagedStateOf(io.github.solcott.dataresult/Outcome.Data<io.github.solcott.uistate/Page<#A, #B>>, kotlin/Function1<#A, kotlin/Any?>): io.github.solcott.uistate/PagedState<#A, #B> // io.github.solcott.uistate/pagedStateOf|pagedStateOf(io.github.solcott.dataresult.Outcome.Data<io.github.solcott.uistate.Page<0:0,0:1>>;kotlin.Function1<0:0,kotlin.Any?>){0§<kotlin.Any?>;1§<kotlin.Any?>}[0]
 final fun <#A: kotlin/Any?> (io.github.solcott.uistate/ContentState<#A>).io.github.solcott.uistate/applyEmission(io.github.solcott.dataresult/Outcome<#A>): io.github.solcott.uistate/ContentState<#A> // io.github.solcott.uistate/applyEmission|applyEmission@io.github.solcott.uistate.ContentState<0:0>(io.github.solcott.dataresult.Outcome<0:0>){0§<kotlin.Any?>}[0]
 final fun <#A: kotlin/Any?> (io.github.solcott.uistate/ContentState<#A>).io.github.solcott.uistate/hasAnswer(kotlin/Function1<#A, kotlin/Boolean>): kotlin/Boolean // io.github.solcott.uistate/hasAnswer|hasAnswer@io.github.solcott.uistate.ContentState<0:0>(kotlin.Function1<0:0,kotlin.Boolean>){0§<kotlin.Any?>}[0]
 final fun <#A: kotlin/Any?> (io.github.solcott.uistate/ContentState<#A>).io.github.solcott.uistate/reloading(): io.github.solcott.uistate/ContentState<#A> // io.github.solcott.uistate/reloading|reloading@io.github.solcott.uistate.ContentState<0:0>(){0§<kotlin.Any?>}[0]
 final fun <#A: kotlin/Any?> (io.github.solcott.uistate/ContentState<#A>).io.github.solcott.uistate/settled(): io.github.solcott.uistate/ContentState<#A> // io.github.solcott.uistate/settled|settled@io.github.solcott.uistate.ContentState<0:0>(){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> io.github.solcott.uistate/pageOf(kotlin.collections/List<#A>, kotlin/String?): io.github.solcott.uistate/Page<#A, kotlin/Unit> // io.github.solcott.uistate/pageOf|pageOf(kotlin.collections.List<0:0>;kotlin.String?){0§<kotlin.Any?>}[0]

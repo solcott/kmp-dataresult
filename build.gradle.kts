@@ -56,7 +56,11 @@ dependencyAnalysis {
         project(":dataresult-store5") { onUsedTransitiveDependencies { exclude(":dataresult") } }
         project(":uistate") { onUsedTransitiveDependencies { exclude(":dataresult") } }
         project(":uistate-compose") { onUsedTransitiveDependencies { exclude(":uistate") } }
-        project(":uistate-circuit") { onUsedTransitiveDependencies { exclude(":uistate") } }
+        project(":uistate-circuit") {
+            // :dataresult since Paging, a compiled class rather than inline Compose code, names
+            // Outcome in its own members.
+            onUsedTransitiveDependencies { exclude(":uistate", ":dataresult") }
+        }
     }
 }
 

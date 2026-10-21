@@ -25,6 +25,12 @@ kotlin {
       api(libs.circuit.retained)
       api(libs.composeRuntime)
       api(libs.kotlinx.coroutines.core)
+
+      // `implementation`: `@Stable` on Paging is read by this module's Compose compiler, and
+      // consumers get its stability from the compiled class, not from the annotation. Declared
+      // even though composeRuntime brings it, because dependency analysis requires a direct use
+      // to be declared directly.
+      implementation(libs.composeRuntimeAnnotations)
     }
 
     // `nonWebTest`, not `commonTest`: `presenterTestOf` runs on Molecule, whose frame clock lives
