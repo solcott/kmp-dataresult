@@ -194,6 +194,58 @@ public final class io/github/solcott/uistate/LoadStatus$Loading : io/github/solc
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class io/github/solcott/uistate/OnKeyChange : java/lang/Enum {
+	public static final field ClearItems Lio/github/solcott/uistate/OnKeyChange;
+	public static final field KeepItems Lio/github/solcott/uistate/OnKeyChange;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/solcott/uistate/OnKeyChange;
+	public static fun values ()[Lio/github/solcott/uistate/OnKeyChange;
+}
+
+public final class io/github/solcott/uistate/Page {
+	public fun <init> (Ljava/util/List;Ljava/lang/Object;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Ljava/lang/Object;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/util/List;Ljava/lang/Object;Ljava/lang/String;)Lio/github/solcott/uistate/Page;
+	public static synthetic fun copy$default (Lio/github/solcott/uistate/Page;Ljava/util/List;Ljava/lang/Object;Ljava/lang/String;ILjava/lang/Object;)Lio/github/solcott/uistate/Page;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getItems ()Ljava/util/List;
+	public final fun getMeta ()Ljava/lang/Object;
+	public final fun getNext ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/solcott/uistate/PagedState {
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAppend ()Lio/github/solcott/uistate/LoadStatus;
+	public final fun getCanLoadMore ()Z
+	public final fun getEndReached ()Z
+	public final fun getItems ()Ljava/util/List;
+	public final fun getMeta ()Ljava/lang/Object;
+	public final fun getNextCursor ()Ljava/lang/String;
+	public final fun getOrigin ()Lio/github/solcott/dataresult/Origin;
+	public final fun getRefresh ()Lio/github/solcott/uistate/LoadStatus;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/solcott/uistate/PagedStateKt {
+	public static final fun applyFirstPage (Lio/github/solcott/uistate/PagedState;Lio/github/solcott/dataresult/Outcome;Lkotlin/jvm/functions/Function1;)Lio/github/solcott/uistate/PagedState;
+	public static final fun applyNextPage (Lio/github/solcott/uistate/PagedState;Ljava/lang/String;Lio/github/solcott/dataresult/Outcome;Lkotlin/jvm/functions/Function1;)Lio/github/solcott/uistate/PagedState;
+	public static final fun firstPageCompleted (Lio/github/solcott/uistate/PagedState;)Lio/github/solcott/uistate/PagedState;
+	public static final fun getHasAnswer (Lio/github/solcott/uistate/PagedState;)Z
+	public static final fun getHasLoaded (Lio/github/solcott/uistate/PagedState;)Z
+	public static final fun nextPageCompleted (Lio/github/solcott/uistate/PagedState;Ljava/lang/String;)Lio/github/solcott/uistate/PagedState;
+	public static final fun pageOf (Ljava/util/List;Ljava/lang/String;)Lio/github/solcott/uistate/Page;
+	public static final fun pagedStateOf ()Lio/github/solcott/uistate/PagedState;
+	public static final fun pagedStateOf (Lio/github/solcott/dataresult/Outcome$Data;Lkotlin/jvm/functions/Function1;)Lio/github/solcott/uistate/PagedState;
+	public static final fun refreshing (Lio/github/solcott/uistate/PagedState;)Lio/github/solcott/uistate/PagedState;
+	public static final fun restarted (Lio/github/solcott/uistate/PagedState;Lio/github/solcott/uistate/OnKeyChange;)Lio/github/solcott/uistate/PagedState;
+	public static final fun updated (Lio/github/solcott/uistate/PagedState;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/github/solcott/uistate/PagedState;
+}
+
 public final class io/github/solcott/uistate/StatusPrecedence : java/lang/Enum {
 	public static final field FailedFirst Lio/github/solcott/uistate/StatusPrecedence;
 	public static final field LoadingFirst Lio/github/solcott/uistate/StatusPrecedence;

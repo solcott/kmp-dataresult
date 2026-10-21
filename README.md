@@ -182,6 +182,61 @@ accept a group too. The group of states has the same aggregates, plus `hasLoaded
 `states.toContentState { a, b, c -> … }` collapses the group into one `ContentState` with
 `combine`'s rules.
 
+### Paging
+
+A list loaded a page at a time from a cursor is one flow per page. Each emits
+`Outcome<Page<T, M>>`, where a `Page` holds the items, an optional header (`meta`) and the next
+cursor:
+
+```kotlin
+// Data layer: one page, after `cursor` (null for the first).
+fun followers(account: String, cursor: String?): Flow<Outcome<Page<Profile, Profile>>> =
+  apolloClient.query(FollowersQuery(account, cursor)).toFlow().mapToOutcome {
+    val next = followers.pageInfo.endCursor.takeIf { followers.pageInfo.hasNextPage }
+    Page(followers.nodes.map { it.toModel() }, subject.toModel(), next)
+  }
+```
+
+A Circuit presenter holds the list with `rememberRetainedPaging`, and renders its `PagedState`:
+
+```kotlin
+val followers =
+  rememberRetainedPaging(screen.account, idOf = Profile::did) { cursor ->
+    repository.followers(screen.account, cursor)
+  }
+val list = followers.state
+when {
+  !list.hasLoaded -> if (list.refresh is LoadStatus.Failed) FullScreenError(onRetry = followers::retry) else Spinner()
+  else -> FollowList(
+    subject = list.meta,
+    items = list.items,
+    isRefreshing = list.refresh is LoadStatus.Loading,
+    footer = when (list.append) {
+      LoadStatus.Loading -> Footer.Spinner
+      is LoadStatus.Failed -> Footer.Retry(followers::retry)
+      LoadStatus.Idle -> if (list.endReached) Footer.None else Footer.LoadMore(followers::loadMore)
+    },
+  )
+}
+```
+
+A failed refresh keeps the items, and a failed page keeps the pages before it. `retry()` repeats
+only what failed. Coming back to the screen shows the pages at once, without requesting them. A new
+key keeps the old items under the refresh indicator until its first page arrives, which is right
+for a search. Pass `onKeyChange = OnKeyChange.ClearItems` for a filter, where the old items would be
+wrong. `update { items -> items.filterNot { it.did == unblocked } }` edits the list without a
+request, and `enabled = false` loads nothing, as for a blank query.
+
+A page source may emit more than once, such as a cached read and then the network. Each emission
+replaces its own page, and the pages after it are kept as long as its next cursor is unchanged.
+For nested lists, such as a comment thread's replies, use one holder per parent inside
+`key(thread.uri)`. Start each from the replies that came with the thread with
+`initial = Outcome.Data(Page(thread.replies, Unit, thread.repliesCursor), Origin.Network)`, so
+nothing is requested until `loadMore()`.
+
+`PagedState`'s fold (`applyFirstPage`, `applyNextPage`, `refreshing`, `restarted`, `updated`) is
+public and pure, for a host other than Circuit to drive.
+
 ### Apollo
 
 ```kotlin
@@ -290,6 +345,26 @@ nothing until every source has emitted once. A source that never reports its own
 Apollo flow, a local store mapped straight to data — would hold the whole group back behind
 whichever source is slowest. The cost is a possibly doubled `Loading` from sources that already emit
 one, and folding the same emission twice changes nothing.
+
+**Why a paging cursor is a `String`.** Cursor-paged APIs (atproto, GraphQL Relay) hand out opaque
+string tokens, and an offset encodes as one losslessly. A cursor type parameter would make every
+paging type take three generics, and Swift export would show it as an untyped `Any?`.
+
+**Why `PagedState` keeps pages separately.** A page's source can emit more than once: a cached read
+and then the network, or a database watcher after a local write. Replacing only that page keeps
+the user's scroll position. A changed next cursor drops the pages after it, because they were read
+from a cursor that no longer exists. The same bookkeeping lets the fold drop a page requested
+before a refresh or a key change, so the check that keeps a stale result out of the list is in pure,
+unit-tested code rather than in the holder.
+
+**Why nested lists are one holder per parent.** A thread's replies have their own cursor, their own
+failure and their own retry. Nesting `PagedState`s would put child type parameters on every caller
+and a second level of rules in the fold, for one screen. `initial` covers what nesting would have
+given that screen: starting from the replies that came with the thread.
+
+**Why keep-or-clear on a new key is a parameter.** The two differ in one step of the fold.
+Separate entry points would duplicate every parameter and doc paragraph. Keep is the default
+because it is what `produceRetainedContentState` already does on a key change.
 
 **Why the adapters take a callback instead of a logger.** `mapToOutcome`'s `onException` parameter
 keeps this library independent of any logging framework, and lets a caller inject its own tagged

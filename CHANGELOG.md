@@ -33,6 +33,16 @@ Initial release.
   accept a group too.
 - `uistate-circuit`: `produceRetainedContentState` and its `Flow<P>` extension — the same, with the
   state held in Circuit's registry — and `produceRetainedContentStates` for a group of sources.
+- Paging. In `uistate`: `Page<T, M>` (items, a header, and a `String?` cursor to the next page),
+  `pageOf`, and `PagedState<T, M>`, which folds `Outcome<Page<T, M>>` with `ContentState`'s rules.
+  It keeps items de-duplicated by id, the first page's `meta`, `origin`, separate `refresh` and
+  `append` statuses, and `endReached`. A failed refresh keeps the items, and a failed page keeps
+  the pages before it. A page its source emits again (cache then network, or a watcher) replaces
+  only itself. `hasAnswer` doesn't count an empty cached first page while it's loading. In
+  `uistate-circuit`: `rememberRetainedPaging`, which returns a retained `Paging` holder with
+  `loadMore()`, `retry()` (which repeats only what failed), `refresh()` and `update {}`. It
+  restarts on keys, keeping or clearing the items as `OnKeyChange` says. It shows its pages at once
+  when the screen is reached again, and can start from a page already in hand (`initial`).
 - `Outcome`, `DataError`, `OutcomeGroup`, `ContentState`, `LoadStatus` and `ContentStateGroup` are
   `@Immutable`, so Compose treats them as stable and skips on `equals`. `dataresult` and `uistate`
   therefore depend on `androidx.compose.runtime:runtime-annotation` 1.9.0. It has no Compose
