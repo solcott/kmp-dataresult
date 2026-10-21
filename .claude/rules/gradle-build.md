@@ -29,6 +29,9 @@ paths:
   `build.gradle.kts` wires `ktfmtFormat`, `ktfmtCheck`, `sortDependencies`, `checkSortDependencies`
   and `check` to build-logic's own tasks. A check added to build-logic needs wiring there too.
   `./gradlew -p build-logic <task>` runs one of its tasks standalone.
+- **detekt** in a KMP module lints only what `kmp-library.gradle.kts` puts in the plain `detekt`
+  task's `source` (every Kotlin source set). Its default is `src/main/kotlin`, which a KMP module
+  lacks, so dropping that line makes every module NO-SOURCE while `check` still passes.
 - **`buildHealth` (DAGP)** fails on any finding. It analyzes only the JVM and Android variants of a KMP
   module, and skips Apple, JS and Wasm. Its `fixDependencies` is unreliable on KMP, so fix findings by
   hand from `build/reports/dependency-analysis/build-health-report.txt`.

@@ -54,7 +54,8 @@ fun <T> Flow<StoreReadResponse<T>>.asOutcomes(
     }
     val outcome = response.toOutcomeOrNull() ?: return@collect
     if (outcome is Outcome.Data) {
-      if (pending && !emittedData && outcome.origin == Origin.Cache && isEmpty(outcome.data)) {
+      val isCacheMiss = outcome.origin == Origin.Cache && isEmpty(outcome.data)
+      if (pending && !emittedData && isCacheMiss) {
         held = outcome
         return@collect
       }
