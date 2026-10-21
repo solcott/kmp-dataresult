@@ -1,3 +1,8 @@
+// Named for the list aggregates below, not for StatusPrecedence, its one class. Renaming the file
+// would rename the JVM facade class (CombinedContentStateKt) that Java callers and the ABI dump
+// see.
+@file:Suppress("MatchingDeclarationName")
+
 package io.github.solcott.uistate
 
 import io.github.solcott.dataresult.DataError
