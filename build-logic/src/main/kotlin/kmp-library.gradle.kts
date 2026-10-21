@@ -111,7 +111,18 @@ tasks.withType<JavaCompile>().configureEach {
   targetCompatibility = jvmBytecodeTarget
 }
 
+dependencies {
+  // detekt.yml configures the Compose rule set, and config validation rejects ids no loaded plugin
+  // provides, so every module needs the plugin -- not only the Compose ones.
+  "detektPlugins"(libs.findLibrary("detekt-compose-rules").get())
+}
+
 detekt {
+  // The plain `detekt` task (the one `check` runs) defaults to src/main/kotlin and src/test/kotlin,
+  // which a KMP module doesn't have, so it reported NO-SOURCE and linted nothing. Point it at
+  // every Kotlin source set instead. The provider defers the lookup until the default hierarchy
+  // template and module build files have created all of them (commonMain, nonWebTest, ...).
+  source.setFrom(files(provider { kotlin.sourceSets.map { it.kotlin.sourceDirectories } }))
   config.setFrom(files("$rootDir/detekt/detekt.yml"))
   buildUponDefaultConfig = true
   allRules = false
