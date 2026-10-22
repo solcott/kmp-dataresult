@@ -21,7 +21,7 @@ at every boundary, each deciding again what `Origin` to use and what a `Loading`
 ## Capabilities
 
 ### New Capabilities
-- `arrow-interop`: conversion between Arrow's `Either` and `Raise` and the library's `Outcome` and
+- `dataresult-arrow/arrow-interop`: conversion between Arrow's `Either` and `Raise` and the library's `Outcome` and
   `DataError`.
 
 ### Modified Capabilities

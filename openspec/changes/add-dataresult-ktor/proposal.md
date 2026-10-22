@@ -27,7 +27,7 @@ envelopes need decoding.
 ## Capabilities
 
 ### New Capabilities
-- `ktor-adapter`: mapping Ktor HTTP calls and responses onto `Outcome` and `DataError`. That covers
+- `dataresult-ktor/ktor-adapter`: mapping Ktor HTTP calls and responses onto `Outcome` and `DataError`. That covers
   status handling, exception classification, error-body decoding, cancellation, and the flow form.
 
 ### Modified Capabilities
