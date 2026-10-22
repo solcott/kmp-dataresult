@@ -1,0 +1,12 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, js, macosArm64, wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.github.solcott:dataresult-ktor>
+final fun (kotlin/Throwable).io.github.solcott.dataresult.ktor/toDataError(): io.github.solcott.dataresult/DataError // io.github.solcott.dataresult.ktor/toDataError|toDataError@kotlin.Throwable(){}[0]
+final fun <#A: kotlin/Any?> io.github.solcott.dataresult.ktor/httpOutcomeFlow(kotlin/Function1<kotlin/Throwable, kotlin/Unit> = ..., kotlin.coroutines/SuspendFunction1<io.ktor.client.statement/HttpResponse, io.github.solcott.dataresult/DataError?> = ..., kotlin.coroutines/SuspendFunction0<#A>): kotlinx.coroutines.flow/Flow<io.github.solcott.dataresult/Outcome<#A>> // io.github.solcott.dataresult.ktor/httpOutcomeFlow|httpOutcomeFlow(kotlin.Function1<kotlin.Throwable,kotlin.Unit>;kotlin.coroutines.SuspendFunction1<io.ktor.client.statement.HttpResponse,io.github.solcott.dataresult.DataError?>;kotlin.coroutines.SuspendFunction0<0:0>){0§<kotlin.Any?>}[0]
+final suspend fun <#A: kotlin/Any?> (io.ktor.client.statement/HttpResponse).io.github.solcott.dataresult.ktor/toOutcome(kotlin/Function1<kotlin/Throwable, kotlin/Unit> = ..., kotlin.coroutines/SuspendFunction1<io.ktor.client.statement/HttpResponse, io.github.solcott.dataresult/DataError?> = ..., kotlin.coroutines/SuspendFunction1<io.ktor.client.statement/HttpResponse, #A>): io.github.solcott.dataresult/Outcome<#A> // io.github.solcott.dataresult.ktor/toOutcome|toOutcome@io.ktor.client.statement.HttpResponse(kotlin.Function1<kotlin.Throwable,kotlin.Unit>;kotlin.coroutines.SuspendFunction1<io.ktor.client.statement.HttpResponse,io.github.solcott.dataresult.DataError?>;kotlin.coroutines.SuspendFunction1<io.ktor.client.statement.HttpResponse,0:0>){0§<kotlin.Any?>}[0]
+final suspend fun <#A: kotlin/Any?> io.github.solcott.dataresult.ktor/httpOutcome(kotlin/Function1<kotlin/Throwable, kotlin/Unit> = ..., kotlin.coroutines/SuspendFunction1<io.ktor.client.statement/HttpResponse, io.github.solcott.dataresult/DataError?> = ..., kotlin.coroutines/SuspendFunction0<#A>): io.github.solcott.dataresult/Outcome<#A> // io.github.solcott.dataresult.ktor/httpOutcome|httpOutcome(kotlin.Function1<kotlin.Throwable,kotlin.Unit>;kotlin.coroutines.SuspendFunction1<io.ktor.client.statement.HttpResponse,io.github.solcott.dataresult.DataError?>;kotlin.coroutines.SuspendFunction0<0:0>){0§<kotlin.Any?>}[0]

@@ -28,6 +28,14 @@ Initial release.
   accept a group of sources too. They settle a still-loading state when the source completes and
   never on cancellation, the same rules as `uistate-compose`.
 - `dataresult-apollo`: `Flow<ApolloResponse<D>>.mapToOutcome`, `ApolloException.toDataError`.
+- `dataresult-ktor`: `httpOutcome { call }`, `httpOutcomeFlow { call }` and
+  `HttpResponse.toOutcome { mapSuccess }`, plus `Throwable.toDataError`. `toOutcome` reads the
+  status itself, so it is right whatever the client's `expectSuccess`. `httpOutcome` needs
+  `expectSuccess = true`, which suits Ktorfit. An `errorBody` hook decodes an error envelope into
+  `DataError.Api` and falls back to `Http(status)` when it returns null or throws. Cancellation is
+  rethrown, and every outcome is `Origin.Network`. DNS and connection failures are `Network` on
+  OkHttp, CIO, Darwin and Js. Requires Ktor 3.0.0 or later, and
+  kotlinx-serialization-core 1.7.3.
 - `dataresult-store5`: `Flow<StoreReadResponse<T>>.asOutcomes` and `StoreReadResponse.toOutcomeOrNull`.
   Given `fetching` and `isEmpty`, `asOutcomes` holds back an empty first read from cache until the
   fetch it prompted answers, so a cache miss never reaches a consumer as an empty result.

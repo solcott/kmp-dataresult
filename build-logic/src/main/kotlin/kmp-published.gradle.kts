@@ -27,6 +27,8 @@ val descriptions =
       "Maps Apollo GraphQL responses onto dataresult's Outcome and DataError types.",
     "dataresult-store5" to
       "Maps Store5 StoreReadResponse onto dataresult's Outcome and DataError types.",
+    "dataresult-ktor" to
+      "Maps Ktor HTTP calls and responses onto dataresult's Outcome and DataError types.",
   )
 
 configure<MavenPublishBaseExtension> {
