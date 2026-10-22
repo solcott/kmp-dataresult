@@ -34,6 +34,15 @@ compose-runtime = "1.12.1"
 # from compose-runtime and at the first stable release: androidx aligns the runtime group, so this
 # version is the Compose runtime floor it imposes on every consumer of those two modules.
 compose-runtime-annotation = "1.12.1"
+# Ktor, for `dataresult-ktor`. A floor, not a pin: 3.0.0 is the first stable 3.x and already
+# publishes every target here, wasmJs and macosArm64 included. It is also the first line where
+# timeouts are IOExceptions rather than CancellationExceptions, which the classification relies on.
+# ktor-http and ktor-utils are ktor-client-core's own dependencies, so they ride the same version, as
+# does the test-only ktor-client-mock.
+ktor = "3.0.0"
+# Only for `dataresult-ktor`'s SerializationException check. A floor: this is the version Ktor
+# 3.0.0's kotlinx converter already resolves, so declaring it raises nothing for a typical consumer.
+kotlinx-serialization = "1.7.3"
 
 # Build tooling
 detekt = "2.0.0-alpha.6"
@@ -54,6 +63,7 @@ apollo-api = { module = "com.apollographql.apollo:apollo-api", version.ref = "ap
 apollo-normalized-cache = { module = "com.apollographql.cache:normalized-cache", version.ref = "apollo-normalized-cache" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
 circuit-retained = { module = "com.slack.circuit:circuit-retained", version.ref = "circuit" }
 circuit-runtime = { module = "com.slack.circuit:circuit-runtime", version.ref = "circuit" }
 circuit-test = { module = "com.slack.circuit:circuit-test", version.ref = "circuit" }
@@ -62,6 +72,11 @@ circuit-test = { module = "com.slack.circuit:circuit-test", version.ref = "circu
 composeRuntime = { module = "androidx.compose.runtime:runtime", version.ref = "compose-runtime" }
 composeRuntimeAnnotations = { module = "androidx.compose.runtime:runtime-annotation", version.ref = "compose-runtime-annotation" }
 composeRuntimeRetain = { module = "androidx.compose.runtime:runtime-retain", version.ref = "compose-runtime" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
+ktor-http = { module = "io.ktor:ktor-http", version.ref = "ktor" }
+ktor-serialization = { module = "io.ktor:ktor-serialization", version.ref = "ktor" }
+ktor-utils = { module = "io.ktor:ktor-utils", version.ref = "ktor" }
 molecule-runtime = { module = "app.cash.molecule:molecule-runtime", version.ref = "molecule" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 store5 = { module = "org.mobilenativefoundation.store:store5", version.ref = "store5" }

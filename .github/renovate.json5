@@ -27,6 +27,10 @@
         "com.slack.circuit:circuit-test",
         "org.jetbrains.kotlinx:kotlinx-coroutines-core",
         "org.jetbrains.kotlinx:kotlinx-coroutines-test",
+        "io.ktor:ktor-client-core",
+        "io.ktor:ktor-http",
+        "io.ktor:ktor-serialization",
+        "org.jetbrains.kotlinx:kotlinx-serialization-core",
       ],
       labels: ["consumer-floor"],
       prBodyNotes: [
