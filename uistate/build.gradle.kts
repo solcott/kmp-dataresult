@@ -17,6 +17,15 @@ kotlin {
       // Declared here even though dataresult re-exports it, because ContentState and LoadStatus
       // carry `@Immutable` themselves. `api` for the same reason as in dataresult.
       api(libs.composeRuntimeAnnotations)
+      // Declared here even though dataresult re-exports it, because Flow and MutableStateFlow are
+      // in this module's own signatures (scanContentState, collectFrom).
+      api(libs.kotlinx.coroutines.core)
+    }
+
+    // The fold needs no composition, so these run on every target, web included.
+    commonTest.dependencies {
+      implementation(libs.kotlinx.coroutines.test)
+      implementation(libs.turbine)
     }
   }
 }

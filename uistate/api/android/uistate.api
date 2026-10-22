@@ -59,6 +59,17 @@ public final class io/github/solcott/uistate/ContentStateKt {
 	public static final fun settled (Lio/github/solcott/uistate/ContentState;)Lio/github/solcott/uistate/ContentState;
 }
 
+public final class io/github/solcott/uistate/ContentStateStreamsKt {
+	public static final fun collectFrom (Lkotlinx/coroutines/flow/MutableStateFlow;Lkotlinx/coroutines/flow/Flow;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun collectGroupFrom (Lkotlinx/coroutines/flow/MutableStateFlow;Lkotlinx/coroutines/flow/Flow;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun collectGroupLatestFrom (Lkotlinx/coroutines/flow/MutableStateFlow;Lkotlinx/coroutines/flow/Flow;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun collectLatestFrom (Lkotlinx/coroutines/flow/MutableStateFlow;Lkotlinx/coroutines/flow/Flow;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun scanContentState (Lkotlinx/coroutines/flow/Flow;Lio/github/solcott/uistate/ContentState;)Lkotlinx/coroutines/flow/Flow;
+	public static final fun scanContentState (Lkotlinx/coroutines/flow/Flow;Lio/github/solcott/uistate/ContentStateGroup;)Lkotlinx/coroutines/flow/Flow;
+	public static final fun scanContentStateLatest (Lkotlinx/coroutines/flow/Flow;Lio/github/solcott/uistate/ContentState;Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/flow/Flow;
+	public static final fun scanContentStateLatest (Lkotlinx/coroutines/flow/Flow;Lio/github/solcott/uistate/ContentStateGroup;Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/flow/Flow;
+}
+
 public final class io/github/solcott/uistate/ContentStates2 : io/github/solcott/uistate/ContentStateGroup {
 	public fun <init> (Lio/github/solcott/uistate/ContentState;Lio/github/solcott/uistate/ContentState;)V
 	public synthetic fun applyEmission (Lio/github/solcott/dataresult/OutcomeGroup;)Lio/github/solcott/uistate/ContentStateGroup;

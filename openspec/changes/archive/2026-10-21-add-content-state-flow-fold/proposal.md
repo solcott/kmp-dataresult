@@ -28,7 +28,7 @@ others, so this gap is real today.
 ## Capabilities
 
 ### New Capabilities
-- `content-state-streams`: folding streams of `Outcome`s into `ContentState` outside Compose, either
+- `uistate/content-state-streams`: folding streams of `Outcome`s into `ContentState` outside Compose, either
   as a stream of states or into a caller-held state flow, for one source or a group of sources.
 
 ### Modified Capabilities
