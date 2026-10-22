@@ -20,6 +20,13 @@ Initial release.
   source of a group, so each source keeps its own last value, with the same aggregates plus
   `hasLoaded` and `combinedStatus`. `toContentState` collapses a group into one state with
   `combine`'s rules, and `contentStatesOf` builds the initial group.
+- `uistate`, without Compose: `Flow<Outcome<T>>.scanContentState(initial)` folds a source into a
+  `Flow<ContentState<T>>`, and `Flow<P>.scanContentStateLatest(initial) { p -> … }` restarts it on
+  each distinct parameter, keeping the data under a reload. `MutableStateFlow.collectFrom` /
+  `collectLatestFrom` fold into a state flow the caller holds, starting from its current value, so
+  a ViewModel or Decompose component never drops back to its placeholder on a restart. All four
+  accept a group of sources too. They settle a still-loading state when the source completes and
+  never on cancellation, the same rules as `uistate-compose`.
 - `dataresult-apollo`: `Flow<ApolloResponse<D>>.mapToOutcome`, `ApolloException.toDataError`.
 - `dataresult-store5`: `Flow<StoreReadResponse<T>>.asOutcomes` and `StoreReadResponse.toOutcomeOrNull`.
   Given `fetching` and `isEmpty`, `asOutcomes` holds back an empty first read from cache until the

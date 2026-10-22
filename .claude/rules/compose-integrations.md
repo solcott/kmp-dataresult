@@ -13,6 +13,13 @@ it:
 - `uistate-circuit`'s `produceRetainedContentState`, which uses Circuit's `produceRetainedState`.
   That function's `ProduceStateScope` *is* a `MutableState`.
 
+The same fold, completion rule included, is implemented a second time in `uistate`'s
+`ContentStateFold.kt`, behind `ContentStateStreams.kt` (`scanContentState`, and `collectFrom` on a
+`MutableStateFlow`), for hosts that aren't Compose. `uistate-compose` doesn't delegate to it: a fold
+over a copy captured at the start would discard a consumer's own write to its `MutableState`, and
+sharing the get/set helper would make it public API. So change the two together.
+`CollectContentStateTest`'s mirrored test pins that they produce the same states.
+
 ## Invariants that look like tidy-ups but are bugs
 
 Tests pin most of these.

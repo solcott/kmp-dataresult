@@ -17,7 +17,7 @@ Two ideas, and adapters that connect them to real data sources:
 | Artifact | Contents | Depends on |
 | --- | --- | --- |
 | `io.github.solcott:dataresult` | `Outcome`, `DataError`, `Origin`, `combineOutcomes` | `kotlinx-coroutines-core` |
-| `io.github.solcott:uistate` | `ContentState`, `LoadStatus`, `applyEmission`, `ContentStates2`–`5` | `dataresult` |
+| `io.github.solcott:uistate` | `ContentState`, `LoadStatus`, `applyEmission`, `ContentStates2`–`5`, `scanContentState` | `dataresult`, `kotlinx-coroutines-core` |
 | `io.github.solcott:dataresult-apollo` | Apollo GraphQL → `Outcome` | `dataresult`, `apollo-api` |
 | `io.github.solcott:dataresult-store5` | Store5 → `Outcome` | `dataresult`, `store5` |
 | `io.github.solcott:uistate-compose` | Collects `Outcome`s into `ContentState`, on androidx `retain` | `uistate`, Compose runtime |
@@ -110,6 +110,101 @@ request is outstanding or has failed, so it can't hang a spinner either.
 
 For an intentional re-fetch (a retry, a filter change, pull-to-refresh) call `state.reloading()` to
 put up the indicator immediately; the next emission settles it.
+
+### Without Compose
+
+`uistate` has the same fold for hosts that aren't Compose, with the same rules: data is replaced
+only by `Data`, the status settles on every emission, and a still-loading state settles when the
+source completes but never when the collection is cancelled. It comes in two shapes.
+
+In a ViewModel, hold a `MutableStateFlow` and fold into it with `collectFrom`:
+
+```kotlin
+class ArticlesViewModel(private val repository: ArticlesRepository) : ViewModel() {
+  private val _state = MutableStateFlow(ContentState(emptyList<Article>()))
+  val state: StateFlow<ContentState<List<Article>>> = _state.asStateFlow()
+
+  init {
+    viewModelScope.launch { _state.collectFrom(repository.articles()) }
+  }
+}
+```
+
+A retry is a parameter that changes. `collectLatestFrom` cancels the in-flight request on each new
+value and marks the state reloading, so the articles stay on screen under the indicator:
+
+```kotlin
+  private val attempt = MutableStateFlow(0)
+
+  init {
+    viewModelScope.launch { _state.collectLatestFrom(attempt) { repository.articles() } }
+  }
+
+  fun retry() = attempt.update { it + 1 }
+```
+
+In a Decompose component, the same holder goes in a `retainedInstance` with its own scope, so it
+survives configuration changes and stops when the component is destroyed:
+
+```kotlin
+class ArticlesComponent(context: ComponentContext, repository: ArticlesRepository) :
+  ComponentContext by context {
+  private val holder = retainedInstance { Holder(repository) }
+  val state: StateFlow<ContentState<List<Article>>> = holder.state
+
+  private class Holder(repository: ArticlesRepository) : InstanceKeeper.Instance {
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private val _state = MutableStateFlow(ContentState(emptyList<Article>()))
+    val state = _state.asStateFlow()
+
+    init {
+      scope.launch { _state.collectFrom(repository.articles()) }
+    }
+
+    override fun onDestroy() = scope.cancel()
+  }
+}
+```
+
+Both use the collector rather than `scanContentState(initial).stateIn(scope, WhileSubscribed(…),
+initial)`, because `stateIn` restarts a cold upstream on every resubscription, and a restarted
+fold starts over from `initial`: the screen drops back to its placeholder. The collector folds into
+the holder's *current* value, so a restart carries on from the last state. It is the same trap as
+keying `retain` in Compose.
+
+When a cold stream of states is what you want, `Flow<Outcome<T>>.scanContentState(initial)` emits
+`initial` and then one state per outcome, and `params.scanContentStateLatest(initial) { p -> … }`
+restarts it on each distinct parameter. From SwiftUI, expose one from the exported Kotlin module:
+
+```kotlin
+class ArticlesModel(repository: ArticlesRepository) {
+  val state: Flow<ContentState<List<Article>>> =
+    repository.articles().scanContentState(ContentState(emptyList()))
+}
+```
+
+Swift export bridges it to a typed flow with `asAsyncSequence()`:
+
+```swift
+@Observable @MainActor
+final class ArticlesObserver {
+  private let model: ArticlesModel
+  private(set) var state: ContentState?
+
+  init(_ model: ArticlesModel) { self.model = model }
+
+  // Attach with `.task { await observer.observe() }`.
+  func observe() async {
+    do {
+      for try await next in model.state.asAsyncSequence() { state = next }
+    } catch {}
+  }
+}
+```
+
+The fold restarts with the `.task`, so this suits state that lives as long as the view. For state
+that should outlive it, hold a `MutableStateFlow` on the Kotlin side and fold into it with
+`collectFrom`, as above. Every form also takes a group of sources (`ContentStates2`…`5`).
 
 ### Combining states
 
