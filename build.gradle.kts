@@ -54,6 +54,7 @@ dependencyAnalysis {
         // used-transitive finding can only be this false positive, never a real one.
         project(":dataresult-apollo") { onUsedTransitiveDependencies { exclude(":dataresult") } }
         project(":dataresult-store5") { onUsedTransitiveDependencies { exclude(":dataresult") } }
+        project(":dataresult-ktor") { onUsedTransitiveDependencies { exclude(":dataresult") } }
         project(":uistate") { onUsedTransitiveDependencies { exclude(":dataresult") } }
         project(":uistate-compose") { onUsedTransitiveDependencies { exclude(":uistate") } }
         project(":uistate-circuit") {

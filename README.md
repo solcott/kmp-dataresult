@@ -20,6 +20,7 @@ Two ideas, and adapters that connect them to real data sources:
 | `io.github.solcott:uistate` | `ContentState`, `LoadStatus`, `applyEmission`, `ContentStates2`–`5`, `scanContentState` | `dataresult`, `kotlinx-coroutines-core` |
 | `io.github.solcott:dataresult-apollo` | Apollo GraphQL → `Outcome` | `dataresult`, `apollo-api` |
 | `io.github.solcott:dataresult-store5` | Store5 → `Outcome` | `dataresult`, `store5` |
+| `io.github.solcott:dataresult-ktor` | Ktor HTTP calls and responses → `Outcome` | `dataresult`, `ktor-client-core` |
 | `io.github.solcott:uistate-compose` | Collects `Outcome`s into `ContentState`, on androidx `retain` | `uistate`, Compose runtime |
 | `io.github.solcott:uistate-circuit` | The same, retained in Circuit's registry | `uistate-compose`, `circuit-retained` |
 
@@ -342,6 +343,57 @@ apolloClient.query(ArticlesQuery()).toFlow()
 Cache-miss responses are dropped rather than surfaced as errors — under a cache-then-network policy
 a network response follows. GraphQL `errors` are checked first, so a response carrying both an error
 and a cache miss surfaces the error.
+
+### Ktor
+
+Which form to use depends on `expectSuccess`. With Ktor's default of `false`, a non-2xx response
+is an ordinary return, so map the response with `toOutcome`, which reads the status itself:
+
+```kotlin
+// REST, expectSuccess = false (the default)
+suspend fun article(id: String): Outcome<Article> =
+  client.get("articles/$id").toOutcome(onException = { logger.e(it) { "Request failed" } }) {
+    body<ArticleDto>().toModel()
+  }
+```
+
+An error envelope is decoded by `errorBody`. Returning null, or throwing, falls back to
+`DataError.Http(status)`, so the decode needs no guard of its own:
+
+```kotlin
+// XRPC: a non-2xx body is {"error": "...", "message": "..."}
+@Serializable data class XrpcError(val error: String, val message: String? = null)
+
+val xrpcError: suspend (HttpResponse) -> DataError? = { response ->
+  val envelope = response.body<XrpcError>()
+  DataError.Api(listOfNotNull(envelope.message), code = envelope.error)
+}
+
+client.get("xrpc/app.bsky.feed.getTimeline") { parameter("cursor", cursor) }
+  .toOutcome(errorBody = xrpcError) { body<Timeline>() }
+```
+
+With `expectSuccess = true`, a non-2xx response throws, so the call can be wrapped whole. This is
+the form for Ktorfit, whose generated calls throw the same Ktor exceptions:
+
+```kotlin
+// Ktorfit, on a client built with expectSuccess = true
+suspend fun timeline(): Outcome<Timeline> = httpOutcome(errorBody = xrpcError) { api.getTimeline() }
+
+// The same as a flow: Loading, then the outcome. Each collection is a new request.
+val timeline: Flow<Outcome<Timeline>> = httpOutcomeFlow { api.getTimeline() }
+```
+
+Don't use `httpOutcome { client.get(url).body<T>() }` on a client with `expectSuccess = false`: a
+404's error page is decoded as `T` and reported as `Serialization`, not `Http(404)`.
+
+Every outcome is `Origin.Network`, because Ktor doesn't say when `HttpCache` answered.
+Cancellation is rethrown, never reported. `Throwable.toDataError()` is the classification on its
+own: timeouts and I/O failures are `Network`, decode failures `Serialization`, a thrown
+`ResponseException` is `Http`, and anything else `Unknown`. An unresolvable host or a refused
+connection is `Network` on OkHttp, CIO, Darwin and the Js engine, whose failure is a `kotlin.Error`
+rather than an `Exception` and is caught all the same. On wasmJs it isn't recognized yet, so it
+arrives as `Unknown` with the cause kept.
 
 ## Installing
 
