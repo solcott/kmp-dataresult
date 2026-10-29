@@ -39,7 +39,7 @@ compose-runtime-annotation = "1.12.1"
 # timeouts are IOExceptions rather than CancellationExceptions, which the classification relies on.
 # ktor-http and ktor-utils are ktor-client-core's own dependencies, so they ride the same version, as
 # does the test-only ktor-client-mock.
-ktor = "3.0.0"
+ktor = "3.6.1"
 # Only for `dataresult-ktor`'s SerializationException check. A floor: this is the version Ktor
 # 3.0.0's kotlinx converter already resolves, so declaring it raises nothing for a typical consumer.
 kotlinx-serialization = "1.7.3"
