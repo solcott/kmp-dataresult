@@ -48,19 +48,41 @@ dependencyAnalysis {
             }
         }
 
-        // DAGP doesn't count a commonMain project dependency as declared for the jvm target, so it asks
-        // for it again in jvmMain. Android reads the same declaration correctly. Each module below
-        // declares the excluded project directly in commonMain, so for these coordinates a
-        // used-transitive finding can only be this false positive, never a real one.
-        project(":dataresult-apollo") { onUsedTransitiveDependencies { exclude(":dataresult") } }
-        project(":dataresult-store5") { onUsedTransitiveDependencies { exclude(":dataresult") } }
-        project(":dataresult-ktor") { onUsedTransitiveDependencies { exclude(":dataresult") } }
-        project(":uistate") { onUsedTransitiveDependencies { exclude(":dataresult") } }
-        project(":uistate-compose") { onUsedTransitiveDependencies { exclude(":uistate") } }
+        // Two used-transitive false positives on project dependencies, excluded per module below:
+        // - DAGP doesn't count a commonMain project dependency as declared for the jvm target, so it
+        //   asks for it to be declared again (in jvmMain before 3.20.0, in commonMain since). Android
+        //   reads the same declaration correctly. Each module declares the other projects excluded
+        //   here directly in commonMain, so for them the finding can never be a real one.
+        // - Since 3.20.0, every module's commonTest is asked to declare the module itself. A module
+        //   can't depend on itself, so its own path is excluded too.
+        project(":dataresult") { onUsedTransitiveDependencies { exclude(":dataresult") } }
+        project(":dataresult-apollo") {
+            onUsedTransitiveDependencies { exclude(":dataresult", ":dataresult-apollo") }
+        }
+        project(":dataresult-store5") {
+            onUsedTransitiveDependencies { exclude(":dataresult", ":dataresult-store5") }
+        }
+        project(":dataresult-ktor") {
+            onUsedTransitiveDependencies { exclude(":dataresult", ":dataresult-ktor") }
+        }
+        project(":uistate") { onUsedTransitiveDependencies { exclude(":dataresult", ":uistate") } }
+        project(":uistate-compose") {
+            onUsedTransitiveDependencies { exclude(":uistate", ":dataresult", ":uistate-compose") }
+            // DAGP 3.20.0 wants :dataresult as `implementation`, but Outcome is in this module's
+            // signatures (the Flow<Outcome<T>> parameters). The JVM signatures erase that generic,
+            // which is presumably what DAGP reads; the klib ABI dump shows it. `api` is right.
+            onIncorrectConfiguration { exclude(":dataresult") }
+        }
         project(":uistate-circuit") {
             // :dataresult since Paging, a compiled class rather than inline Compose code, names
             // Outcome in its own members.
-            onUsedTransitiveDependencies { exclude(":uistate", ":dataresult") }
+            onUsedTransitiveDependencies {
+                exclude(":uistate", ":dataresult", ":uistate-compose", ":uistate-circuit")
+            }
+            // DAGP 3.20.0 wants :uistate-compose as `implementation`. It is right that nothing from
+            // uistate-compose is in this module's ABI, but the artifact is documented (README) as
+            // bringing uistate-compose with it, so a Circuit app gets the plain composables too.
+            onIncorrectConfiguration { exclude(":uistate-compose") }
         }
     }
 }
