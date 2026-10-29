@@ -63,4 +63,5 @@ Initial release.
   therefore depend on `androidx.compose.runtime:runtime-annotation` 1.9.0. It has no Compose
   runtime or Compose types, but androidx group alignment makes a Compose runtime in the same app
   resolve to at least 1.9.0.
-- Snapshot builds of `main` are published to GitHub Packages. See "Snapshots" in the README.
+- Published to Maven Central, which needs no credentials to read. Snapshot builds of `main` go to
+  the Central snapshot repository. See "Installing" and "Snapshots" in the README.

@@ -22,55 +22,42 @@
    git push && git push --tags
    ```
 
-5. Publish a GitHub release for the tag. That fires `.github/workflows/release.yml`, which publishes
-   every artifact to GitHub Packages using the workflow's own token — there are no secrets to set up.
+5. Publish a GitHub release for the tag. That fires `.github/workflows/release.yml`, which uploads
+   every module to Maven Central as a deployment, **but doesn't release it**. When the workflow is
+   green, open the deployment in the
+   [Central Portal](https://central.sonatype.com/publishing/deployments) and check it: 7 modules,
+   each with its `android`, `jvm`, `iosArm64`, `iosSimulatorArm64`, `macosArm64`, `js` and `wasmJs`
+   artifacts, except that `dataresult-store5` has no `macosArm64`. Then click **Publish**.
+
+   If anything is wrong, click **Drop** instead, fix it, and re-run the workflow. Once a version is
+   published on Central it can never be deleted or replaced, so this check is the last chance.
 
 6. Set the next development version in `gradle.properties` (`X.Y.Z+1-SNAPSHOT`) and commit.
 
 ## Snapshots
 
 Nothing to do by hand. After every green push to `main`, the `publish-snapshot` job in
-`.github/workflows/build.yml` publishes the current version to GitHub Packages, but only if it ends
-in `-SNAPSHOT`. That guard is why pushing the step 4 commit publishes nothing: a release version
-published from `main` would be burned (GitHub Packages versions are immutable), and `release.yml`
-would then fail with 409. Step 6 puts snapshots back on.
+`.github/workflows/build.yml` publishes the current version to the Central snapshot repository, but
+only if it ends in `-SNAPSHOT`. That guard is why pushing the step 4 commit publishes nothing: on a
+release version the upload would go to Central's release endpoint, leaving a stray X.Y.Z deployment
+in the Portal (and, if automatic release were ever turned on, releasing X.Y.Z from `main`). Step 6
+puts snapshots back on.
 
-## Publishing to Maven Central
+## One-time setup
 
-Central is wired but off, for releases and snapshots alike. To turn it on, pass
-`-PpublishToCentral`, which enables both `publishToMavenCentral()` and `signAllPublications()` in
-`kmp-published.gradle.kts`. That needs the
-usual vanniktech credentials as `ORG_GRADLE_PROJECT_*` environment variables — see the
-`kmp-parcelize` release workflow, which already does this — and a step in `release.yml` to run
-`publishAllPublicationsToMavenCentralRepository`.
-
-Worth doing at some point: Central requires no authentication to *read*, which would remove the
-`read:packages` token every consumer of this library currently needs.
-
-### Turning on Central snapshots
-
-`publish-snapshot` already has a Maven Central step. On a `-SNAPSHOT` version the vanniktech plugin
-sends it to the Central Portal snapshot repository, and signing is optional. The step stays skipped
-until all of this is in place:
+Needed once, before the first snapshot or release reaches Central; until then `publish-snapshot`
+and `release.yml` fail.
 
 1. The `io.github.solcott` namespace is verified on the
    [Central Portal](https://central.sonatype.com/publishing/namespaces), and "Enable SNAPSHOTs" is
    chosen from its menu. Snapshot uploads are rejected until then.
-2. Repository secrets `ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME` and
-   `ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD` hold a Central Portal user token. The signing secrets
-   (`ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY`, `…KEYID`, `…KEYPASSWORD`) are optional for snapshots;
-   a snapshot is signed if they are set. These are the same names as in `kmp-parcelize`.
-3. The repository variable `PUBLISH_TO_CENTRAL` is `true` (Settings → Secrets and variables →
-   Actions → Variables). Unsetting it switches Central snapshots off again.
-4. README's "Snapshots" section tells consumers about the repository, which needs no token:
+2. Five repository secrets hold a Central Portal user token and the signing key:
+   `ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME`, `…MAVENCENTRALPASSWORD`, `…SIGNINGINMEMORYKEY`,
+   `…SIGNINGINMEMORYKEYID` and `…SIGNINGINMEMORYKEYPASSWORD`. They are the same names as in
+   `kmp-parcelize`. `release.yml` fails before uploading if the signing key or username is missing.
+   Snapshots are signed if the key is set, but don't require it.
 
-   ```kotlin
-   maven("https://central.sonatype.com/repository/maven-snapshots/") {
-     mavenContent {
-       includeGroup("io.github.solcott")
-       snapshotsOnly()
-     }
-   }
-   ```
-
-Central does not validate snapshots and deletes them after 90 days.
+Releases are published by hand in the Portal. To release automatically instead, pass
+`automaticRelease = true` to `publishToMavenCentral()` in `kmp-published.gradle.kts`, and drop the
+Portal check from step 5. Keep the `-SNAPSHOT` guard if you do: it becomes the only thing between a
+push to `main` and a permanent release.

@@ -397,39 +397,47 @@ arrives as `Unknown` with the cause kept.
 
 ## Installing
 
-GitHub Packages authenticates **every** read, including public ones, so consumers need a token.
-Create a classic PAT with the `read:packages` scope and put it in `~/.gradle/gradle.properties`:
-
-```properties
-gpr.user=your-github-username
-gpr.key=ghp_yourtoken
-```
-
-Then, in `settings.gradle.kts`:
+Releases are on Maven Central, which needs no token or credentials:
 
 ```kotlin
 dependencyResolutionManagement {
   repositories {
     mavenCentral()
-    maven {
-      url = uri("https://maven.pkg.github.com/solcott/kmp-dataresult")
-      credentials {
-        username = providers.gradleProperty("gpr.user").orNull ?: System.getenv("GITHUB_ACTOR")
-        password = providers.gradleProperty("gpr.key").orNull ?: System.getenv("GITHUB_TOKEN")
+  }
+}
+```
+
+Then depend on the [artifacts](#artifacts) you need. For builds of `main` that haven't been
+released yet, see [Snapshots](#snapshots).
+
+**Coming from the GitHub Packages snapshots?** Nothing is published there any more. Delete that
+repository block and the token properties it read, and add the snapshot repository below. The
+coordinates are unchanged.
+
+### Snapshots
+
+Every green push to `main` publishes the current `-SNAPSHOT` version (the `version` in
+[`gradle.properties`](gradle.properties)) to the Maven Central snapshot repository. It needs no
+credentials either:
+
+```kotlin
+dependencyResolutionManagement {
+  repositories {
+    mavenCentral()
+    maven("https://central.sonatype.com/repository/maven-snapshots/") {
+      // Keeps every other dependency, and every release, off this repository.
+      mavenContent {
+        includeGroup("io.github.solcott")
+        snapshotsOnly()
       }
-      // Keeps every other dependency off this repository, so a token problem can't cascade.
-      content { includeGroup("io.github.solcott") }
     }
   }
 }
 ```
 
-### Snapshots
-
-Every green push to `main` publishes the current `-SNAPSHOT` version (the `version` in
-[`gradle.properties`](gradle.properties)) to the same repository, so the setup above covers it:
-depend on `X.Y.Z-SNAPSHOT`. Gradle caches a snapshot for 24 hours. To pick up the newest one on every
-build, add this to the consuming module's `build.gradle.kts`, or pass `--refresh-dependencies` once:
+Then depend on `X.Y.Z-SNAPSHOT`. Central deletes snapshots after 90 days, so don't pin one for long.
+Gradle caches a snapshot for 24 hours. To pick up the newest one on every build, add this to the
+consuming module's `build.gradle.kts`, or pass `--refresh-dependencies` once:
 
 ```kotlin
 configurations.all { resolutionStrategy.cacheChangingModulesFor(0, "seconds") }
