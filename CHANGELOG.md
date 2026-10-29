@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.1.0
+
 Initial release.
 
 - `dataresult`: `Outcome`, `DataError`, `Origin`, and the accessors `isLoading`,
