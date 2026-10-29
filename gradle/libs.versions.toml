@@ -42,7 +42,7 @@ compose-runtime-annotation = "1.12.1"
 ktor = "3.0.0"
 # Only for `dataresult-ktor`'s SerializationException check. A floor: this is the version Ktor
 # 3.0.0's kotlinx converter already resolves, so declaring it raises nothing for a typical consumer.
-kotlinx-serialization = "1.7.3"
+kotlinx-serialization = "1.12.0"
 
 # Build tooling
 detekt = "2.0.0-alpha.6"
