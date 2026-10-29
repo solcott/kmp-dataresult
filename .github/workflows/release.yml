@@ -11,12 +11,33 @@ concurrency:
 
 jobs:
   release:
+    # macOS, not ubuntu: without a Mac the Apple klibs are missing from the publication.
     runs-on: macos-latest
     permissions:
       contents: read
-      # Lets the workflow's own GITHUB_TOKEN push to GitHub Packages -- no secrets to configure.
-      packages: write
+    env:
+      ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME }}
+      ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD }}
+      ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY }}
+      ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID }}
+      ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD }}
     steps:
+      # kmp-published.gradle.kts signs only when a key is present, so that publishToMavenLocal needs
+      # none. A missing secret here would therefore upload an unsigned release, which only the
+      # Portal's validation would catch. Fail first instead, before anything leaves the runner.
+      - name: Check publishing secrets
+        run: |
+          missing=0
+          if [[ -z "$ORG_GRADLE_PROJECT_signingInMemoryKey" ]]; then
+            echo "::error::Repository secret ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY is not set. See RELEASING.md."
+            missing=1
+          fi
+          if [[ -z "$ORG_GRADLE_PROJECT_mavenCentralUsername" ]]; then
+            echo "::error::Repository secret ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME is not set. See RELEASING.md."
+            missing=1
+          fi
+          exit $missing
+
       - name: Checkout
         uses: actions/checkout@v7
 
@@ -29,8 +50,13 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
 
-      - name: Publish to GitHub Packages
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
+      # Uploads and validates a deployment, but doesn't release it: publishToMavenCentral() is
+      # configured without automaticRelease. A deployment that hasn't been published can still be
+      # dropped, and this workflow re-run.
+      - name: Publish to Maven Central
+        run: ./gradlew publishAllPublicationsToMavenCentralRepository
+
+      - name: Remind to publish the deployment
+        run: >-
+          echo "::notice::Uploaded to the Central Portal but NOT released. Check the deployment at
+          https://central.sonatype.com/publishing/deployments and click Publish (or Drop)."

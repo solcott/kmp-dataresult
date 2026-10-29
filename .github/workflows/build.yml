@@ -46,8 +46,8 @@ jobs:
       - name: Build
         run: ./gradlew build
 
-  # Publishes the current -SNAPSHOT after every green push to main. A job of its own, so a PR build
-  # never holds a token that can write packages.
+  # Publishes the current -SNAPSHOT to the Central snapshot repository after every green push to
+  # main. A job of its own, so a PR build never holds the Central credentials.
   publish-snapshot:
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -56,14 +56,15 @@ jobs:
     runs-on: macos-latest
     permissions:
       contents: read
-      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v7
 
-      # RELEASING.md's "Prepare version X.Y.Z" commit lands on main with -SNAPSHOT dropped.
-      # Publishing that from here would burn X.Y.Z, since GitHub Packages release versions are
-      # immutable, and release.yml would then fail with 409 on the real release.
+      # RELEASING.md's "Prepare version X.Y.Z" commit lands on main with -SNAPSHOT dropped. On a
+      # release version the vanniktech plugin uploads to Central's *release* endpoint, not the
+      # snapshot repository, so publishing from here would leave a stray X.Y.Z deployment in the
+      # Portal -- and, if automatic release is ever turned on, publish X.Y.Z for good. Central
+      # release versions can never be deleted or replaced.
       - name: Check for a snapshot version
         id: version
         run: |
@@ -86,23 +87,14 @@ jobs:
         if: steps.version.outputs.snapshot == 'true'
         uses: gradle/actions/setup-gradle@v6
 
-      - name: Publish snapshot to GitHub Packages
-        if: steps.version.outputs.snapshot == 'true'
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
-
-      # Off until the repository variable PUBLISH_TO_CENTRAL is `true`; RELEASING.md lists what has
-      # to be in place first. On a -SNAPSHOT version the vanniktech plugin sends this to the Central
-      # Portal snapshot repository, and the signing secrets are optional (used if present). It runs
-      # after GitHub Packages so a Central problem can't hold up the primary channel.
+      # Needs the namespace's "Enable SNAPSHOTs" switched on in the Central Portal; uploads are
+      # rejected until then. Signing is optional for snapshots: they are signed if the key is set.
       - name: Publish snapshot to Maven Central
-        if: steps.version.outputs.snapshot == 'true' && vars.PUBLISH_TO_CENTRAL == 'true'
+        if: steps.version.outputs.snapshot == 'true'
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD }}
-        run: ./gradlew publishAllPublicationsToMavenCentralRepository -PpublishToCentral
+        run: ./gradlew publishAllPublicationsToMavenCentralRepository

@@ -4,9 +4,9 @@ import com.vanniktech.maven.publish.MavenPublishBaseExtension
 // get right by hand for a KMP project: it wires up every target's publication, adds sources and
 // javadoc jars, and validates the POM.
 //
-// GitHub Packages is the live destination. Maven Central is wired but gated behind a property so
-// the switch is a one-liner later -- see README. Signing is only meaningful for Central, so it is
-// gated with it; GitHub Packages does not require signed artifacts.
+// Maven Central is the only remote destination: releases go to a Central Portal deployment that is
+// published by hand, and -SNAPSHOT versions go to the Central snapshot repository. See
+// RELEASING.md.
 plugins {
   id("com.vanniktech.maven.publish")
   id("project-config")
@@ -34,15 +34,16 @@ val descriptions =
 configure<MavenPublishBaseExtension> {
   coordinates(group.toString(), project.name, version.toString())
 
-  // Enabled by `-PpublishToCentral`. Left off, the Central endpoints are never contacted and the
-  // signing plugin never demands a key, so a plain GitHub Packages publish needs no secrets.
-  //
-  // The same property covers snapshots: on a -SNAPSHOT version, publishToMavenCentral() routes to
-  // the Central Portal snapshot repository and signing becomes optional. So nothing here tells a
-  // snapshot from a release -- the -SNAPSHOT guard in build.yml's publish-snapshot job is what
-  // keeps a push to main from publishing a release version.
-  if (providers.gradleProperty("publishToCentral").isPresent) {
-    publishToMavenCentral()
+  // Only registers the repository and its tasks; nothing contacts Central until a
+  // ...ToMavenCentralRepository task runs. Without automaticRelease, a release upload waits in the
+  // Portal for someone to publish it. On a -SNAPSHOT version it goes to the snapshot repository
+  // instead, so nothing here tells a snapshot from a release -- the -SNAPSHOT guard in build.yml's
+  // publish-snapshot job is what keeps a push to main from uploading a release version.
+  publishToMavenCentral()
+
+  // Signing follows the key rather than a flag, so publishToMavenLocal works on a machine without
+  // one. A release must still be signed: release.yml fails before uploading if the key is missing.
+  if (providers.gradleProperty("signingInMemoryKey").isPresent) {
     signAllPublications()
   }
 
@@ -71,21 +72,6 @@ configure<MavenPublishBaseExtension> {
       connection.set("scm:git:git://github.com/solcott/kmp-dataresult.git")
       developerConnection.set("scm:git:ssh://github.com/solcott/kmp-dataresult.git")
       url.set("https://github.com/solcott/kmp-dataresult")
-    }
-  }
-}
-
-publishing {
-  repositories {
-    maven {
-      name = "GitHubPackages"
-      url = uri("https://maven.pkg.github.com/solcott/kmp-dataresult")
-      // Gradle properties for local publishing, env vars for CI. GitHub Packages authenticates
-      // even public reads, so consumers need a token too -- see README.
-      credentials {
-        username = providers.gradleProperty("gpr.user").orNull ?: System.getenv("GITHUB_ACTOR")
-        password = providers.gradleProperty("gpr.key").orNull ?: System.getenv("GITHUB_TOKEN")
-      }
     }
   }
 }
