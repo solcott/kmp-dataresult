@@ -51,7 +51,7 @@ abstract class CheckSwiftExport : DefaultTask() {
       throw GradleException(
         "Swift export can't handle these, and nothing else in this build would catch them " +
           "(see .claude/rules/swift-export.md):\n" +
-          violations.joinToString("\n")
+          violations.joinToString("\n"),
       )
     }
     marker.get().asFile.writeText("ok\n")

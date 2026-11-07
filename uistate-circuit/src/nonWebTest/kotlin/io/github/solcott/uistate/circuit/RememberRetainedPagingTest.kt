@@ -73,10 +73,12 @@ class RememberRetainedPagingTest {
     val source = Source()
     lateinit var paging: Paging<String, Unit>
 
-    presenterTestOf({
-      paging = rememberRetainedPaging(idOf = id, load = source::load)
-      PagingUi(paging.state)
-    }) {
+    presenterTestOf(
+      {
+        paging = rememberRetainedPaging(idOf = id, load = source::load)
+        PagingUi(paging.state)
+      },
+    ) {
       awaitPaged { it.refresh is LoadStatus.Loading }
       source.page(null, "A", "B", next = "c1")
       assertEquals(listOf("A", "B"), awaitPaged { it.hasLoaded }.items)
@@ -102,10 +104,12 @@ class RememberRetainedPagingTest {
     val source = Source()
     lateinit var paging: Paging<String, Unit>
 
-    presenterTestOf({
-      paging = rememberRetainedPaging(idOf = id, load = source::load)
-      PagingUi(paging.state)
-    }) {
+    presenterTestOf(
+      {
+        paging = rememberRetainedPaging(idOf = id, load = source::load)
+        PagingUi(paging.state)
+      },
+    ) {
       source.page(null, "A", next = "c1")
       awaitPaged { it.hasLoaded }
       paging.loadMore()
@@ -132,10 +136,12 @@ class RememberRetainedPagingTest {
     val source = Source()
     lateinit var paging: Paging<String, Unit>
 
-    presenterTestOf({
-      paging = rememberRetainedPaging(idOf = id, load = source::load)
-      PagingUi(paging.state)
-    }) {
+    presenterTestOf(
+      {
+        paging = rememberRetainedPaging(idOf = id, load = source::load)
+        PagingUi(paging.state)
+      },
+    ) {
       source.page(null, "A")
       awaitPaged { it.hasLoaded }
 
@@ -161,10 +167,12 @@ class RememberRetainedPagingTest {
     val source = Source()
     lateinit var paging: Paging<String, Unit>
 
-    presenterTestOf({
-      paging = rememberRetainedPaging(idOf = id, load = source::load)
-      PagingUi(paging.state)
-    }) {
+    presenterTestOf(
+      {
+        paging = rememberRetainedPaging(idOf = id, load = source::load)
+        PagingUi(paging.state)
+      },
+    ) {
       source.page(null, "A", next = "c1")
       awaitPaged { it.hasLoaded }
       paging.loadMore()
@@ -189,10 +197,12 @@ class RememberRetainedPagingTest {
     val key = mutableIntStateOf(0)
     lateinit var paging: Paging<String, Unit>
 
-    presenterTestOf({
-      paging = rememberRetainedPaging(key.intValue, idOf = id, load = source::load)
-      PagingUi(paging.state)
-    }) {
+    presenterTestOf(
+      {
+        paging = rememberRetainedPaging(key.intValue, idOf = id, load = source::load)
+        PagingUi(paging.state)
+      },
+    ) {
       source.page(null, "ann1", next = "c1")
       awaitPaged { it.hasLoaded }
       paging.loadMore()
@@ -216,16 +226,18 @@ class RememberRetainedPagingTest {
     val key = mutableIntStateOf(0)
     lateinit var paging: Paging<String, Unit>
 
-    presenterTestOf({
-      paging =
-        rememberRetainedPaging(
-          key.intValue,
-          idOf = id,
-          onKeyChange = OnKeyChange.ClearItems,
-          load = source::load,
-        )
-      PagingUi(paging.state)
-    }) {
+    presenterTestOf(
+      {
+        paging =
+          rememberRetainedPaging(
+            key.intValue,
+            idOf = id,
+            onKeyChange = OnKeyChange.ClearItems,
+            load = source::load,
+          )
+        PagingUi(paging.state)
+      },
+    ) {
       source.page(null, "A")
       awaitPaged { it.hasLoaded }
 
@@ -245,15 +257,17 @@ class RememberRetainedPagingTest {
     val shown = mutableStateOf(true)
     lateinit var paging: Paging<String, Unit>
 
-    presenterTestOf({
-      val holder = rememberRetainedStateHolder()
-      if (shown.value) {
-        holder.RetainedStateProvider("list") {
-          paging = rememberRetainedPaging(idOf = id, load = source::load)
+    presenterTestOf(
+      {
+        val holder = rememberRetainedStateHolder()
+        if (shown.value) {
+          holder.RetainedStateProvider("list") {
+            paging = rememberRetainedPaging(idOf = id, load = source::load)
+          }
         }
-      }
-      PagingUi(paging.state, shown.value)
-    }) {
+        PagingUi(paging.state, shown.value)
+      },
+    ) {
       source.page(null, "A", next = "c1")
       awaitPaged { it.hasLoaded }
       paging.loadMore()
@@ -278,15 +292,17 @@ class RememberRetainedPagingTest {
     val shown = mutableStateOf(true)
     lateinit var paging: Paging<String, Unit>
 
-    presenterTestOf({
-      val holder = rememberRetainedStateHolder()
-      if (shown.value) {
-        holder.RetainedStateProvider("list") {
-          paging = rememberRetainedPaging(idOf = id, load = source::load)
+    presenterTestOf(
+      {
+        val holder = rememberRetainedStateHolder()
+        if (shown.value) {
+          holder.RetainedStateProvider("list") {
+            paging = rememberRetainedPaging(idOf = id, load = source::load)
+          }
         }
-      }
-      PagingUi(paging.state, shown.value)
-    }) {
+        PagingUi(paging.state, shown.value)
+      },
+    ) {
       source.page(null, "A", next = "c1")
       awaitPaged { it.hasLoaded }
       paging.loadMore()
@@ -312,10 +328,12 @@ class RememberRetainedPagingTest {
     val enabled = mutableStateOf(false)
     lateinit var paging: Paging<String, Unit>
 
-    presenterTestOf({
-      paging = rememberRetainedPaging(idOf = id, enabled = enabled.value, load = source::load)
-      PagingUi(paging.state)
-    }) {
+    presenterTestOf(
+      {
+        paging = rememberRetainedPaging(idOf = id, enabled = enabled.value, load = source::load)
+        PagingUi(paging.state)
+      },
+    ) {
       val disabled = awaitPaged { it.refresh is LoadStatus.Idle }
       assertEquals(emptyList<String>(), disabled.items)
       assertFalse(disabled.hasLoaded)
@@ -337,10 +355,12 @@ class RememberRetainedPagingTest {
     val replies = Outcome.Data(pageOf(listOf("R1", "R2"), next = "r"), Origin.Network)
     lateinit var paging: Paging<String, Unit>
 
-    presenterTestOf({
-      paging = rememberRetainedPaging(idOf = id, initial = replies, load = source::load)
-      PagingUi(paging.state)
-    }) {
+    presenterTestOf(
+      {
+        paging = rememberRetainedPaging(idOf = id, initial = replies, load = source::load)
+        PagingUi(paging.state)
+      },
+    ) {
       val seeded = awaitPaged { it.hasLoaded }
       assertEquals(listOf("R1", "R2"), seeded.items)
       testScheduler.advanceUntilIdle()
@@ -359,10 +379,12 @@ class RememberRetainedPagingTest {
     val source = Source()
     lateinit var paging: Paging<String, Unit>
 
-    presenterTestOf({
-      paging = rememberRetainedPaging(idOf = id, load = source::load)
-      PagingUi(paging.state)
-    }) {
+    presenterTestOf(
+      {
+        paging = rememberRetainedPaging(idOf = id, load = source::load)
+        PagingUi(paging.state)
+      },
+    ) {
       source.page(null, "A", "B", "C")
       awaitPaged { it.hasLoaded }
 
@@ -387,7 +409,7 @@ private fun TestScope.show(shown: MutableState<Boolean>, value: Boolean) = chang
 }
 
 private suspend fun ReceiveTurbine<PagingUi>.awaitPaged(
-  predicate: (PagedState<String, Unit>) -> Boolean
+  predicate: (PagedState<String, Unit>) -> Boolean,
 ): PagedState<String, Unit> {
   while (true) {
     val state = awaitItem().paged

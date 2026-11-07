@@ -29,11 +29,13 @@ class ProduceContentStatesTest {
 
   @Test
   fun foldsTheGroupIntoOneStatePerSource() = runTest {
-    presenterTestOf({
-      GroupWrapper(
-        produceRetainedContentStates(contentStatesOf(emptyList<String>(), 0)) { flowOf(answer) }
-      )
-    }) {
+    presenterTestOf(
+      {
+        GroupWrapper(
+          produceRetainedContentStates(contentStatesOf(emptyList<String>(), 0)) { flowOf(answer) },
+        )
+      },
+    ) {
       val loaded = awaitGroupWhere { it.hasLoaded }
 
       assertEquals(listOf("a"), loaded.first.data)
@@ -50,13 +52,15 @@ class ProduceContentStatesTest {
     first.emit(answer)
     val neverAnswers = MutableSharedFlow<Outcomes2<List<String>, Int>>()
 
-    presenterTestOf({
-      GroupWrapper(
-        params.produceRetainedContentStates(contentStatesOf(emptyList<String>(), 0)) { p ->
-          if (p == "first") first else neverAnswers
-        }
-      )
-    }) {
+    presenterTestOf(
+      {
+        GroupWrapper(
+          params.produceRetainedContentStates(contentStatesOf(emptyList<String>(), 0)) { p ->
+            if (p == "first") first else neverAnswers
+          },
+        )
+      },
+    ) {
       awaitGroupWhere { it.hasLoaded && !it.isAnyLoading }
 
       params.emit("second")
@@ -69,7 +73,7 @@ class ProduceContentStatesTest {
 }
 
 private suspend fun ReceiveTurbine<GroupWrapper>.awaitGroupWhere(
-  predicate: (ContentStates2<List<String>, Int>) -> Boolean
+  predicate: (ContentStates2<List<String>, Int>) -> Boolean,
 ): ContentStates2<List<String>, Int> {
   while (true) {
     val states = awaitItem().content

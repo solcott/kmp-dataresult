@@ -125,7 +125,7 @@ class ApolloOutcomeTest {
         Outcome.Error(
           DataError.Unknown(cause = exception, message = "something else entirely"),
           Origin.Network,
-        )
+        ),
       ),
       response(exception = exception).outcomes(),
     )

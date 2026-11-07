@@ -279,7 +279,7 @@ class ContentStateStreamsTest {
           Outcome.Data("c", Origin.Cache),
           Outcome.Data(true, Origin.Cache),
           Outcome.Data(5L, Origin.Cache),
-        )
+        ),
       )
 
   @Test

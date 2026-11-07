@@ -35,9 +35,9 @@ class ProduceContentStateTest {
 
   @Test
   fun dataSettlesTheStateAndRecordsTheOrigin() = runTest {
-    presenterTestOf({
-      Wrapper(produceRetainedContentState(emptyList<String>()) { flowOf(loaded) })
-    }) {
+    presenterTestOf(
+      { Wrapper(produceRetainedContentState(emptyList<String>()) { flowOf(loaded) }) },
+    ) {
       val settled = awaitSettled()
 
       assertEquals(listOf("a"), settled.data)
@@ -78,9 +78,9 @@ class ProduceContentStateTest {
     params.emit(1)
     val neverEmits = MutableSharedFlow<Outcome<List<String>>>()
 
-    presenterTestOf({
-      Wrapper(params.produceRetainedContentState(emptyList<String>()) { neverEmits })
-    }) {
+    presenterTestOf(
+      { Wrapper(params.produceRetainedContentState(emptyList<String>()) { neverEmits }) },
+    ) {
       assertTrue(awaitItem().content.isLoading)
 
       params.emit(2)
@@ -102,14 +102,16 @@ class ProduceContentStateTest {
     val second = MutableSharedFlow<Outcome<List<String>>>()
     val scheduler = testScheduler
 
-    presenterTestOf({
-      Wrapper(
-        produceRetainedContentState(emptyList<String>(), key.intValue) {
-          queries++
-          if (queries == 1) flowOf(loaded) else second
-        }
-      )
-    }) {
+    presenterTestOf(
+      {
+        Wrapper(
+          produceRetainedContentState(emptyList<String>(), key.intValue) {
+            queries++
+            if (queries == 1) flowOf(loaded) else second
+          },
+        )
+      },
+    ) {
       assertEquals(listOf("a"), awaitSettled().data)
       assertEquals(1, queries)
 
@@ -142,13 +144,15 @@ class ProduceContentStateTest {
     params.emit("first")
     val sources = mutableMapOf<String, MutableSharedFlow<Outcome<List<String>>>>()
 
-    presenterTestOf({
-      Wrapper(
-        params.produceRetainedContentState(emptyList<String>()) { p ->
-          sources.getOrPut(p) { MutableSharedFlow(replay = 1) }
-        }
-      )
-    }) {
+    presenterTestOf(
+      {
+        Wrapper(
+          params.produceRetainedContentState(emptyList<String>()) { p ->
+            sources.getOrPut(p) { MutableSharedFlow(replay = 1) }
+          },
+        )
+      },
+    ) {
       awaitItem()
       sources.getValue("first").emit(loaded)
       assertEquals(listOf("a"), awaitStateWhere { it.hasLoaded }.data)
@@ -171,14 +175,16 @@ class ProduceContentStateTest {
     val params = MutableSharedFlow<String>(replay = 1)
     params.emit("same")
 
-    presenterTestOf({
-      Wrapper(
-        params.produceRetainedContentState(emptyList<String>()) {
-          queries++
-          flowOf(loaded)
-        }
-      )
-    }) {
+    presenterTestOf(
+      {
+        Wrapper(
+          params.produceRetainedContentState(emptyList<String>()) {
+            queries++
+            flowOf(loaded)
+          },
+        )
+      },
+    ) {
       awaitStateWhere { it.hasLoaded }
       assertEquals(1, queries)
 
@@ -197,7 +203,7 @@ private suspend fun ReceiveTurbine<Wrapper>.awaitSettled(): ContentState<List<St
   }
 
 private suspend fun ReceiveTurbine<Wrapper>.awaitStateWhere(
-  predicate: (ContentState<List<String>>) -> Boolean
+  predicate: (ContentState<List<String>>) -> Boolean,
 ): ContentState<List<String>> {
   while (true) {
     val state = awaitItem().content

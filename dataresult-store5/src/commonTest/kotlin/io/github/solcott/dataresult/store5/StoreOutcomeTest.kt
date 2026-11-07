@@ -145,7 +145,7 @@ class StoreOutcomeTest {
   private val sourceOfTruth = StoreReadResponseOrigin.SourceOfTruth
 
   private fun openStream(
-    vararg responses: StoreReadResponse<List<String>>
+    vararg responses: StoreReadResponse<List<String>>,
   ): Flow<StoreReadResponse<List<String>>> = flow {
     responses.forEach { emit(it) }
     awaitCancellation()
