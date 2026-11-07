@@ -52,7 +52,7 @@ configure<MavenPublishBaseExtension> {
     description.set(
       requireNotNull(descriptions[project.name]) {
         "No POM description for ':${project.name}' -- add one in kmp-published.gradle.kts."
-      }
+      },
     )
     inceptionYear.set("2026")
     url.set("https://github.com/solcott/kmp-dataresult")

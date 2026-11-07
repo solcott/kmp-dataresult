@@ -66,7 +66,7 @@ suspend fun <P, T> MutableState<ContentState<T>>.collectLatestFrom(
  */
 @JvmName("collectGroupFrom")
 suspend fun <S : ContentStateGroup<O>, O : OutcomeGroup> MutableState<S>.collectFrom(
-  source: Flow<O>
+  source: Flow<O>,
 ) {
   foldFrom(
     source,

@@ -80,7 +80,7 @@ val List<ContentState<*>>.hasLoaded: Boolean
  * status of what it returns, so the two cannot disagree.
  */
 fun List<ContentState<*>>.combinedStatus(
-  precedence: StatusPrecedence = StatusPrecedence.FailedFirst
+  precedence: StatusPrecedence = StatusPrecedence.FailedFirst,
 ): LoadStatus {
   val failed = firstNotNullOfOrNull { it.status as? LoadStatus.Failed }
   val loading = any { it.isLoading }

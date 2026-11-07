@@ -67,7 +67,7 @@ class ProduceContentStatesTest {
 }
 
 private suspend fun ReceiveTurbine<ContentStates2<List<String>, Int>>.awaitGroupWhere(
-  predicate: (ContentStates2<List<String>, Int>) -> Boolean
+  predicate: (ContentStates2<List<String>, Int>) -> Boolean,
 ): ContentStates2<List<String>, Int> {
   while (true) {
     val states = awaitItem()

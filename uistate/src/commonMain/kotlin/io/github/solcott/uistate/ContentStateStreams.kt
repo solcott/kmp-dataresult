@@ -147,7 +147,7 @@ fun <P, S : ContentStateGroup<O>, O : OutcomeGroup> Flow<P>.scanContentStateLate
  */
 @JvmName("collectGroupFrom")
 suspend fun <S : ContentStateGroup<O>, O : OutcomeGroup> MutableStateFlow<S>.collectFrom(
-  source: Flow<O>
+  source: Flow<O>,
 ) {
   foldInto(
     { value },

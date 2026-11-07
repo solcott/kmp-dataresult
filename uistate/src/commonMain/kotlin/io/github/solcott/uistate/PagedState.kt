@@ -337,7 +337,9 @@ fun <T, M> PagedState<T, M>.updated(
   }
   return copy(
       slots =
-        slots.mapIndexed { index, slot -> PagedState.Slot(slot.after, slot.next, regrouped[index]) }
+        slots.mapIndexed { index, slot ->
+          PagedState.Slot(slot.after, slot.next, regrouped[index])
+        },
     )
     .withItems(idOf)
 }

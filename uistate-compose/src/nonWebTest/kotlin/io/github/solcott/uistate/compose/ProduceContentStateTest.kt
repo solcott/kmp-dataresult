@@ -107,7 +107,7 @@ class ProduceContentStateTest {
 }
 
 private suspend fun ReceiveTurbine<ContentState<List<String>>>.awaitStateWhere(
-  predicate: (ContentState<List<String>>) -> Boolean
+  predicate: (ContentState<List<String>>) -> Boolean,
 ): ContentState<List<String>> {
   while (true) {
     val state = awaitItem()

@@ -48,7 +48,7 @@ suspend fun <T> httpOutcome(
   } catch (
     // Throwable, not Exception: Ktor's Js engine fails a request with a kotlin.Error ("Fail to
     // fetch"), which an Exception catch would let escape to the caller.
-    e: Throwable) {
+    e: Throwable,) {
     // Timeouts are excluded as a guard: in Ktor 2 they were CancellationExceptions, and rethrowing
     // one would cancel the collector instead of reporting a network failure.
     if (e is CancellationException && !e.isTimeout()) throw e
@@ -142,7 +142,7 @@ private fun Throwable.isTimeout(): Boolean =
  */
 @Suppress("TooGenericExceptionCaught", "SwallowedException")
 private suspend fun HttpResponse.errorCause(
-  errorBody: suspend (HttpResponse) -> DataError?
+  errorBody: suspend (HttpResponse) -> DataError?,
 ): DataError =
   try {
     errorBody(this)
@@ -152,6 +152,6 @@ private suspend fun HttpResponse.errorCause(
     // A failed decode is exactly what this guard exists for, whatever it throws, kotlin.Error from
     // a
     // JS decode included.
-    _: Throwable) {
+    _: Throwable,) {
     null
   } ?: DataError.Http(status.value)
