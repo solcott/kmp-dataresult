@@ -61,8 +61,10 @@ turbine = "1.2.1"
 [libraries]
 apollo-api = { module = "com.apollographql.apollo:apollo-api", version.ref = "apollo" }
 apollo-normalized-cache = { module = "com.apollographql.cache:normalized-cache", version.ref = "apollo-normalized-cache" }
+benasher44-uuid = { module = "com.benasher44:uuid", version = "0.8.4" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+kotlinx-io-core = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version = "0.9.2" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
 circuit-retained = { module = "com.slack.circuit:circuit-retained", version.ref = "circuit" }
 circuit-runtime = { module = "com.slack.circuit:circuit-runtime", version.ref = "circuit" }
@@ -93,7 +95,5 @@ android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library
 dependency-analysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependency-analysis" }
 dependency-sorter = { id = "com.squareup.sort-dependencies", version.ref = "dependency-sorter" }
 detekt = { id = "dev.detekt", version.ref = "detekt" }
-kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 ktfmt = { id = "com.ncorti.ktfmt.gradle", version.ref = "ktfmt" }
 publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }

@@ -16,6 +16,7 @@ kotlin {
       api(libs.kotlinx.coroutines.core)
       api(libs.ktor.client.core)
 
+      implementation(libs.kotlinx.io.core)
       // Only for the SerializationException type check; nothing from it reaches the public API.
       implementation(libs.kotlinx.serialization.core)
       // HttpStatusCode.isSuccess(), on the status of a response. ktor-client-core brings it anyway;
