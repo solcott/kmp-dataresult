@@ -13,3 +13,4 @@ kotlin-js-store/
 .idea/*
 !.idea/codeStyles/
 !.idea/inspectionProfiles/
+/.idea/inspectionProfiles/Project_Default.xml

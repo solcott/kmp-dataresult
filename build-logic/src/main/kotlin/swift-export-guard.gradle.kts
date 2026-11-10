@@ -3,8 +3,8 @@
 // CI rather than only a consumer's iOS build. See CheckSwiftExport.
 plugins { base }
 
-val checkSwiftExport by
-  tasks.registering(CheckSwiftExport::class) {
+val checkSwiftExport =
+  tasks.register<CheckSwiftExport>("checkSwiftExport") {
     description = "Fails on source constructs that consumers' Swift export can't handle."
     group = LifecycleBasePlugin.VERIFICATION_GROUP
     // Every main source set, not just commonMain: appleMain and friends are exported too.
