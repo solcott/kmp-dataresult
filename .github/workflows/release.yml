@@ -53,8 +53,10 @@ jobs:
       # Uploads and validates a deployment, but doesn't release it: publishToMavenCentral() is
       # configured without automaticRelease. A deployment that hasn't been published can still be
       # dropped, and this workflow re-run.
+      # --no-parallel for the same reason as publish-snapshot in build.yml: uploading every module
+      # at once drew a 429 Too Many Requests from Central.
       - name: Publish to Maven Central
-        run: ./gradlew publishAllPublicationsToMavenCentralRepository
+        run: ./gradlew --no-parallel publishAllPublicationsToMavenCentralRepository
 
       - name: Remind to publish the deployment
         run: >-

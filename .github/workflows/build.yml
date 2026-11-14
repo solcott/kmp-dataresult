@@ -89,6 +89,9 @@ jobs:
 
       # Needs the namespace's "Enable SNAPSHOTs" switched on in the Central Portal; uploads are
       # rejected until then. Signing is optional for snapshots: they are signed if the key is set.
+      # --no-parallel overrides org.gradle.parallel from gradle.properties. Uploading every module's
+      # publications at once (each file with its .asc and four checksums) got this job a 429 Too
+      # Many Requests from the snapshot repository. Serial uploads are slower but stay under the limit.
       - name: Publish snapshot to Maven Central
         if: steps.version.outputs.snapshot == 'true'
         env:
@@ -97,4 +100,4 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD }}
-        run: ./gradlew publishAllPublicationsToMavenCentralRepository
+        run: ./gradlew --no-parallel publishAllPublicationsToMavenCentralRepository
