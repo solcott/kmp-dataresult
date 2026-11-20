@@ -33,7 +33,7 @@ compose-runtime = "1.12.1"
 # `@Immutable` for `dataresult` and `uistate`, whose consumers need not use Compose at all. Kept apart
 # from compose-runtime and at the first stable release: androidx aligns the runtime group, so this
 # version is the Compose runtime floor it imposes on every consumer of those two modules.
-compose-runtime-annotation = "1.12.1"
+compose-runtime-annotation = "1.13.0"
 # Ktor, for `dataresult-ktor`. A floor, not a pin: 3.0.0 is the first stable 3.x and already
 # publishes every target here, wasmJs and macosArm64 included. It is also the first line where
 # timeouts are IOExceptions rather than CancellationExceptions, which the classification relies on.
