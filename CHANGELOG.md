@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Requires androidx Compose runtime 1.13.0 (Compose Multiplatform 1.13), up from 1.12.1. This
+  applies to every module that touches Compose: `dataresult` and `uistate` through
+  `runtime-annotation` (for `@Immutable`), and `uistate-compose` and `uistate-circuit` through
+  `runtime` and `runtime-retain`. androidx aligns the runtime group, so an app on Compose
+  Multiplatform 1.12 will resolve runtime 1.13.0 under the rest of CMP 1.12. Move to CMP 1.13
+  (1.13.0-rc01 at the time of writing) to keep them in step.
+
 ## 0.1.0
 
 Initial release.
