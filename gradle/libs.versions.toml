@@ -27,13 +27,15 @@ store5 = "5.1.0-beta01"
 # Circuit, for `uistate-circuit`'s produceRetainedState. A floor, not a pin -- Gradle resolves
 # upward, so a consumer ahead of this is fine.
 circuit = "0.39.0"
-# androidx Compose runtime, for `uistate-compose`. A floor, not a pin: this is what circuit-retained
-# 0.38.0 already requires, so the module raises no consumer's version.
-compose-runtime = "1.12.1"
-# `@Immutable` for `dataresult` and `uistate`, whose consumers need not use Compose at all. Kept apart
-# from compose-runtime and at the first stable release: androidx aligns the runtime group, so this
-# version is the Compose runtime floor it imposes on every consumer of those two modules.
-compose-runtime-annotation = "1.12.1"
+# androidx Compose runtime, for `uistate-compose` and `uistate-circuit`. A floor, not a pin. It is
+# ahead of circuit 0.39.0, which needs only 1.12.1, so it does raise consumers: 1.13.0 is what
+# Compose Multiplatform 1.13 maps its runtime to, and a CMP 1.12 app gets this runtime under it.
+compose-runtime = "1.13.0"
+# `@Immutable` for `dataresult` and `uistate`, whose consumers need not use Compose at all. Keep it
+# equal to compose-runtime: androidx publishes constraints that align the whole runtime group
+# (runtime, runtime-retain, runtime-saveable) to this version, so it is the Compose runtime floor
+# for every consumer of those two modules anyway, and a lower value here would only mislead.
+compose-runtime-annotation = "1.13.0"
 # Ktor, for `dataresult-ktor`. A floor, not a pin: 3.0.0 is the first stable 3.x and already
 # publishes every target here, wasmJs and macosArm64 included. It is also the first line where
 # timeouts are IOExceptions rather than CancellationExceptions, which the classification relies on.
